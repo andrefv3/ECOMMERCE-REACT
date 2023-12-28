@@ -1,0 +1,75 @@
+.gender {
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-right: 20px;
+    font-size: 13.5px;
+}
+
+.Logo {
+    position: absolute;
+    display: flex;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.c-main-nav {
+    margin-right: 0px;
+    margin-left: 20px;
+}
+
+.c-main-nav::before {
+    content: ""; 
+    position: absolute;
+    width: 1px;
+    margin-left: -52px;
+    height: 25px;
+    background-color: #000;
+}
+
+.c-main-nav-white::before {
+    content: ""; 
+    position: absolute;
+    width: 1px;
+    margin-left: -52px;
+    height: 25px;
+    background-color: #FFF;
+}
+
+.cartOptions {
+    gap: 16px;
+    padding: 15px 0px;
+}
+
+.transparent {
+    background: transparent;
+    transition: all ease-in-out 0.2s;
+}
+
+.transparent-background {
+    background-color: rgba(255, 255, 255, 0);
+    transition: background-color 0.3s ease;
+    transition: all ease-in-out 0.2s;
+}
+
+.c-white {
+    color: #FFF!important;
+}
+
+.logo__white {
+    fill: #FFFFFF !important;
+    color: #ffffff !important;
+}
+
+.logo__white svg {
+    fill: #FFFFFF !important;
+    color: #FFFFFF !important;
+}
+
+@media screen and (max-width: 800px) {
+    .Logo {
+       left: 60px;
+       position: relative;
+    }
+}
+
