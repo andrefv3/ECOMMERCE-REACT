@@ -12,8 +12,19 @@
     position: relative;
 }
 
+.c-image-responsive {
+}
+
+.figure img {
+    background-position: center;
+}
+
 .cproduct-info {
     padding: 10px 0 20px;
+}
+
+.title__section {
+    font-family: 'AQUAGrotesk-Medium', sans-serif;
 }
 
 .redIcon {

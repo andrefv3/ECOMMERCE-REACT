@@ -1,26 +1,17 @@
 // import { NavLink } from 'react-router-dom';
+import { headerDTO } from './dto/headerDTO';
 import Logo from '@/assets/svg/Logo.svg';
 import LogoWhite from '@/assets/svg/Logo-white.svg'
-import { ShoppingBagIcon, UserIcon } from '@heroicons/react/24/solid'
-import { useEffect, useState } from 'react';
+import Tooltip from '../Tooltip/Tooltip';
+import { ShoppingBagIcon, UserIcon, HeartIcon } from '@heroicons/react/24/solid'
 import './header.css';
+import useHeader from './headerLogic';
 
-export const HeaderComponent: React.FC<any> = () => {
+export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
 
-    const [scrolled, setScrolled] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-        const isScrolled = window.scrollY > 0;
-        setScrolled(isScrolled);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-        window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+    const {
+        scrolled
+    } = useHeader();
     
     return (
         <header className="relative">
@@ -44,18 +35,27 @@ export const HeaderComponent: React.FC<any> = () => {
                     </a>
                     <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                         <div className="flex cartOptions">
-                            <a className=''>
-                                <ShoppingBagIcon className={`colorIcon ${!scrolled ? 'c-white' : ''}`} />
-                            </a>
-                            <a className="" href="">
-                                <UserIcon className={`colorIcon ${!scrolled ? 'c-white' : ''}`} />
-                            </a>
+                            <Tooltip text="Iniciar sesión">
+                                <a className="pointer-c">
+                                    <UserIcon className={`colorIcon ${!scrolled ? 'c-white' : ''}`} />
+                                </a>
+                            </Tooltip>
+                            <Tooltip text="Carrito">
+                                <a className='pointer-c'>
+                                    <ShoppingBagIcon className={`colorIcon ${!scrolled ? 'c-white' : ''}`} />
+                                </a>
+                            </Tooltip>
+                            <Tooltip text="Wishlist">
+                                <a className="pointer-c" onClick={props.toggleWishlist}>
+                                    <HeartIcon className={`colorIcon ${!scrolled ? 'c-white' : ''}`} />
+                                </a>
+                            </Tooltip>
                         </div>
                        
                         <button data-collapse-toggle="navbar-sticky" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-sticky" aria-expanded="false">
                             <span className="sr-only">Open main menu</span>
                             <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
                             </svg>
                         </button>
                     </div>

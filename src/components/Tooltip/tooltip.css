@@ -1,0 +1,13 @@
+.ToolTip {
+    white-space: normal !important;
+    margin-top: 10px !important;
+    font-size: 12px !important;
+    position: absolute;
+    padding: 5px 10px !important;
+    width: auto;
+    max-width: 500px;
+}
+
+.BoxTooltip {
+    position: relative;
+}

@@ -66,6 +66,10 @@
     color: #FFFFFF !important;
 }
 
+.pointer-c {
+    cursor: pointer;
+}
+
 @media screen and (max-width: 800px) {
     .Logo {
        left: 60px;

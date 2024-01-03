@@ -1,34 +1,23 @@
 import './recentClothes.css';
 import { HeartIcon } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
-import { useState } from 'react';
+import { RecentClothesDTO } from './dto/recentClothesDTO';
+import useRecentClothes from './recentClothesLogic';
 
-export const RecentClothes: React.FC<any> = () => {
-    const [selectedIdx, setSelectedIdx] = useState<number[]>([]);
-    
-    const products = [
-        { name: "Sudadera Scarface negra", price: "199,900 COP", imageUrl: "https://static.pullandbear.net/2/photos//2024/V/0/2/p/8596/516/800/8596516800_2_6_1.jpg?t=1695631766956&amp;imwidth=750" },
-        { name: "Sudadera Scarface negra", price: "199,900 COP", imageUrl: "https://static.pullandbear.net/2/photos//2024/V/0/2/p/8596/516/800/8596516800_2_6_2.jpg?t=1695631766956&amp;imwidth=750" },
-        { name: "Sudadera Scarface negra", price: "199,900 COP", imageUrl: "https://static.pullandbear.net/2/photos//2024/V/0/2/p/8596/516/800/8596516800_2_6_3.jpg?t=1695631766956&amp;imwidth=750" },
-        { name: "Sudadera Scarface negra", price: "199,900 COP", imageUrl: "https://static.pullandbear.net/2/photos//2024/V/0/2/p/8596/516/800/8596516800_2_6_3.jpg?t=1695631766956&amp;imwidth=750" },
-        { name: "Sudadera Scarface negra", price: "199,900 COP", imageUrl: "https://static.pullandbear.net/2/photos//2024/V/0/2/p/8596/516/800/8596516800_2_6_3.jpg?t=1695631766956&amp;imwidth=750" },
-        { name: "Sudadera Scarface negra", price: "199,900 COP", imageUrl: "https://static.pullandbear.net/2/photos//2024/V/0/2/p/8596/516/800/8596516800_2_6_3.jpg?t=1695631766956&amp;imwidth=750" },
-        { name: "Sudadera Scarface negra", price: "199,900 COP", imageUrl: "https://static.pullandbear.net/2/photos//2024/V/0/2/p/8596/516/800/8596516800_2_6_3.jpg?t=1695631766956&amp;imwidth=750" },
-    ];
-
-    const handleWishlistClick = (index: number) => {
-        setSelectedIdx((prevSelectedIdx) =>
-          prevSelectedIdx.includes(index)
-            ? prevSelectedIdx.filter((i) => i !== index)
-            : [...prevSelectedIdx, index]
-        );
-    };
+export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDTO) => {
+    const {
+        selectedIdx,
+        handleWishlistClick
+    } = useRecentClothes({
+        products: props.products,
+        onSelectedIdxChange: props.onSelectedIdxChange
+    });
 
     return (
         <section id="RecentProducts">
-            <h1 className="text-4xl font-bold mb-8">The Gifts Shops</h1>
+            <h1 className="title__section text-4xl font-bold mb-8">The Gifts Shops</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {products.map((product, index) => (
+                {props.products.map((product, index) => (
                     <div key={index} className="c-image">
                         <div className="c-image-responsive">
                             <figure className="figure">
@@ -43,8 +32,8 @@ export const RecentClothes: React.FC<any> = () => {
                             <div className="price">
                                 <span>{product.price}</span>
                             </div>
-                            <div className="btn__wishlist" onClick={() => handleWishlistClick(index)}>
-                                {selectedIdx.includes(index) ? (
+                            <div className="btn__wishlist" onClick={() => handleWishlistClick(product.productCode)}>
+                                {selectedIdx.includes(product.productCode) ? (
                                     <HeartIconSolid className='colorIcon redIcon' />
                                 ) : (
                                     <HeartIcon className='colorIcon' />
