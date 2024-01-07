@@ -3,11 +3,20 @@ import { DetailsProductDTO } from "./dto/detailsProductDTO"
 import { useEffect, useRef, useState } from "react";
 import { FooterComponent } from "@/components/Footer/Footer";
 import { HeartIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
+import { useParams } from "react-router-dom";
+import products, { Product } from "@/productsData";
+import { useWishlistContext } from "@/contexts/WishlistContext";
 import './detailsProduct.css';
 
 export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
     const [wishlistState, setWishlistState] = useState(false);
     const [containerFixed, setContainerFixed] = useState(false);
+    const wishlistContext = useWishlistContext();
+
+    const { id } = useParams<{ id?: string }>();
+    const productId = id ? parseInt(id, 10) : undefined;
+    const product: Product | undefined = productId ? products.find((p) => p.productCode === productId) : undefined;
 
     const toggleWishlistState = () => {
         setWishlistState(!wishlistState);
@@ -31,6 +40,14 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
       };
     }, []);
 
+    if (!product) {
+        return (
+          <div>
+            <p>Producto no encontrado.</p>
+          </div>
+        );
+    }
+
     return (
         <>
             <HeaderComponent 
@@ -38,34 +55,33 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
             />
             <section className="info__cproduct relative" ref={infoCProductRef}>
                 <div className="images__cproduct">
-                    <img src="https://hmcolombia.vtexassets.com/arquivos/ids/3250185-600-900?v=638352868825400000&width=600&height=900&aspect=true" />
+                    <img src={product.imageUrl} alt={product.name} />
                 </div>
 
                 <div id="containerProduct" className={containerFixed ? "fixed__details" : ""}>
                     <div className="detail__cproduct">
-                        <h2 className="title__cproduct">Hoodie Loose Fit</h2>
-                        <h5 className="reference__cproduct">Ref 0115/019/800</h5>
-                        <span className="price__cproduct">84,900 COP</span>
+                        <h2 className="title__cproduct">{product.name}</h2>
+                        <h5 className="reference__cproduct">{`Ref ${product.reference}`}</h5>
+                        <span className="price__cproduct">{product.price}</span>
 
                         <div className="colors__cproduct">
-                            <img draggable="false" src="https://static.bershka.net/4/photos2/2024/V/0/1/p/0115/019/800/4cda0c77931e2e1cd35c07c100736559-0115019800_2_4_0.jpg?imwidth=124&impolicy=bershka-itxhigh&imformat=chrome" />
+                            <img draggable="false" src={product.imageUrl} />
                         </div>
                         
                         <div className="buttonSize__cproducts">
-                            <button className="size__cproduct">S</button>
+                            {product.sizes.map((size, index) => (
+                                <button key={index} className="size__cproduct">{size}</button>
+                            ))}
                         </div>
 
                         <div className="flex AddWishlistCart">
                             <button className="btnAddProduct">{"Añadir a la cesta"}</button>
-                            {/* <div className="btn__wishlist" onClick={() => handleWishlistClick(product.productCode)}>
-                                {selectedIdx.includes(product.productCode) ? (
+                            <div className="btn__wishlist__cproduct" onClick={() => wishlistContext.handleWishlistClick(product.productCode)}>
+                                {wishlistContext.selectedIdx.includes(product.productCode) ? (
                                     <HeartIconSolid className='colorIcon redIcon' />
                                 ) : (
                                     <HeartIcon className='colorIcon' />
                                 )}
-                            </div> */}
-                            <div className="btn__wishlist__cproduct">
-                                <HeartIcon className='colorIcon' />
                             </div>
                         </div>
                     </div>

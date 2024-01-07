@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { routes } from './router/router'
 import { store, persistor } from './store.ts'
 import { PersistGate } from 'redux-persist/integration/react'
+import { WishlistProvider } from './contexts/WishlistContext.tsx';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -12,17 +13,19 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
      <PersistGate persistor={persistor}>
       <React.StrictMode>
         <BrowserRouter>
-          <Routes>
-            {routes.map((value) => {
-              return (
-                <Route 
-                  key={value.key} 
-                  path={value.path}
-                  element={value.component}>
-                </Route>
-              )
-            })}
-          </Routes>
+          <WishlistProvider>
+            <Routes>
+              {routes.map((value) => {
+                return (
+                  <Route 
+                    key={value.key} 
+                    path={value.path}
+                    element={value.component}>
+                  </Route>
+                )
+              })}
+            </Routes>
+          </WishlistProvider>
         </BrowserRouter>
       </React.StrictMode>
      </PersistGate>

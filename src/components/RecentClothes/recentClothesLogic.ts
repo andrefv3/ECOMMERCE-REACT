@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RecentClothesDTO } from "./dto/recentClothesDTO";
-import { setDataWishlist } from "../../reducers/wishlist/actions";
+import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+import { useWishlistContext } from "@/contexts/WishlistContext";
 
-const useRecentClothes = (props: RecentClothesDTO) => {
+const useRecentClothes = () => {
     const [selectedIdx, setSelectedIdx] = useState<number[]>([]);
-    const dispatch = useDispatch(); //REDUX STORAGE CALL
     const wishlistData = useSelector(({wishlistData}) => wishlistData);
+    const navigate = useNavigate();
+
+    const wishlistContext = useWishlistContext();
 
     useEffect(() => {
         // Función para actualizar selectedIdx a partir de wishlistData
@@ -23,23 +25,16 @@ const useRecentClothes = (props: RecentClothesDTO) => {
         updateSelectedIdxFromWishlistData();
     }, [wishlistData]);
 
-    const handleWishlistClick = (productCode: number) => {
-        setSelectedIdx((prevSelectedIdx) => {
-            const updatedSelectedIdx = prevSelectedIdx.includes(productCode)
-                ? prevSelectedIdx.filter((code) => code !== productCode)
-                : [...prevSelectedIdx, productCode];
-
-            // Usar el callback de setSelectedIdx para asegurarse de obtener el valor actualizado
-            props.onSelectedIdxChange(updatedSelectedIdx);
-            dispatch(setDataWishlist({ updatedSelectedIdx }));
-
-            return updatedSelectedIdx;
-        });
-    };
+    const handleOpenDetails = (id: number) => {
+        // Redireccionar a la ruta /id/p
+        navigate(`/${id}/p`);
+        window.scrollTo(0, 0);
+    }
 
     return {
         selectedIdx,
-        handleWishlistClick
+        wishlistContext,
+        handleOpenDetails,
     }
 }
 
