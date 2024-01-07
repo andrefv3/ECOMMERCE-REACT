@@ -4,18 +4,13 @@ import { wishlistDTO, Product } from './dto/wishlistDTO';
 import useWishlist from './wishlistLogic';
 import './wishlist.css';
 
-export const WishlistComponent: React.FC<wishlistDTO> = (props: wishlistDTO) => {
+export const WishlistComponent: React.FC<wishlistDTO> = () => {
     
     const {
         filteredProducts,
         wishlistBoxRef,
-        handleRemoveFromWishlist
-    } = useWishlist({
-        onClose: props.onClose,
-        onSelectedIdxChange: props.onSelectedIdxChange,
-        selectedIdx: props.selectedIdx,
-        products: props.products
-    });
+        wishlistContext,
+    } = useWishlist();
 
     const renderEmptyWishlist = () => (
         <div className="emptyWishlist">
@@ -48,7 +43,7 @@ export const WishlistComponent: React.FC<wishlistDTO> = (props: wishlistDTO) => 
                         <button className='btnOptionsWish'>
                             <ShoppingBagIcon className='colorIcon' />
                         </button>
-                        <button className='btnOptionsWish' onClick={() => handleRemoveFromWishlist(product.productCode)}>
+                        <button className='btnOptionsWish' onClick={() => wishlistContext.removeFromWishlist(product.productCode)}>
                             <TrashIcon className='colorIcon' />
                         </button>
                     </div>
@@ -62,7 +57,7 @@ export const WishlistComponent: React.FC<wishlistDTO> = (props: wishlistDTO) => 
             <div className="wishlist__box" ref={wishlistBoxRef}>
                 <div className="sec-title">
                     <h3 className='titleWishlist'>Wishlist ({filteredProducts.length})</h3>
-                    <button className='iconClose' onClick={props.onClose}>
+                    <button className='iconClose' onClick={() => wishlistContext.closeWishlist()}>
                         <XMarkIcon className='colorIcon' />
                     </button>
                 </div>

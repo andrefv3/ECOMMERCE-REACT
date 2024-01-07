@@ -48,7 +48,7 @@
 }
 
 .size__cproduct:hover {
-    border: 1px solid #000;
+    border: 1.4px solid #000;
 }
 
 .title__cproduct {
@@ -71,6 +71,12 @@
 
 .buttonSize__cproducts {
     margin: 20px 0px;
+    text-transform: uppercase;
+}
+
+.size__cproduct {
+    text-transform: uppercase;
+    font-family: 'AQUAGrotesk-Medium', sans-serif;
 }
 
 .colors__cproduct {
@@ -101,7 +107,7 @@
 }
 
 .btnAddProduct {
-    padding: 10px 30px;
+    padding: 15px 30px;
     color: #fff;
     -webkit-tap-highlight-color: transparent;
     transition: background-color .3s;
@@ -112,4 +118,16 @@
 
 .detail__cproduct {
     text-align: left;
+}
+
+.redIcon {
+    color: #e03a3a !important; 
+    animation: fill 0.5s ease-in-out;
+}
+
+@keyframes fill {
+    to {
+      transform: scale(1.2);
+      color: #e03a3a !important; 
+    }
 }

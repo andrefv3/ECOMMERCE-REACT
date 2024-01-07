@@ -7,11 +7,9 @@ import useRecentClothes from './recentClothesLogic';
 export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDTO) => {
     const {
         selectedIdx,
-        handleWishlistClick
-    } = useRecentClothes({
-        products: props.products,
-        onSelectedIdxChange: props.onSelectedIdxChange
-    });
+        wishlistContext,
+        handleOpenDetails,
+    } = useRecentClothes();
 
     return (
         <section id="RecentProducts">
@@ -19,7 +17,7 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {props.products.map((product, index) => (
                     <div key={index} className="c-image">
-                        <div className="c-image-responsive">
+                        <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.productCode)}>
                             <figure className="figure">
                                 <div className="overlay"></div>
                                 <img draggable="false" alt="Sudadera Scarface negra , NEGRO" className="image-responsive" lazy-load-status="is-loaded" src={product.imageUrl} />
@@ -32,7 +30,7 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
                             <div className="price">
                                 <span>{product.price}</span>
                             </div>
-                            <div className="btn__wishlist" onClick={() => handleWishlistClick(product.productCode)}>
+                            <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.productCode)}>
                                 {selectedIdx.includes(product.productCode) ? (
                                     <HeartIconSolid className='colorIcon redIcon' />
                                 ) : (
