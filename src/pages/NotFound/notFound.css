@@ -1,0 +1,44 @@
+#PageNotFound {
+    font-family: 'AQUAGrotesk-Medium', sans-serif;
+    font-size: 40px;
+}
+
+.textNotFound {
+    width: 70%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.btnReturnMain {
+    padding: 20px;
+    color: #fff;
+    font-size: 30px;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+.boxLogoNF {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.LogoNotFound {
+    position: absolute;
+    top: 70px;
+    width: 6.5rem;
+}
+
+@media screen and (max-width: 800px){
+    #PageNotFound {
+        font-size: 28px;
+    }
+
+    .btnReturnMain {
+        font-size: 20px;
+    }
+    
+}

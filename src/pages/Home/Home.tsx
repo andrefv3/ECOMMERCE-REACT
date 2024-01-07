@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import banner from '@/assets/img/Banner.png';
-import { HeaderComponent } from './components/Header/Header'
-import { RecentClothes } from './components/RecentClothes/RecentClothes';
-import { FooterComponent } from './components/Footer/Footer';
-import { WishlistComponent } from './components/Wishlist/Wishlist';
-import './App.css'
+import { HeaderComponent } from '@/components/Header/Header';
+import { RecentClothes } from '@/components/RecentClothes/RecentClothes';
+import { FooterComponent } from '@/components/Footer/Footer';
+import { WishlistComponent } from '@/components/Wishlist/Wishlist';
+import './home.css'
 
-function App() {
+function Home() {
   const [wishlistState, setWishlistState] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState<number[]>([]);
 
@@ -69,4 +69,4 @@ function App() {
   )
 }
 
-export default App
+export default Home
