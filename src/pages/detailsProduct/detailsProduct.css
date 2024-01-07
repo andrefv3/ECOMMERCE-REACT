@@ -1,0 +1,115 @@
+.info__cproduct {
+    margin-top: 50px;
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+
+.images__cproduct {
+    width: 60%;
+}
+
+.images__cproduct img {
+    width: 100%;
+}
+
+#containerProduct {
+    width: 40%;
+    padding: 40px;
+    right: 0;
+}
+
+.fixed__details {
+    position: fixed;
+    height: 100%;
+    top: 0px;
+}
+
+.buttonSize__cproducts {
+    display: flex;
+    gap: 20px;
+}
+
+.buttonSize__cproducts .size__cproduct {
+    background: #FFF;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    border: 1px solid #b4b4b4;
+    border-radius: 1.25rem;
+    font-size: .875rem;
+    line-height: .875rem;
+    font-weight: 400;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    justify-content: center;
+}
+
+.size__cproduct:hover {
+    border: 1px solid #000;
+}
+
+.title__cproduct {
+    font-size: 1.5rem;
+}
+
+.reference__cproduct {
+    font-size: .625rem;
+    font-weight: 400;
+    color: #636363;
+    margin-bottom: 12px;
+}
+
+.price__cproduct {
+    font-size: 1rem;
+    line-height: 1.375rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.buttonSize__cproducts {
+    margin: 20px 0px;
+}
+
+.colors__cproduct {
+    margin: 20px 0px;
+}
+
+.colors__cproduct img {
+    max-width: 71px;
+}
+
+.AddWishlistCart {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.btn__wishlist__cproduct {
+    padding: 10px;
+    border-radius: 100%;
+    background-color: rgb(255, 255, 255);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:  0 2px 4px rgba(0, 0, 0, 0.06), 0 4px 6px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+}
+
+.btnAddProduct {
+    padding: 10px 30px;
+    color: #fff;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color .3s;
+    background: #00ca8d;
+    border-radius: 0;
+    text-transform: uppercase;
+}
+
+.detail__cproduct {
+    text-align: left;
+}

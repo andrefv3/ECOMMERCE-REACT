@@ -12,6 +12,12 @@ export const routes = [
     key: 'Home',
     component: renderComponent('Home'),
   },
+  {
+    title: 'DetailsProduct',
+    path: '/:id/p',
+    key: 'DetailsProduct',
+    component: renderComponent('DetailsProduct'),
+  },
 
   // 404 NOT FOUND
   {

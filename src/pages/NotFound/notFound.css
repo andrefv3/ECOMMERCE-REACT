@@ -1,6 +1,12 @@
 #PageNotFound {
     font-family: 'AQUAGrotesk-Medium', sans-serif;
     font-size: 40px;
+    margin: auto;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+    width: 70%;
 }
 
 .textNotFound {
@@ -34,7 +40,8 @@
 
 @media screen and (max-width: 800px){
     #PageNotFound {
-        font-size: 28px;
+        font-size: 30px;
+        width: auto;
     }
 
     .btnReturnMain {

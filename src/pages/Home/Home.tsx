@@ -41,7 +41,7 @@ function Home() {
 
   return (
     <>
-      <HeaderComponent toggleWishlist={toggleWishlistState} />
+      <HeaderComponent toggleWishlist={toggleWishlistState} type='main'/>
       <div className='Banner relative'>
         <img src={banner} draggable="false"/>
         <div className="titles">
