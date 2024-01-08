@@ -25,7 +25,6 @@ const useWishlist = () => {
         };
     }, [wishlistContext]);
 
-    console.log(wishlistData)
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
     useEffect(() => {
