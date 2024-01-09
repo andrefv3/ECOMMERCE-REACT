@@ -1,11 +1,12 @@
 import React from 'react';
-import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { routes } from './router/router'
 import { store, persistor } from './store.ts'
 import { PersistGate } from 'redux-persist/integration/react'
 import { WishlistProvider } from './contexts/WishlistContext.tsx';
+import { CartProvider } from './contexts/CartContext.tsx';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -13,6 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
      <PersistGate persistor={persistor}>
       <React.StrictMode>
         <BrowserRouter>
+        <CartProvider>
           <WishlistProvider>
             <Routes>
               {routes.map((value) => {
@@ -26,6 +28,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               })}
             </Routes>
           </WishlistProvider>
+        </CartProvider>
         </BrowserRouter>
       </React.StrictMode>
      </PersistGate>

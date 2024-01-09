@@ -12,6 +12,10 @@
     position: relative;
 }
 
+.figure {
+    position: relative;
+}
+
 .figure img {
     background-position: center;
 }
@@ -27,6 +31,56 @@
 .redIcon {
     color: #e03a3a !important; 
     animation: fill 0.5s ease-in-out;
+}
+
+.sizes {
+    width: 100%;
+    padding: 13px;
+    position: absolute;
+    bottom: 0;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    border-width: 1px;
+    border-color: #e1e1e1;
+    font-family: 'AQUAGrotesk-Medium', sans-serif;
+}
+
+.sizes p {
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.cproduct-sizes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.sizesContainer {
+    display: flex;
+    margin: 0px 10px;
+    gap: 8px;
+    margin: auto;
+}
+
+.sizeProduct {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    font-size: 14px;
+    color: #000;
+    background: transparent;
+    text-transform: uppercase;
+}
+
+.sizeProduct:hover {
+    border-color: #000;
 }
 
 @keyframes fill {

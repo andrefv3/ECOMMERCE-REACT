@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { headerDTO } from "./dto/headerDTO";
 import { useWishlistContext } from "@/contexts/WishlistContext";
+import { useCartContext } from "@/contexts/CartContext";
 
 const useHeader = (props: headerDTO) => {
     const [scrolled, setScrolled] = useState(false);
-    const { isOpen, openWishlist, closeWishlist, removeFromWishlist, selectedIdx } = useWishlistContext(); // Usa el contexto del Wishlist
+    const { isOpen, openWishlist, closeWishlist, removeFromWishlist, selectedIdx } = useWishlistContext(); // CONTEXT FOR WISHLIST
+    const { isOpenCart, openCart, closeCart, removeFromCart, cartItems } = useCartContext(); // CONTEXT FOR CART
 
     if(props.type === "main"){
         useEffect(() => {
@@ -34,6 +36,12 @@ const useHeader = (props: headerDTO) => {
         openWishlist, 
         closeWishlist, 
         removeFromWishlist, 
+        //CART
+        isOpenCart, 
+        cartItems,
+        openCart, 
+        closeCart,
+        removeFromCart,
     }
 }
 

@@ -1,10 +1,11 @@
-import { headerDTO } from './dto/headerDTO';
 import Logo from '@/assets/svg/Logo.svg';
 import LogoWhite from '@/assets/svg/Logo-white.svg'
 import Tooltip from '../Tooltip/Tooltip';
-import { ShoppingBagIcon, UserIcon, HeartIcon } from '@heroicons/react/24/solid'
+import { headerDTO } from './dto/headerDTO';
+import { ShoppingBagIcon, UserIcon, HeartIcon } from '@heroicons/react/24/outline'
 import useHeader from './headerLogic';
 import WishlistComponent from '../Wishlist/Wishlist';
+import CartComponent from '../Cart/Cart';
 import products from '@/productsData';
 import './header.css';
 
@@ -18,6 +19,12 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
         openWishlist, 
         closeWishlist,
         removeFromWishlist,
+        //CART
+        isOpenCart, 
+        cartItems,
+        openCart, 
+        closeCart,
+        removeFromCart,
     } = useHeader({
         toggleWishlist: props.toggleWishlist,
         type: props.type
@@ -51,8 +58,8 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
                                         <UserIcon className={`colorIcon ${!scrolled && props.type === 'main' ? 'c-white' : ''}`} />
                                     </a>
                                 </Tooltip>
-                                <Tooltip text="Carrito">
-                                    <a className='pointer-c'>
+                                <Tooltip text="Cesta">
+                                    <a className='pointer-c' onClick={() => openCart()}>
                                         <ShoppingBagIcon className={`colorIcon ${!scrolled && props.type === 'main' ? 'c-white' : ''}`} />
                                     </a>
                                 </Tooltip>
@@ -80,6 +87,15 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
                     selectedIdx={selectedIdx}
                     onClose={() => closeWishlist()}
                     onSelectedIdxChange={removeFromWishlist}
+                />
+            )}
+
+            {isOpenCart && (
+                <CartComponent
+                    products={products}
+                    cartItems={cartItems}
+                    onClose={() => closeCart()}
+                    onSelectedIdxChange={removeFromCart}
                 />
             )}
         </>

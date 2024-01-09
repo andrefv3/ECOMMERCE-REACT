@@ -6,6 +6,7 @@ import { useWishlistContext } from "@/contexts/WishlistContext";
 const useRecentClothes = () => {
     const [selectedIdx, setSelectedIdx] = useState<number[]>([]);
     const wishlistData = useSelector(({wishlistData}) => wishlistData);
+    const [showSizes, setShowSizes] = useState<{ [productCode: number]: boolean }>({});
     const navigate = useNavigate();
 
     const wishlistContext = useWishlistContext();
@@ -31,9 +32,15 @@ const useRecentClothes = () => {
         window.scrollTo(0, 0);
     }
 
+    const handleToggleSizes = (productCode: number, show: boolean) => {
+      setShowSizes(prevState => ({ ...prevState, [productCode]: show }));
+    };
+
     return {
         selectedIdx,
         wishlistContext,
+        showSizes, 
+        handleToggleSizes,
         handleOpenDetails,
     }
 }
