@@ -14,7 +14,7 @@
     top: 0;
     right: 0;
     z-index: 999;
-    background-color: rgba(0, 0, 0, 0.369); /* Fondo oscuro con opacidad */
+    background-color: rgba(0,0,0,0.34902); 
     width: 100%;
     height: 100%;
     display: flex;
@@ -48,6 +48,25 @@
     background: #f3f3f3;
   }
 
+  .addProduct {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .btnMoveProduct {
+    padding: 5px 15px;
+    color: #fff;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 11px;
+    width: 121px;
+  }
+
+  .disabled:hover {
+    opacity: 0.8;
+  }
+
   .iconClose {
     position: absolute;
     top: 0;
@@ -73,9 +92,9 @@
     background: #e0e0e0;
   }
   
-  .carousel {
+  .carousel-wishlist {
     width: 90%;
-    height: 90%;
+    height: 85% !important;
     max-height: 90%;
     overflow-x: hidden;
     overflow-y: auto;
@@ -93,13 +112,151 @@
     }
   
   .product-image {
-    width: 110px;
+    width: 120px;
   }
 
-  .productsAdded {
+  .productsAddedWishlist {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 40px;
+  }
+
+  .expander-icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0px;
+    right: 11px;
+    width: 20px;
+    height: 30px;
+    opacity: 1;
+    transition: 250ms ease-out opacity 350ms;
+  }
+
+  .expander-icon svg {
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+  }
+
+  /* ESTILOS TEMPORALES */
+
+  .custom-select {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .selection-container {
+    position: relative;
+    width: 78px;
+    margin-right: 10px;
+  }
+  
+  .selected-option {
+    position: relative;
+    padding: 8px;
+    height: 30px;
+    text-align: left;
+    align-items: center;
+    justify-content: left;
+    border: 1px solid #000;
+    border-radius: 4px;
+    display: flex;
+    text-transform: uppercase;
+  }
+
+  .selected-option.open {
+    border-color: transparent;
+    margin-left: -1px;
+    z-index: 10;
+  }
+
+  .initial-box {
+    text-align: left;
+    align-items: center;
+    justify-content: left;
+    display: flex;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .options {
+    position: absolute;
+    top: 100%;
+    margin-top: -28px;
+    left: 0;
+    width: 78px;
+    background-color: #fff;
+    border: 1px solid rgb(30, 30, 30);
+    border-radius: 4px;
+    overflow: hidden;
+    height: 28px;
+    max-height: auto;
+    opacity: 0;
+    z-index: 50;
+    transition: height 0.25s ease-in-out, opacity 0.25ms ease-in-out;
+  }
+  
+  .options.open {
+    height: 170px;
+    opacity: 1;
+    z-index: 3;
+  }
+
+  .option {
+    padding: 8px;
+    text-transform: uppercase;
+    text-align: left;
+    cursor: pointer;
+  }
+  
+  .option:hover, .active-option {
+    background-color: #f0f0f0;
+  }
+  
+  .tallas-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: max-content;
+    background-color: #fff;
+    border: 1px solid rgb(30, 30, 30);
+    border-radius: 4px;
+    overflow: hidden;
+    height: 0;
+    opacity: 0;
+    transition: height 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  }
+  
+  .tallas-container.open {
+    height: auto;
+    opacity: 1;
+  }
+  
+  .talla-option {
+    padding: 8px 30px;
+    text-transform: uppercase;
+    text-align: left;
+    cursor: pointer;
+  }
+  
+  .talla-option:hover {
+    background-color: #f0f0f0;
+  }
+  
+  
+  /**/
+
+  .size-product-w {
+    text-transform: uppercase;
+    padding: 8px;
+    background: #ebebeb;
+    cursor: pointer;
+    outline: none;
+    width: auto;
+    border-radius: 4px;
   }
   
   .info-product {
@@ -107,8 +264,9 @@
     margin-left: 15px;
     font-size: .75rem;
     display: flex;
+    width: 100%;
     flex-direction: column;
-    gap: 8px;
+    justify-content: space-between;
   }
   
   .title__product {
@@ -132,7 +290,7 @@
     justify-content: space-between;
   }
   
-  .options {
+  .options-product {
     display: block;
     float: right;
   }
@@ -167,8 +325,9 @@
   }
 
   .emptyWishlist {
+    position: absolute;
     width: 80%;
-    height: 82%;
+    height: 76%;
     margin: auto;
     display: flex;
     align-items: center;

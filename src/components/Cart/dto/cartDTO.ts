@@ -1,8 +1,9 @@
+import { CartItem } from "@/contexts/CartContext";
 import { Product } from "@/productsData";
 
-export interface wishlistDTO {
+export interface cartDTO {
     onClose: () => void;
     onSelectedIdxChange: (updatedSelectedIdx: number) => void;
-    selectedIdx: number[];
+    cartItems: CartItem[];
     products: Product[];
 }

@@ -39,16 +39,24 @@
     border-radius: 1.25rem;
     font-size: .875rem;
     line-height: .875rem;
-    font-weight: 400;
+    font-weight: inherit;
     text-align: center;
     display: flex;
     align-items: center;
     vertical-align: middle;
     justify-content: center;
+    text-transform: uppercase;
+    font-family: 'AQUAGrotesk-Medium', sans-serif;
 }
 
 .size__cproduct:hover {
     border: 1.4px solid #000;
+}
+
+.size__cproduct.selected {
+    background: #000;
+    border-color: #000;
+    color: #fff;
 }
 
 .title__cproduct {
@@ -72,11 +80,6 @@
 .buttonSize__cproducts {
     margin: 20px 0px;
     text-transform: uppercase;
-}
-
-.size__cproduct {
-    text-transform: uppercase;
-    font-family: 'AQUAGrotesk-Medium', sans-serif;
 }
 
 .colors__cproduct {
@@ -114,6 +117,17 @@
     background: #00ca8d;
     border-radius: 0;
     text-transform: uppercase;
+    border-radius: 4px;
+}
+
+.btnAddProduct:hover {
+    background: #06a978;
+}
+
+.btnAddProduct.hovered {
+    cursor: pointer;
+    opacity: 0.8!important;
+    background: #00ca8d !important;
 }
 
 .detail__cproduct {

@@ -3,11 +3,14 @@ import { HeartIcon } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 import { RecentClothesDTO } from './dto/recentClothesDTO';
 import useRecentClothes from './recentClothesLogic';
+import { formatCOP } from '@/utils/formatCurrency';
 
 export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDTO) => {
     const {
         selectedIdx,
         wishlistContext,
+        showSizes, 
+        handleToggleSizes,
         handleOpenDetails,
     } = useRecentClothes();
 
@@ -18,9 +21,21 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
                 {props.products.map((product, index) => (
                     <div key={index} className="c-image">
                         <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.productCode)}>
-                            <figure className="figure">
+                            <figure className="figure" onMouseEnter={() => handleToggleSizes(product.productCode, true)} onMouseLeave={() => handleToggleSizes(product.productCode, false)}>
                                 <div className="overlay"></div>
                                 <img draggable="false" alt="Sudadera Scarface negra , NEGRO" className="image-responsive" lazy-load-status="is-loaded" src={product.imageUrl} />
+                                {showSizes[product.productCode] && (
+                                    <div className="sizes">
+                                        <p>Seleccione talla</p>
+                                        <div className="sizesContainer">
+                                            {product.sizes.map((size: string) => (
+                                                <button key={size} className="sizeProduct">
+                                                {size}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </figure>
                         </div>
                         <div className="cproduct-info">
@@ -28,7 +43,7 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
                                 <span>{product.name}</span>
                             </div>
                             <div className="price">
-                                <span>{product.price}</span>
+                                <span>{formatCOP(product.price)}</span>
                             </div>
                             <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.productCode)}>
                                 {selectedIdx.includes(product.productCode) ? (
