@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { useWishlistContext } from "@/contexts/WishlistContext";
+import { useCartContext } from "@/contexts/CartContext";
 
 const useRecentClothes = () => {
     const [selectedIdx, setSelectedIdx] = useState<number[]>([]);
@@ -10,6 +11,7 @@ const useRecentClothes = () => {
     const navigate = useNavigate();
 
     const wishlistContext = useWishlistContext();
+    const cartContext = useCartContext();
 
     useEffect(() => {
         // Función para actualizar selectedIdx a partir de wishlistData
@@ -40,6 +42,7 @@ const useRecentClothes = () => {
         selectedIdx,
         wishlistContext,
         showSizes, 
+        cartContext,
         handleToggleSizes,
         handleOpenDetails,
     }

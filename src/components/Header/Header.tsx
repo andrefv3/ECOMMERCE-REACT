@@ -8,6 +8,7 @@ import WishlistComponent from '../Wishlist/Wishlist';
 import CartComponent from '../Cart/Cart';
 import products from '@/productsData';
 import './header.css';
+import { ProductAdded } from '../Cart/components/productAdded/ProductAdded';
 
 export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
 
@@ -22,6 +23,8 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
         //CART
         isOpenCart, 
         cartItems,
+        addedProduct,
+        productAdded,
         openCart, 
         closeCart,
         removeFromCart,
@@ -97,6 +100,10 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
                     onClose={() => closeCart()}
                     onSelectedIdxChange={removeFromCart}
                 />
+            )}
+
+            {addedProduct && (
+                <ProductAdded product={productAdded}/>
             )}
         </>
     );

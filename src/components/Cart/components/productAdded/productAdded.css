@@ -1,0 +1,85 @@
+.productAdded {
+    width: 320px;
+    height: auto;
+    background: #ffffff;
+    color: #181818;
+    position:fixed ;
+    right: 40px;
+    top: 50px;
+    z-index: 20;
+    padding: 15px 25px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 4px 30px -3px rgba(189,189,189,0.74);
+    -moz-box-shadow: 0px 4px 30px -3px rgba(189,189,189,0.74);
+    box-shadow: 0px 4px 30px -3px rgba(189,189,189,0.74);
+}
+
+.green-icon {
+    color: rgb(74, 181, 120) !important;
+}
+
+.sub-title-add {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 13px;
+}
+
+.titleP-add  {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.closeCartAdded {
+    background: transparent;
+    padding: 5px;
+    display: flex;
+    justify-content: right;
+}
+
+.product-image {
+    width: 30%;
+}
+
+.flex-info {
+   display: flex;
+   margin-top: 18px;
+}
+
+.info-product-add {
+    text-align: left;
+    margin-left: 20px;
+    font-size: .75rem;
+    width: 65%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.price-product-add {
+    font-size: .875rem;
+    line-height: 1.1;
+    color: rgb(1, 1, 1);
+    font-weight: 600;
+}
+
+.btnProcessPay {
+    padding: 10px;
+    width: 100%;
+    background: rgb(74, 181, 120);
+    color: #fff;
+    margin: 26px 0px 15px;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.viewCart {
+    font-size: 13px;
+    margin-bottom: 50px;
+}

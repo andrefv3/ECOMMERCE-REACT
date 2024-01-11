@@ -15,6 +15,7 @@ interface CartContextProps {
   products: Product[];
   isOpenCart: boolean;
   cartItems: CartItem[];
+  addedProduct: boolean;
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
@@ -27,6 +28,7 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isOpenCart, setIsOpenCart] = useState(false); // STATE FOR OPEN/CLOSE CART
   const [cartItems, setCartItems] = useState<CartItem[]>([]); // STATE FOR MANAGE ID SELECTED OF CART
+  const [addedProduct, setAddedProduct] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const cartData = useSelector(({ cartData }) => cartData); // CAPTURE DATA CURRENT OF STORAGE
@@ -69,6 +71,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const newCartItem = { productCode, size, quantity: 1, color };
       setCartItems([...cartItems, newCartItem]);
       dispatch(setDataCart({ items: [...cartItems, newCartItem] }));
+      setAddedProduct(true);
     }
   };
 
@@ -80,7 +83,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [cartData]);
   
   return (
-    <CartContext.Provider value={{ products, isOpenCart, cartItems, openCart, closeCart, toggleCart, removeFromCart, handleCartClick }}>
+    <CartContext.Provider value={{ products, isOpenCart, cartItems, addedProduct, openCart, closeCart, toggleCart, removeFromCart, handleCartClick }}>
       {children}
     </CartContext.Provider>
   );

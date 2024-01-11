@@ -6,7 +6,8 @@ import { useCartContext } from "@/contexts/CartContext";
 const useHeader = (props: headerDTO) => {
     const [scrolled, setScrolled] = useState(false);
     const { isOpen, openWishlist, closeWishlist, removeFromWishlist, selectedIdx } = useWishlistContext(); // CONTEXT FOR WISHLIST
-    const { isOpenCart, openCart, closeCart, removeFromCart, cartItems } = useCartContext(); // CONTEXT FOR CART
+    const { isOpenCart, addedProduct, openCart, closeCart, removeFromCart, cartItems } = useCartContext(); // CONTEXT FOR CART
+    const productAdded = cartItems[cartItems.length - 1];
 
     if(props.type === "main"){
         useEffect(() => {
@@ -39,6 +40,8 @@ const useHeader = (props: headerDTO) => {
         //CART
         isOpenCart, 
         cartItems,
+        addedProduct,
+        productAdded,
         openCart, 
         closeCart,
         removeFromCart,

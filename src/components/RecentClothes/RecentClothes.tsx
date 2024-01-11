@@ -10,6 +10,7 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
         selectedIdx,
         wishlistContext,
         showSizes, 
+        cartContext,
         handleToggleSizes,
         handleOpenDetails,
     } = useRecentClothes();
@@ -25,12 +26,12 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
                                 <div className="overlay"></div>
                                 <img draggable="false" alt="Sudadera Scarface negra , NEGRO" className="image-responsive" lazy-load-status="is-loaded" src={product.imageUrl} />
                                 {showSizes[product.productCode] && (
-                                    <div className="sizes">
+                                    <div className="sizes" onClick={(e) => e.stopPropagation()} >
                                         <p>Seleccione talla</p>
                                         <div className="sizesContainer">
                                             {product.sizes.map((size: string) => (
-                                                <button key={size} className="sizeProduct">
-                                                {size}
+                                                <button key={size} className="sizeProduct" onClick={() => cartContext.handleCartClick(product.productCode, size, 0)}>
+                                                    {size}
                                                 </button>
                                             ))}
                                         </div>

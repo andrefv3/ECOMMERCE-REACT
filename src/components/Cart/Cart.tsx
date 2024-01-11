@@ -46,7 +46,6 @@ export const CartComponent: React.FC<cartDTO> = () => {
                             </span>
                             <div className="flex-options">
                                 <button className='btnOptionsCart'>
-                                    {/* <PencilIcon className='colorIcon' /> */}
                                     <svg
                                         version="1.1"
                                         viewBox="0 0 18 18"
