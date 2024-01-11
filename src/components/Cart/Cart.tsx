@@ -1,4 +1,4 @@
-import { TrashIcon, PencilIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import cartEmpty from '@/assets/img/cartEmpty.png';
 import { cartDTO } from './dto/cartDTO';
 import useCart from './cartLogic';
