@@ -1,7 +1,9 @@
 import { SET_DATA_CART } from "../cart/actions"
 
 const initialState = {
-  cart: {},
+  cart: {
+    items: []
+  },
 }
 
 export const cartData = (state = initialState, action: any) => {

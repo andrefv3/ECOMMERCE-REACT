@@ -36,6 +36,7 @@ const useWishlist = () => {
         const currentSelectedSize = selectedSizes[product.productCode];
         if (currentSelectedSize) {
             wishlistContext.removeFromWishlist(product.productCode);
+            wishlistContext.closeWishlist();
             cartContext.handleCartClick(product.productCode, currentSelectedSize, 0);
         }
     };

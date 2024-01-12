@@ -1,42 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { CheckCircleIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import './productAdded.css';
 import { formatCOP } from "@/utils/formatCurrency";
-import { useSelector } from "react-redux";
+import { productAddedDTO } from './dto/productAddedDTO';
+import useProductAdded from './productAddedLogic';
+import './productAdded.css';
 
-export const ProductAdded: React.FC<any> = (props: any) => {
-    const [addedProduct, setAddedProduct] = useState<any>(null);
-    const cartData = useSelector(({ cartData }) => cartData.cart);
+export const ProductAdded: React.FC<productAddedDTO> = (props: productAddedDTO) => {
+    const {
+        isVisible,
+        addedProduct,
+        cartContext,
+        viewCart,
+        handleMouseEnter,
+        handleMouseLeave
+    } = useProductAdded({
+        productCode: props.productCode,
+        size: props.size
+    });
 
-    useEffect(() => {
-        console.log('Cart Data:', cartData);
-        // Buscar el producto por productCode
-        const product = cartData.items.find((cartItem: any) => cartItem.productCode === props.productCode);
-        console.log('Found Product:', product);
-    
-        if (product) {
-            setAddedProduct(product);
-        } else {
-            setAddedProduct(null);
-        }
-    }, [cartData, props.productCode]);
-    
-    console.log('Added Product:', addedProduct);
-    
-    if (!addedProduct) {
-        console.log('Product not found or loading...');
-        return <div>Cargando...</div>;
+    if (!addedProduct || !isVisible) {
+        return null;
     }
 
     return (
-        <div className="productAdded">
+        <div
+            id="productAdded"
+            className="productAdded"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
             <div className="contentProduct">
                 <div className="titleP-add flex">
                     <div className="sub-title-add">
                         <CheckCircleIcon className="colorIcon green-icon"/>
                         <span>Añadido a la cesta</span>
                     </div>
-                    <button className="closeCartAdded">
+                    <button className="closeCartAdded" onClick={() => cartContext.closeAddedProduct()}>
                         <XMarkIcon className="colorIcon"/>
                     </button>
                 </div>
@@ -56,7 +55,8 @@ export const ProductAdded: React.FC<any> = (props: any) => {
                     </div>
                 </div>
 
-                <button className="btnProcessPay">Tramitar pedido</button>
+                <button className="btnProcessPay" onClick={viewCart}>Tramitar pedido</button>
+                <span className='viewCart' onClick={viewCart}>Ver cesta ({cartContext.cantCart()})</span>
             </div>
         </div>
     );

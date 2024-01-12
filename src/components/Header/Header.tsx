@@ -103,7 +103,7 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
             )}
 
             {addedProduct && (
-                <ProductAdded product={productAdded}/>
+                <ProductAdded productCode={productAdded.productCode} size={productAdded.size} />
             )}
         </>
     );

@@ -19,6 +19,8 @@ interface CartContextProps {
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
+  cantCart: () => number;
+  closeAddedProduct: () => void;
   removeFromCart: (productId: number) => void;
   handleCartClick: (productCode: number, size: string, color: number) => void;
 }
@@ -29,6 +31,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isOpenCart, setIsOpenCart] = useState(false); // STATE FOR OPEN/CLOSE CART
   const [cartItems, setCartItems] = useState<CartItem[]>([]); // STATE FOR MANAGE ID SELECTED OF CART
   const [addedProduct, setAddedProduct] = useState<boolean>(false);
+  const totalQuantity = cartItems.reduce((total: any, cartItem: { quantity: any; }) => total + cartItem.quantity, 0);
 
   const dispatch = useDispatch();
   const cartData = useSelector(({ cartData }) => cartData); // CAPTURE DATA CURRENT OF STORAGE
@@ -75,6 +78,14 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  const closeAddedProduct = () => {
+    setAddedProduct(false);
+  }
+
+  const cantCart = () => {
+    return totalQuantity;
+  }
+
   useEffect(() => {
     const { updatedSelectedIdx } = cartData || {};
     if (Array.isArray(updatedSelectedIdx)) {
@@ -83,7 +94,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [cartData]);
   
   return (
-    <CartContext.Provider value={{ products, isOpenCart, cartItems, addedProduct, openCart, closeCart, toggleCart, removeFromCart, handleCartClick }}>
+    <CartContext.Provider value={{ products, isOpenCart, cartItems, addedProduct, cantCart, closeAddedProduct, openCart, closeCart, toggleCart, removeFromCart, handleCartClick }}>
       {children}
     </CartContext.Provider>
   );
