@@ -29,23 +29,18 @@ const useCart = () => {
     }, [cartContext]);
 
     useEffect(() => {
-        const replicatedProducts = cartItems.reduce((acc: any, item: any) => {
-          // Buscamos el producto original en cartContext.products
-          const originalProduct = cartContext.products.find((product) => product.productCode === item.productCode);
-      
-          // Replicamos el producto según su cantidad, manteniendo la información de talla
-          for (let i = 0; i < item.quantity; i++) {
-            acc.push({
-              ...originalProduct,
-              size: item.size,
-              color: item.color,
-            });
-          }
-          return acc;
-        }, []);
-      
-        setFilteredProducts(replicatedProducts);
-      }, [cartItems, cartContext.products]);
+        const cartProducts = cartItems.map((item: any) => {
+            const originalProduct = cartContext.products.find((product) => product.productCode === item.productCode);
+            return {
+                ...originalProduct,
+                size: item.size,
+                color: item.color,
+                quantity: item.quantity,
+            };
+        });
+    
+        setFilteredProducts(cartProducts);
+    }, [cartItems, cartContext.products]);
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';

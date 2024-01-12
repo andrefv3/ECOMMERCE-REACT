@@ -61,9 +61,9 @@ export const WishlistComponent: React.FC<wishlistDTO> = () => {
                             )}
                             <div className={`options ${isDropdownOpen[product.productCode] ? 'open' : ''}`}>
                                 {product.sizes.map((size) => (
-                                <div key={size} className={`option ${selectedSizes[product.productCode] === size ? 'active-option' : ''}`} onClick={() => setSelectedSizes({ ...selectedSizes, [product.productCode]: size })}>
-                                    {size}
-                                </div>
+                                    <div key={size} className={`option ${selectedSizes[product.productCode] === size ? 'active-option' : ''}`} onClick={() => setSelectedSizes({ ...selectedSizes, [product.productCode]: size })}>
+                                        {size}
+                                    </div>
                                 ))}
                             </div>
                             </div>
@@ -85,7 +85,7 @@ export const WishlistComponent: React.FC<wishlistDTO> = () => {
                             {hovered === product.productCode && !isDropdownOpen[product.productCode] && !selectedSizes[product.productCode] ? "Escoge Talla" : "Mover a cesta"}
                         </button>
                         <button className='btnOptionsWish' onClick={() => wishlistContext.removeFromWishlist(product.productCode)}>   
-                            <TrashIcon className='colorIcon' />
+                            <TrashIcon className='colorIcon stroke-2' />
                         </button>
                     </div>
                 </div>

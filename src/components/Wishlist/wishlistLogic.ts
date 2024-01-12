@@ -30,6 +30,7 @@ const useWishlist = () => {
             ...prevIsDropdownOpen,
             [productCode]: false,
         }));
+        setActiveDropdown(null);
     };
 
     const handleMoveToCart = (product: Product) => {

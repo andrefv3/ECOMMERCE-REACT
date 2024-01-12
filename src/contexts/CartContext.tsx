@@ -40,43 +40,47 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const closeCart = () => setIsOpenCart(false);
   const toggleCart = () => setIsOpenCart((prev) => !prev);
 
-  // FUNCTION FOR DELETE PRODUCTS OF CART
   const removeFromCart = (productCode: number) => {
-    // Encuentra el índice del elemento a eliminar
-    const indexToRemove = cartItems.findIndex((item) => item.productCode === productCode);
-
+    const indexToRemove = cartItems.findIndex((item: CartItem) => item.productCode === productCode);
+  
     if (indexToRemove !== -1) {
-        // Crea una nueva array sin el elemento que quieres eliminar
-        const updatedCartItems = [...cartItems.slice(0, indexToRemove), ...cartItems.slice(indexToRemove + 1)];
-        
-        // Actualiza el estado local
-        setCartItems(updatedCartItems);
-
-        // Actualiza el estado global (si es necesario)
-        dispatch(setDataCart({ items: updatedCartItems }));
+      const updatedCartItems = [
+        ...cartItems.slice(0, indexToRemove),
+        ...cartItems.slice(indexToRemove + 1)
+      ];
+  
+      setCartItems(updatedCartItems);
+      dispatch(setDataCart({ items: updatedCartItems }));
     }
   };
 
   // FUNCTION FOR CLICK IN ADD CART
   const handleCartClick = (productCode: number, size: string, color: number) => {
-    const existingItem = cartItems.find(
+    const existingItemIndex = cartItems.findIndex(
       (item) => item.productCode === productCode && item.size === size
     );
   
-    if (existingItem) {
-      const updatedCartItems = cartItems.map((item) =>
-        item === existingItem
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      );
-      setCartItems(updatedCartItems);
+    if (existingItemIndex !== -1) {
+      setCartItems((prevCartItems) => {
+        const updatedCartItems = [...prevCartItems];
+        updatedCartItems[existingItemIndex] = {
+          ...updatedCartItems[existingItemIndex],
+          quantity: updatedCartItems[existingItemIndex].quantity + 1
+        };
+  
+        dispatch(setDataCart({ items: updatedCartItems }));
+        return updatedCartItems;
+      });
     } else {
       const newCartItem = { productCode, size, quantity: 1, color };
-      setCartItems([...cartItems, newCartItem]);
-      dispatch(setDataCart({ items: [...cartItems, newCartItem] }));
+      setCartItems((prevCartItems) => {
+        const updatedCartItems = [...prevCartItems, newCartItem];
+        dispatch(setDataCart({ items: updatedCartItems }));
+        return updatedCartItems;
+      });
       setAddedProduct(true);
     }
-  };
+  };  
 
   const closeAddedProduct = () => {
     setAddedProduct(false);
@@ -87,9 +91,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }
 
   useEffect(() => {
-    const { updatedSelectedIdx } = cartData || {};
-    if (Array.isArray(updatedSelectedIdx)) {
-      setCartItems(updatedSelectedIdx);
+    const { cart } = cartData || {};
+    if (cart && Array.isArray(cart.items)) {
+      setCartItems(cart.items);
     }
   }, [cartData]);
   

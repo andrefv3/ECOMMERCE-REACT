@@ -62,7 +62,7 @@ export const CartComponent: React.FC<cartDTO> = () => {
                                 </button>
                                 <span className="vertical-divider"></span>
                                 <button className='btnOptionsCart' onClick={() => cartContext.removeFromCart(product.productCode)}>
-                                    <TrashIcon className='colorIcon' />
+                                    <TrashIcon className='colorIcon stroke-2' />
                                 </button>
                             </div>
                         </div>
