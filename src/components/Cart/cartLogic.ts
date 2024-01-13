@@ -1,21 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Product } from "@/productsData";
-import { useCartContext } from "@/contexts/CartContext";
+import { CartItem, useCartContext } from "@/contexts/CartContext";
+import products from "@/productsData";
 
 const useCart = () => {
     const cartData = useSelector(({ cartData }) => cartData);
     const cartItems = cartData.cart.items;
     const cartContext = useCartContext(); // Obtén el contexto del wishlist
     const cartBoxRef = useRef<HTMLDivElement | null>(null);
-    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<CartItem[]>([]);
     const totalQuantity = cartItems.reduce((total: any, cartItem: { quantity: any; }) => total + cartItem.quantity, 0);
+
+    const orderTotal = filteredProducts.reduce(
+        (total, product) =>
+          total + (products.find((item: any) => item.productCode === product.productCode)?.price || 0) * product.quantity,
+        0
+    );
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
 
-            // Verifica si el clic fue fuera del wishlistBox
             if (cartBoxRef.current && !cartBoxRef.current.contains(target)) {
                 cartContext.closeCart();
             }
@@ -28,19 +33,16 @@ const useCart = () => {
         };
     }, [cartContext]);
 
-    useEffect(() => {
-        const cartProducts = cartItems.map((item: any) => {
-            const originalProduct = cartContext.products.find((product) => product.productCode === item.productCode);
-            return {
-                ...originalProduct,
-                size: item.size,
-                color: item.color,
-                quantity: item.quantity,
-            };
-        });
-    
+    useEffect(() => {    
+        const cartProducts = cartItems.map((item: CartItem) => ({
+          productCode: item.productCode,
+          size: item.size,
+          quantity: item.quantity,
+          color: item.color,
+        }));
+      
         setFilteredProducts(cartProducts);
-    }, [cartItems, cartContext.products]);
+    }, [cartData]);
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -50,6 +52,7 @@ const useCart = () => {
     }, []);
 
     return {
+        orderTotal,
         cartItems,
         totalQuantity,
         filteredProducts,
