@@ -39,3 +39,20 @@ button {
   height: 25px;
   color: #2a2a2a;
 }
+
+.redIcon {
+  color: #e03a3a !important; 
+  animation: fill 0.5s ease-in-out;
+}
+
+.colorIconHeader {
+  width: 26px;
+  height: 26px;
+  color: #2a2a2a;
+  stroke-width: 1.5;
+}
+
+.icon-40 {
+  width: 34px;
+  height: 34px;
+}

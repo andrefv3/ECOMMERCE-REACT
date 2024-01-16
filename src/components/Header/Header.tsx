@@ -1,10 +1,11 @@
 import Logo from '@/assets/svg/Logo.svg';
-import LogoWhite from '@/assets/svg/Logo-white.svg'
+import LogoWhite from '@/assets/svg/Logo-white.svg';
+import Cart from '@/assets/svg/cart.svg';
+import CartHeart from '@/assets/svg/cart-heart.svg';
 import Tooltip from '../Tooltip/Tooltip';
 import { headerDTO } from './dto/headerDTO';
-import { ShoppingBagIcon, UserIcon, HeartIcon } from '@heroicons/react/24/outline'
+import {UserIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import useHeader from './headerLogic';
-import WishlistComponent from '../Wishlist/Wishlist';
 import CartComponent from '../Cart/Cart';
 import products from '@/productsData';
 import './header.css';
@@ -15,11 +16,7 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
     const {
         scrolled,
         //WISHLIST
-        isOpen, 
-        selectedIdx,
-        openWishlist, 
-        closeWishlist,
-        removeFromWishlist,
+        animationKey,
         //CART
         isOpenCart, 
         cartItems,
@@ -56,19 +53,18 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
                         </a>
                         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                             <div className="flex cartOptions">
+                                <div className="search">
+                                    <MagnifyingGlassIcon className={`colorIconHeader ${!scrolled && props.type === 'main' ? 'c-white' : ''}`}/>
+                                    <span className={`${!scrolled && props.type === 'main' ? 'c-white' : ''}`}>Buscar</span>
+                                </div>
                                 <Tooltip text="Iniciar sesión">
                                     <a className="pointer-c">
-                                        <UserIcon className={`colorIcon ${!scrolled && props.type === 'main' ? 'c-white' : ''}`} />
+                                        <UserIcon className={`colorIconHeader ${!scrolled && props.type === 'main' ? 'c-white' : ''}`} />
                                     </a>
                                 </Tooltip>
                                 <Tooltip text="Cesta">
                                     <a className='pointer-c' onClick={() => openCart()}>
-                                        <ShoppingBagIcon className={`colorIcon ${!scrolled && props.type === 'main' ? 'c-white' : ''}`} />
-                                    </a>
-                                </Tooltip>
-                                <Tooltip text="Wishlist">
-                                    <a className="pointer-c" onClick={() => openWishlist()}>
-                                        <HeartIcon className={`colorIcon ${!scrolled && props.type === 'main' ? 'c-white' : ''}`} />
+                                        <img src={animationKey ? CartHeart : Cart} className={`colorIconHeader icon-40 ${!scrolled && props.type === 'main' ? 'c-white' : ''}`} draggable="false" />
                                     </a>
                                 </Tooltip>
                             </div>
@@ -83,15 +79,6 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
                     </div>
                 </nav>
             </header>
-        
-            {isOpen && (
-                <WishlistComponent
-                    products={products}
-                    selectedIdx={selectedIdx}
-                    onClose={() => closeWishlist()}
-                    onSelectedIdxChange={removeFromWishlist}
-                />
-            )}
 
             {isOpenCart && (
                 <CartComponent
@@ -102,7 +89,7 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
                 />
             )}
 
-            {addedProduct && (
+            {addedProduct && productAdded && (
                 <ProductAdded productCode={productAdded.productCode} size={productAdded.size} />
             )}
         </>

@@ -28,11 +28,6 @@
     font-family: 'AQUAGrotesk-Medium', sans-serif;
 }
 
-.redIcon {
-    color: #e03a3a !important; 
-    animation: fill 0.5s ease-in-out;
-}
-
 .sizes {
     width: 100%;
     padding: 13px;

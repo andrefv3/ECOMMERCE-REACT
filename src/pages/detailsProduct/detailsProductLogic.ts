@@ -31,6 +31,7 @@ const useDetailsProduct = () => {
 
         if (selectSize) {
             cartContext.handleCartClick(productCode, selectSize, colorId);
+            setSelectSize(null);
         }
     };
 

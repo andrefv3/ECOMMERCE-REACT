@@ -235,9 +235,6 @@
 
   .info_buttons {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
   }
   
   .options {
@@ -303,4 +300,31 @@
     color: #fff;
     border: none;
     margin-top: 30px;
+  }
+
+  .box_button_wishlist {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+
+  }
+
+  .btnWishlist {
+    border: 0.1rem solid;
+    border-radius: 20px;
+    width: auto;
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+    background-color: #fff;
+    font-size: 13px;
+    font-family: 'AQUAGrotesk-Medium', sans-serif;
+    z-index: 3;
+  }
+
+  .btnWishlist .colorIcon {
+    width: 15px;
+    height: 15px;
   }

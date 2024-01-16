@@ -36,9 +36,26 @@
     background-color: #FFF;
 }
 
+.search {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-family: 'AQUAGrotesk-Medium', sans-serif;
+}
+
+.search .colorIconHeader {
+    width: 25px;
+    height: 25px;
+}
+
 .cartOptions {
     gap: 16px;
     padding: 15px 0px;
+    align-items: center;
 }
 
 .transparent {
@@ -56,6 +73,10 @@
     color: #FFF!important;
 }
 
+.c-white .cartIcon {
+    color: #FFF !important;
+}
+
 .logo__white {
     fill: #FFFFFF !important;
     color: #ffffff !important;
@@ -68,6 +89,19 @@
 
 .pointer-c {
     cursor: pointer;
+}
+
+.heartIconAnimation {
+    animation: heartBeat 0.5s ease-in-out;
+}
+  
+@keyframes heartBeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
 }
 
 @media screen and (max-width: 800px) {

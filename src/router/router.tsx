@@ -18,6 +18,12 @@ export const routes = [
     key: 'DetailsProduct',
     component: renderComponent('DetailsProduct'),
   },
+  {
+    title: 'Wishlist',
+    path: '/wishlist',
+    key: 'Wishlist',
+    component: renderComponent('Wishlist'),
+  },
 
   // 404 NOT FOUND
   {

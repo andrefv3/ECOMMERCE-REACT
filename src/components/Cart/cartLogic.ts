@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { CartItem, useCartContext } from "@/contexts/CartContext";
 import products from "@/productsData";
+import { useWishlistContext } from "@/contexts/WishlistContext";
 
 const useCart = () => {
     const cartData = useSelector(({ cartData }) => cartData);
     const cartItems = cartData.cart.items;
-    const cartContext = useCartContext(); // Obtén el contexto del wishlist
+    const cartContext = useCartContext();
+    const wishlistContext = useWishlistContext(); // Obtén el contexto del wishlist
     const cartBoxRef = useRef<HTMLDivElement | null>(null);
     const [filteredProducts, setFilteredProducts] = useState<CartItem[]>([]);
     const totalQuantity = cartItems.reduce((total: any, cartItem: { quantity: any; }) => total + cartItem.quantity, 0);
@@ -58,6 +60,7 @@ const useCart = () => {
         filteredProducts,
         cartBoxRef,
         cartContext,
+        wishlistContext,
     }
 }
 

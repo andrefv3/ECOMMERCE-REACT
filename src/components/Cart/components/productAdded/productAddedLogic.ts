@@ -34,7 +34,7 @@ const useProductAdded = (props: productAddedDTO) => {
             if (!isMouseOverRef.current) {
                 setIsVisible(true);
             }
-        }, 2500);
+        }, 2000);
     
         const timeoutIdClose = window.setTimeout(() => {
             if (!isMouseOverRef.current) {

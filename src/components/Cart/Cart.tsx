@@ -2,6 +2,8 @@ import { TrashIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { cartDTO } from './dto/cartDTO';
 import { formatCOP } from '@/utils/formatCurrency';
 import { CartItem } from '@/contexts/CartContext';
+import { HeartIcon } from '@heroicons/react/24/outline'
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 import cartEmpty from '@/assets/img/cartEmpty.png';
 import useCart from './cartLogic';
 import products, { Product } from '@/productsData';
@@ -14,6 +16,7 @@ export const CartComponent: React.FC<cartDTO> = () => {
         filteredProducts,
         cartBoxRef,
         cartContext,
+        wishlistContext
     } = useCart();
 
     const renderEmptyCart = () => (
@@ -39,7 +42,7 @@ export const CartComponent: React.FC<cartDTO> = () => {
                 <div className="product-image">
                     <img draggable="false" src={cartProduct.imageUrl} alt="Product"/>
                 </div>
-                <div className="flex info_buttons">
+                <div className="info_buttons">
                     <div className="info-product">
                         <div className="flex-price">
                             <span className="price-product">
@@ -78,11 +81,6 @@ export const CartComponent: React.FC<cartDTO> = () => {
                                 <p className='quantity-info'>{`${product.quantity}x`}</p>
                             )}
                             {formatCOP(cartProduct.price)}
-                        </div>
-                    </div>
-                    <div className="rightSec">
-                        <div className="options">
-                            
                         </div>
                     </div>
                 </div>
@@ -124,11 +122,25 @@ export const CartComponent: React.FC<cartDTO> = () => {
                     </button>
                 </div>
                 <div className="carousel-cart">
-                {totalQuantity === 0 ? renderEmptyCart() : filteredProducts.map((product: CartItem) => (
-                    <div key={product.productCode}>
-                        {renderCartItem(product)}
+                    <div className="box_button_wishlist">
+                        <a href="/wishlist">
+                            <button className='btnWishlist'>
+                                <span>
+                                    {wishlistContext.selectedIdx.length != 0 ? (
+                                        <HeartIconSolid className='colorIcon redIcon' />
+                                    ) : (
+                                        <HeartIcon className='colorIcon' />
+                                    )}
+                                </span>
+                                <span>Favoritos ({wishlistContext.selectedIdx.length})</span>
+                            </button>
+                        </a>
                     </div>
-                ))}
+                    {totalQuantity === 0 ? renderEmptyCart() : filteredProducts.map((product: CartItem) => (
+                        <div key={product.productCode}>
+                            {renderCartItem(product)}
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

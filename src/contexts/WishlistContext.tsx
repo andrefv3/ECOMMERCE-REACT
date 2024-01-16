@@ -6,11 +6,8 @@ import products, { Product } from '@/productsData';
 
 interface WishlistContextProps {
   products: Product[];
-  isOpen: boolean;
   selectedIdx: number[];
-  openWishlist: () => void;
-  closeWishlist: () => void;
-  toggleWishlist: () => void;
+  animationKey: boolean;
   removeFromWishlist: (productId: number) => void;
   handleWishlistClick: (productCode: number) => void;
 }
@@ -18,15 +15,11 @@ interface WishlistContextProps {
 const WishlistContext = createContext<WishlistContextProps | undefined>(undefined);
 
 export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false); // STATE FOR OPEN/CLOSE WISHLIST
   const [selectedIdx, setSelectedIdx] = useState<number[]>([]); // STATE FOR MANAGE ID SELECTED OF WISHLIST
+  const [animationKey, setAnimationKey] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const wishlistData = useSelector(({ wishlistData }) => wishlistData); //CAPTURE DATA CURRENT OF STORAGE
-
-  const openWishlist = () => setIsOpen(true);
-  const closeWishlist = () => setIsOpen(false);
-  const toggleWishlist = () => setIsOpen((prev) => !prev);
 
   // FUNCTION FOR DELETE PRODUCTS OF WISHLIST
   const removeFromWishlist = (productCode: number) => {
@@ -40,9 +33,15 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
     setSelectedIdx((prevSelectedIdx) => {
       const updatedSelectedIdx = prevSelectedIdx.includes(productCode) ? prevSelectedIdx.filter((code) => code !== productCode) : [...prevSelectedIdx, productCode];
       dispatch(setDataWishlist({ updatedSelectedIdx }));
+      setAnimationKey(true);
       return updatedSelectedIdx;
     });
   };
+
+  useEffect(() => {
+    const hasWishlistItems = Array.isArray(wishlistData?.wishlist?.updatedSelectedIdx) && wishlistData.wishlist.updatedSelectedIdx.length > 0;
+    setAnimationKey(hasWishlistItems);
+  }, [wishlistData]);
 
   // USEEFFECT FOR UPDATE DATA IN LOCALSTORAGE
   useEffect(() => {
@@ -53,7 +52,7 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
   }, [wishlistData]);
 
   return (
-    <WishlistContext.Provider value={{ products, isOpen, selectedIdx, openWishlist, closeWishlist, toggleWishlist, removeFromWishlist, handleWishlistClick }}>
+    <WishlistContext.Provider value={{ products, selectedIdx, animationKey, removeFromWishlist, handleWishlistClick }}>
       {children}
     </WishlistContext.Provider>
   );

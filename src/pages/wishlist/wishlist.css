@@ -1,0 +1,89 @@
+.wishlistContain {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.productWishlist {
+    width: 92%;
+    margin: 10px auto;
+    position: relative;
+}
+
+.titleWishlist {
+    text-align: left;
+    width: 100%;
+    padding: 10px 60px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    line-height: 24px;
+    font-size: 1.25rem;
+}
+
+.emptyWishlist {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .emptyWishlist h2 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .emptyWishlist p {
+    font-size: .875rem;
+    font-weight: 400;
+    max-width: 296px 
+  }
+
+  .emptyWishlist img {
+    width: 240px;
+  }
+
+  .emptyWishlist button {
+    color: #fff;
+    border: none;
+    margin-top: 30px;
+}
+
+.btnMoveToCart {
+    color: #000;
+    background: #fff;
+    border: solid #000;
+}
+
+
+.sizes_wishlist {
+    width: 100%;
+    padding: 13px 20px;
+    position: absolute;
+    bottom: 0;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    border-width: 1px;
+    border-color: #e1e1e1;
+    font-family: 'AQUAGrotesk-Medium', sans-serif;
+}
+
+.sizes_wishlist p {
+    font-size: 15px;
+    font-weight: 500;
+    text-align: left;
+    font-family: 'Poppins', sans-serif;
+}
+
+.sizeProduct.selected {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+}
