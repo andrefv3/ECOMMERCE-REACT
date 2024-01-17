@@ -1,0 +1,143 @@
+#Search-wrapper {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    background: #fff;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    animation: 600ms cubic-bezier(0.59, 0.01, 0.28, 1) 0s 1 normal forwards running slideInSearch;
+}
+
+.content--wrapper {
+    margin: 80px auto 40px;
+    width: 90%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.search_bar {
+    position: relative;
+    border: 0px;
+    margin: 0px;
+    border-radius: 0px;
+    width: 100%;
+    align-items: center;
+    padding: 0px;
+    height: 60px;
+    display: flex;
+    border-bottom: 1px solid #000;
+    font-family: 'Poppins', sans-serif;
+}
+
+.search_bar svg {
+    margin-top: 6px;
+    margin-right: 13px;
+    padding: 0px;
+    writing-mode: horizontal-tb !important;
+}
+
+.search_bar input {
+    width: 100%;
+    font-size: 26px;
+    transition: font-size 0.2s ease-in-out 0s;
+    outline: none;
+    padding-right: 10px;
+    writing-mode: horizontal-tb !important;
+    padding-right: 25px;
+}
+
+.is-capitalized {
+    text-transform: capitalize;
+}
+
+.btnDeleteWords {
+    padding: 0px;
+    margin-left: 10px;
+    border-radius: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    cursor: pointer;
+}
+
+.btnDeleteWords svg {
+    margin: auto;
+    width: 35px;
+    height: 35px;
+    color: #8e8e8e;
+}
+
+.recommended {
+    width: 100%;
+    height: 680px;
+    padding: 0px 0px 120px 0px;
+    max-height: 90%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 30px auto;
+    scroll-behavior: auto;
+}
+
+.recommended h1 {
+    margin: 24px 0px 18px;
+    padding: 0px;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    font-size: 24px;
+    font-family: 'AQUAGrotesk-Medium', sans-serif;
+    text-align: left;
+}
+
+.scroll_products {
+    width: 100%;
+    height: 100%;
+    max-height: 90%;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(187px, 20%));
+    gap: 15px 10px;
+    grid-auto-rows: 1fr;
+    justify-content: flex-start;
+    overflow-x: visible;
+    overflow-y: auto;
+}
+
+.example {
+    width: 100%;
+    height: 367px;
+    background-color: #000;
+}
+
+input[type="search"] {
+    appearance: textfield;
+}
+
+input[type="search" i] {
+    appearance: auto;
+    box-sizing: border-box;
+    writing-mode: horizontal-tb !important;
+    padding-block: 1px;
+    padding-inline: 2px;
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-clear-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+@keyframes slideInSearch {
+    0% {
+        max-height: 0px;
+    }
+    
+    100% {
+        max-height: calc(8.57px * 100);
+    }
+}

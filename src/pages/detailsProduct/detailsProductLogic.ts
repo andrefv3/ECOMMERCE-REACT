@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const useDetailsProduct = () => {
-    const [wishlistState, setWishlistState] = useState(false);
     const [containerFixed, setContainerFixed] = useState(false);
     const [selectSize, setSelectSize] = useState<string | null>(null);
     const [hovered, setHovered] = useState(false);
@@ -17,10 +16,6 @@ const useDetailsProduct = () => {
     const { id } = useParams<{ id?: string }>();
     const productId = id ? parseInt(id, 10) : 0;
     const product: Product | undefined = productId ? products.find((p) => p.productCode === productId) : undefined;
-
-    const toggleWishlistState = () => {
-        setWishlistState(!wishlistState);
-    };
 
     const handleSizeClick = (size: string) => {
         setSelectSize(size);
@@ -56,7 +51,6 @@ const useDetailsProduct = () => {
         product,
         selectSize,
         containerFixed,
-        toggleWishlistState,
         handleSizeClick,
         handleAddToCart,
         hovered,

@@ -14,7 +14,6 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
         product,
         selectSize,
         containerFixed,
-        toggleWishlistState,
         handleSizeClick,
         handleAddToCart,
         hovered, 
@@ -32,12 +31,19 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
 
     return (
         <>
-            <HeaderComponent 
-                toggleWishlist={toggleWishlistState} 
-            />
+            <HeaderComponent />
             <section className="info__cproduct relative" ref={infoCProductRef}>
                 <div className="images__cproduct">
-                    <img src={product.imageUrl} alt={product.name} />
+                    <div className="container mx-auto ">
+                        <div className="grid grid-cols-2 gap-2">
+                            <li className="product_img_detail">
+                                <img src={product.imageUrl} alt={product.name} />
+                            </li>
+                            <img src={product.imageUrl} alt={product.name} />
+                            <img src={product.imageUrl} alt={product.name} />
+                            <img src={product.imageUrl} alt={product.name} />
+                        </div>
+                    </div>
                 </div>
 
                 <div id="containerProduct" className={containerFixed ? "fixed__details" : ""}>

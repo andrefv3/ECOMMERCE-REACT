@@ -9,7 +9,6 @@ import './wishlist.css';
 
 export const Wishlist: React.FC<any> = () => {  
     const {
-        toggleWishlistState,
         handleOpenDetails,
         handleToggleSizes,
         setSelectedSizes,
@@ -79,9 +78,7 @@ export const Wishlist: React.FC<any> = () => {
     
     return (
         <section className="wishlistContain">
-            <HeaderComponent 
-                toggleWishlist={toggleWishlistState} 
-            />
+            <HeaderComponent />
             <div className="titleWishlist">
                 <h3>Favoritos ({filteredProducts.length})</h3>
             </div>

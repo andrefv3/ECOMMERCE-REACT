@@ -1,12 +1,13 @@
 .info__cproduct {
     margin-top: 50px;
-    width: 100%;
+    width: 90%;
+    margin: 50px auto;
     position: relative;
     display: flex;
 }
 
 .images__cproduct {
-    width: 60%;
+    width: 68%;
 }
 
 .images__cproduct img {
@@ -14,15 +15,25 @@
 }
 
 #containerProduct {
-    width: 40%;
+    width: 32%;
     padding: 40px;
-    right: 0;
+}
+
+.product_img_detail {
+    list-style: none;
+}
+
+.product_img_detail img {
+    cursor: url('/src/assets/img/cursors/cursor-zoom-in.png') 28 0, auto;
 }
 
 .fixed__details {
     position: fixed;
     height: 100%;
+    width: 33.8% !important;
     top: 0px;
+    right: 0;
+    padding: 40px 70px 40px 40px !important;
 }
 
 .buttonSize__cproducts {

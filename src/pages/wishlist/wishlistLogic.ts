@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const useWishlist = () => {
-    const [wishlistState, setWishlistState] = useState(false);
     const [selectedSizes, setSelectedSizes] = useState<{ [productCode: number]: string }>({});
     const [selectedIdx, setSelectedIdx] = useState<number[]>([]);
     const [showSizes, setShowSizes] = useState<{ [productCode: number]: boolean }>({});
@@ -17,10 +16,6 @@ const useWishlist = () => {
     const cartContext = useCartContext();
     const navigate = useNavigate();
     
-    const toggleWishlistState = () => {
-        setWishlistState(!wishlistState);
-    };
-
     const handleSizeSelection = (productCode: number, size: string) => {
         setSelectedSizes((prevSelectedSizes) => ({
             ...prevSelectedSizes,
@@ -73,7 +68,6 @@ const useWishlist = () => {
     }, [wishlistData, wishlistContext]);
 
     return {
-        toggleWishlistState,
         handleOpenDetails,
         handleToggleSizes,
         setSelectedSizes,

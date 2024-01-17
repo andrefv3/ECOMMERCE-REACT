@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import banner from '@/assets/img/Banner.png';
 import { HeaderComponent } from '@/components/Header/Header';
 import { RecentClothes } from '@/components/RecentClothes/RecentClothes';
@@ -7,15 +6,9 @@ import products from '@/productsData';
 import './home.css'
 
 function Home() {
-  const [wishlistState, setWishlistState] = useState(false);
-
-  const toggleWishlistState = () => {
-    setWishlistState(!wishlistState);
-  };
-
   return (
     <>
-      <HeaderComponent toggleWishlist={toggleWishlistState} type='main'/>
+      <HeaderComponent type='main'/>
       <div className='Banner relative'>
         <img src={banner} draggable="false"/>
         <div className="titles">

@@ -1,9 +1,23 @@
+#Header__contain {
+    z-index: 4;
+}
+
+.fixedHeader {
+    position: fixed;
+    width: 100%;
+    top: 0px;
+}
+
 .gender {
     letter-spacing: .5px;
     text-transform: uppercase;
     font-weight: 600;
     margin-right: 20px;
     font-size: 13.5px;
+}
+
+.header__shopi {
+    padding: 1rem 70px;
 }
 
 .Logo {

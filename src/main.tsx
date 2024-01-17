@@ -8,6 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { WishlistProvider } from './contexts/WishlistContext.tsx';
 import { CartProvider } from './contexts/CartContext.tsx';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { SearchProvider } from './contexts/SearchContext.tsx';
 import './index.css';
 
 const root = ReactDOM.createRoot(
@@ -33,21 +34,23 @@ root.render(
       <PersistGate persistor={persistor}>
         <React.StrictMode>
           <BrowserRouter>
-          <CartProvider>
-            <WishlistProvider>
-              <Routes>
-                {routes.map((value) => {
-                  return (
-                    <Route 
-                      key={value.key} 
-                      path={value.path}
-                      element={value.component}>
-                    </Route>
-                  )
-                })}
-              </Routes>
-            </WishlistProvider>
-          </CartProvider>
+            <SearchProvider>
+              <CartProvider>
+                <WishlistProvider>
+                  <Routes>
+                    {routes.map((value) => {
+                      return (
+                        <Route 
+                          key={value.key} 
+                          path={value.path}
+                          element={value.component}>
+                        </Route>
+                      )
+                    })}
+                  </Routes>
+                </WishlistProvider>
+              </CartProvider>
+            </SearchProvider>
           </BrowserRouter>
         </React.StrictMode>
       </PersistGate>
