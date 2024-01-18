@@ -1,5 +1,6 @@
 #Header__contain {
     z-index: 4;
+    max-height: 96px;
 }
 
 .fixedHeader {

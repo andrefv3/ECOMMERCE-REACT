@@ -37,8 +37,8 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
     return (
         <>
             <header className={`${!isOpenSearch ? 'relative' : 'fixedHeader'}`} id="Header__contain">
-                <nav className={`${!isOpenSearch && props.type === "main" ? 'fixed' : ''} w-full z-20 top-0 start-0  border-gray-200 ${
-                    scrolled ? 'bg-white' : 'transparent'
+                <nav className={`${isOpenSearch || props.type === "main" ? 'fixed' : ''} w-full z-20 top-0 start-0  border-gray-200 ${
+                    scrolled || isOpenSearch ? 'bg-white' : 'transparent'
                 }`}>
                     <div className="header__shopi flex flex-wrap items-center justify-between mx-auto w-full">
                         <div className="items-center justify-between hidden w-full md:flex md:w-auto " id="navbar-sticky">
