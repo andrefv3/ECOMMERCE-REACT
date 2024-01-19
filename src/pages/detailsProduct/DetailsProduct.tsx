@@ -65,15 +65,15 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
                         <div className="flex AddWishlistCart">
                             <button
                             className={`btnAddProduct ${hovered && !selectSize ? 'hovered' : ''}`}
-                            onClick={() => handleAddToCart(product.productCode)}
+                            onClick={() => handleAddToCart(product.id)}
                             onMouseOver={() => setHovered(true)}
                             onMouseOut={() => setHovered(false)}
                             disabled={!selectSize}
                             >
                                 {(!selectSize && hovered) ? 'Selecciona talla' : 'Añadir a la cesta'}
                             </button>
-                            <div className="btn__wishlist__cproduct" onClick={() => wishlistContext.handleWishlistClick(product.productCode)}>
-                                {wishlistContext.selectedIdx.includes(product.productCode) ? (
+                            <div className="btn__wishlist__cproduct" onClick={() => wishlistContext.handleWishlistClick(product.id)}>
+                                {wishlistContext.selectedIdx.includes(product.id) ? (
                                     <HeartIconSolid className='colorIcon redIcon' />
                                 ) : (
                                     <HeartIcon className='colorIcon' />

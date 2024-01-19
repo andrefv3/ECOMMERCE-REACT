@@ -1,104 +1,30 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { HeartIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { XCircleIcon } from "@heroicons/react/24/solid";
-import { useEffect, useRef, useState } from "react";
-import { useSearchContext } from "@/contexts/SearchContext";
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
+import { formatCOP } from "@/utils/formatCurrency";
+import SearchEmpty from '@/assets/img/searchEmpty.png';
+import useSearch from "./searchLogic";
 import './search.css';
-import products, { Product } from "@/productsData";
 
 export const SearchComponent: React.FC<any> = () => {
-    const [search, setSearch] = useState<string>('');
-    const [scrollTop, setScrollTop] = useState(0);
-    const [boxSearchHeight, setBoxSearchHeight] = useState(0);
-    const [suggestions, setSuggestions] = useState<Product[]>([]);
-    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-    const [searched, setSearched] = useState<boolean>(false);
-    const BoxSearchRef = useRef<HTMLDivElement>(null);
-    const { isOpenSearch } = useSearchContext();
-
-    useEffect(() => {
-        // Filtrar productos que coincidan con el término de búsqueda
-        const matchingProducts = products.filter(product =>
-          product.name.toLowerCase().includes(search.toLowerCase())
-        );
-    
-        setFilteredProducts(matchingProducts);
-    }, [search]);
-
-    useEffect(() => {
-        const handleOverflow = () => {
-          if (isOpenSearch || search) {
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.overflow = 'hidden';
-          } else {
-            document.body.style.overflow = 'auto';
-            document.documentElement.style.overflow = 'auto';
-          }
-        };
-    
-        handleOverflow();
-    
-        return () => {
-          document.body.style.overflow = 'auto';
-          document.documentElement.style.overflow = 'auto';
-        };
-    }, [isOpenSearch, search]);
-
-    useEffect(() => {
-        const handleScroll = () => {
-          setScrollTop(window.scrollY);
-        };
-    
-        // Suscripción al evento de scroll
-        window.addEventListener('scroll', handleScroll);
-    
-        // Limpieza del evento al desmontar el componente
-        return () => {
-          window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
-    useEffect(() => {
-        if (BoxSearchRef.current) {
-          const height = BoxSearchRef.current.getBoundingClientRect().height;
-          setBoxSearchHeight(height);
-        }
-    }, [BoxSearchRef]);
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const searchTerm = event.target.value.toLowerCase();
-        setSearch(searchTerm);
-    
-        if (searchTerm.length < 2) {
-            setSuggestions([]);
-            return;
-        }
-    
-        // Filtrar productos que coincidan con el término de búsqueda
-        const matchingProducts = products.filter(product =>
-          product.name.toLowerCase().includes(searchTerm)
-        );
-    
-        setSuggestions(matchingProducts);
-    };
-
-    const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-          setSuggestions([]);
-          setSearched(true);
-        }
-    };
-    
-    const handleSuggestionClick = (suggestion: Product) => {
-        setSearch(suggestion.name);
-        setSuggestions([]); 
-        setSearched(true);
-    };
-
-    const handleClearSearch = () => {
-        setSearch('');
-        setSuggestions([]);
-        setSearched(false);
-    };
+    const {
+        search,
+        searched,
+        filteredProducts,
+        scrollTop,
+        boxSearchHeight,
+        BoxSearchRef,
+        suggestions,
+        showSizes,
+        wishlistContext,
+        //cartContext,
+        handleInputChange,
+        handleEnterKeyPress,
+        handleSuggestionClick,
+        handleClearSearch,
+        handleOpenDetails,
+        handleToggleSizes
+    } = useSearch();
 
     return (
         <section id="Search-wrapper" className={search ? 'no-overflow' : ''}>
@@ -134,7 +60,7 @@ export const SearchComponent: React.FC<any> = () => {
                             {suggestions.map((product) => (
                             <li 
                                 className="suggestion__item" 
-                                key={product.productCode}
+                                key={product.id}
                                 onClick={() => handleSuggestionClick(product)}
                             >
                                 <MagnifyingGlassIcon className="icon--suggestion" />
@@ -167,12 +93,55 @@ export const SearchComponent: React.FC<any> = () => {
                         )}
 
                         {searched && filteredProducts.length > 0 && (
-                            <div className="filtered-products">
-                                <ul>
-                                {filteredProducts.map((product) => (
-                                    <li key={product.productCode}>{product.name}</li>
+                            <div className="filtered-products grid-container ">
+                                {filteredProducts.map((product, index) => (
+                                    <div className="c-image" key={index}>
+                                        <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.id)}>
+                                            <figure className="figure" onMouseEnter={() => handleToggleSizes(product.id, true)} onMouseLeave={() => handleToggleSizes(product.id, false)}>
+                                                <div className="overlay"></div>
+                                                <img draggable="false" className="image-responsive" lazy-load-status="is-loaded" src={product.imageUrl} />
+                                                {showSizes[product.id] && (
+                                                    <div className="sizes" onClick={(e) => e.stopPropagation()} >
+                                                        <p>Seleccione talla</p>
+                                                        <div className="sizesContainer">
+                                                            {/* {product.sizes.map((size: string) => (
+                                                                <button key={size} className="sizeProduct" onClick={() => cartContext.handleCartClick(product.productCode, size, 0)}>
+                                                                    {size}
+                                                                </button>
+                                                            ))} */}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </figure>
+                                        </div>
+                                        <div className="cproduct-info">
+                                            <div className="name">
+                                                <span>{product.name}</span>
+                                            </div>
+                                            <div className="price">
+                                                <span>{formatCOP(product.price)}</span>
+                                            </div>
+                                            <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.id)}>
+                                                {wishlistContext.selectedIdx.includes(product.id) ? (
+                                                    <HeartIconSolid className='colorIcon redIcon' />
+                                                ) : (
+                                                    <HeartIcon className='colorIcon' />
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
                                 ))}
-                                </ul>
+                            </div>
+                        )}
+
+                        {searched && filteredProducts.length === 0 && (
+                            <div className="noResults">
+                                <div className="emptyProducts">
+                                    <img src={SearchEmpty} draggable="false"/>
+                                    <h2 className="empty--title">Oops!</h2>
+                                    <p className="text">No hemos encontrado resultados.</p>
+                                    <p className="text">Prueba de nuevo o echa un vistazo a la selección que tenemos para ti.</p>
+                                </div>
                             </div>
                         )}
                     </div>

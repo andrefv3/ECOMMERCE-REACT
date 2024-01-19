@@ -21,16 +21,16 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {props.products.map((product, index) => (
                     <div key={index} className="c-image">
-                        <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.productCode)}>
-                            <figure className="figure" onMouseEnter={() => handleToggleSizes(product.productCode, true)} onMouseLeave={() => handleToggleSizes(product.productCode, false)}>
+                        <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.id)}>
+                            <figure className="figure" onMouseEnter={() => handleToggleSizes(product.id, true)} onMouseLeave={() => handleToggleSizes(product.id, false)}>
                                 <div className="overlay"></div>
                                 <img draggable="false" alt="Sudadera Scarface negra , NEGRO" className="image-responsive" lazy-load-status="is-loaded" src={product.imageUrl} />
-                                {showSizes[product.productCode] && (
+                                {showSizes[product.id] && (
                                     <div className="sizes" onClick={(e) => e.stopPropagation()} >
                                         <p>Seleccione talla</p>
                                         <div className="sizesContainer">
                                             {product.sizes.map((size: string) => (
-                                                <button key={size} className="sizeProduct" onClick={() => cartContext.handleCartClick(product.productCode, size, 0)}>
+                                                <button key={size} className="sizeProduct" onClick={() => cartContext.handleCartClick(product.id, size, 0)}>
                                                     {size}
                                                 </button>
                                             ))}
@@ -46,8 +46,8 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
                             <div className="price">
                                 <span>{formatCOP(product.price)}</span>
                             </div>
-                            <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.productCode)}>
-                                {selectedIdx.includes(product.productCode) ? (
+                            <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.id)}>
+                                {selectedIdx.includes(product.id) ? (
                                     <HeartIconSolid className='colorIcon redIcon' />
                                 ) : (
                                     <HeartIcon className='colorIcon' />

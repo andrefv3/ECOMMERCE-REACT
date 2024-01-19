@@ -35,23 +35,23 @@ export const Wishlist: React.FC<any> = () => {
     const renderWishlistItem = (product: Product) => (
         <>
             <div className="c-image">
-                <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.productCode)}>
-                    <figure className="figure" onMouseEnter={() => handleToggleSizes(product.productCode, true)} onMouseLeave={() => handleToggleSizes(product.productCode, false)}>
+                <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.id)}>
+                    <figure className="figure" onMouseEnter={() => handleToggleSizes(product.id, true)} onMouseLeave={() => handleToggleSizes(product.id, false)}>
                         <div className="overlay"></div>
                         <img draggable="false" alt="Sudadera Scarface negra , NEGRO" className="image-responsive" lazy-load-status="is-loaded" src={product.imageUrl} />
-                        {showSizes[product.productCode] && (
+                        {showSizes[product.id] && (
                             <div className="sizes_wishlist" onClick={(e) => e.stopPropagation()} >
                                 <p>Seleccione talla</p>
                                 <div className="sizesContainer">
                                     {product.sizes.map((size: string) => (
-                                        <button key={size} className={`sizeProduct ${selectedSizes[product.productCode] === size ? 'selected' : ''}`} onClick={() => setSelectedSizes({ ...selectedSizes, [product.productCode]: size })}>
+                                        <button key={size} className={`sizeProduct ${selectedSizes[product.id] === size ? 'selected' : ''}`} onClick={() => setSelectedSizes({ ...selectedSizes, [product.id]: size })}>
                                             {size}
                                         </button>
                                     ))}
                                 </div>
                                 <button className="btnMoveToCart" onClick={() => {
                                     handleMoveToCart(product);
-                                    handleSizeSelection(product.productCode, selectedSizes[product.productCode])}
+                                    handleSizeSelection(product.id, selectedSizes[product.id])}
                                 }>Mover a la cesta</button>
                             </div>
                         )}
@@ -64,8 +64,8 @@ export const Wishlist: React.FC<any> = () => {
                     <div className="price">
                         <span>{formatCOP(product.price)}</span>
                     </div>
-                    <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.productCode)}>
-                        {selectedIdx.includes(product.productCode) ? (
+                    <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.id)}>
+                        {selectedIdx.includes(product.id) ? (
                             <HeartIconSolid className='colorIcon redIcon' />
                         ) : (
                             <HeartIcon className='colorIcon' />
@@ -85,7 +85,7 @@ export const Wishlist: React.FC<any> = () => {
             <div className="productWishlist">
                 <div className="grid grid-cols-4 md:grid-cols-3 lg:grid-cols-4 gap-8">
                     {filteredProducts.length === 0 ? renderEmptyWishlist() : filteredProducts.map((product: Product) => (
-                        <div key={product.productCode}>
+                        <div key={product.id}>
                             {renderWishlistItem(product)}
                         </div>
                     ))}

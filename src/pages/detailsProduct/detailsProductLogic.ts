@@ -15,7 +15,7 @@ const useDetailsProduct = () => {
 
     const { id } = useParams<{ id?: string }>();
     const productId = id ? parseInt(id, 10) : 0;
-    const product: Product | undefined = productId ? products.find((p) => p.productCode === productId) : undefined;
+    const product: Product | undefined = productId ? products.find((p) => p.id === productId) : undefined;
 
     const handleSizeClick = (size: string) => {
         setSelectSize(size);

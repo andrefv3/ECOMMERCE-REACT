@@ -31,7 +31,7 @@ export const CartComponent: React.FC<cartDTO> = () => {
     );
 
     const renderCartItem = (product: CartItem) => {
-        const cartProduct = products.find((item: Product) => item.productCode === product.productCode);
+        const cartProduct = products.find((item: Product) => item.id === product.productCode);
     
         if (!cartProduct) {
             return null;
