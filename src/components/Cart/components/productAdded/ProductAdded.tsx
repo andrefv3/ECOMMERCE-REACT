@@ -42,7 +42,18 @@ export const ProductAdded: React.FC<productAddedDTO> = (props: productAddedDTO) 
 
                 <div className="flex-info">
                     <div className="product-image">
-                        <img draggable="false" src={addedProduct.imageUrl} alt={addedProduct.name}/>
+                        {addedProduct.images.map(image => (
+                            image.seqNum === 1 && (
+                                <img
+                                    key={image.seqNum}
+                                    draggable="false"
+                                    className="image-responsive"
+                                    lazy-load-status="is-loaded"
+                                    src={image.url}
+                                    alt={image.name}
+                                />
+                            )
+                        ))}
                     </div>
                     <div className="info-product-add">
                         <span className="price-product-add">

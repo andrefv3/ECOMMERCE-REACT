@@ -36,12 +36,11 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
                 <div className="images__cproduct">
                     <div className="container mx-auto ">
                         <div className="grid grid-cols-2 gap-2">
-                            <li className="product_img_detail">
-                                <img src={product.imageUrl} alt={product.name} />
-                            </li>
-                            <img src={product.imageUrl} alt={product.name} />
-                            <img src={product.imageUrl} alt={product.name} />
-                            <img src={product.imageUrl} alt={product.name} />
+                            {product.images.map(image => (
+                                <li className="product_img_detail" key={image.seqNum}>
+                                    <img src={image.url} alt={image.name} />
+                                </li>  
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -53,27 +52,31 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
                         <span className="price__cproduct">{formatCOP(product.price)}</span>
 
                         <div className="colors__cproduct">
-                            <img draggable="false" src={product.imageUrl} />
+                            {product.images.map(image => (
+                                image.seqNum === 1 ? (
+                                    <img key={image.seqNum} draggable="false" src={image.url} alt={image.name} />
+                                ) : null
+                            ))}
                         </div>
                         
                         <div className="buttonSize__cproducts">
                             {product.sizes.map((size, index) => (
-                                <button key={index} className={`size__cproduct ${selectSize === size ? 'selected' : ''}`} onClick={() => handleSizeClick(size)}>{size}</button>
+                                <button key={index} className={`size__cproduct ${selectSize === size.id ? 'selected' : ''}`} onClick={() => handleSizeClick(size.id)}>{size.name}</button>
                             ))}
                         </div>
 
                         <div className="flex AddWishlistCart">
                             <button
                             className={`btnAddProduct ${hovered && !selectSize ? 'hovered' : ''}`}
-                            onClick={() => handleAddToCart(product.productCode)}
+                            onClick={() => handleAddToCart(product.id)}
                             onMouseOver={() => setHovered(true)}
                             onMouseOut={() => setHovered(false)}
                             disabled={!selectSize}
                             >
                                 {(!selectSize && hovered) ? 'Selecciona talla' : 'Añadir a la cesta'}
                             </button>
-                            <div className="btn__wishlist__cproduct" onClick={() => wishlistContext.handleWishlistClick(product.productCode)}>
-                                {wishlistContext.selectedIdx.includes(product.productCode) ? (
+                            <div className="btn__wishlist__cproduct" onClick={() => wishlistContext.handleWishlistClick(product.id)}>
+                                {wishlistContext.selectedIdx.includes(product.id) ? (
                                     <HeartIconSolid className='colorIcon redIcon' />
                                 ) : (
                                     <HeartIcon className='colorIcon' />

@@ -10,7 +10,11 @@ function Home() {
     <>
       <HeaderComponent type='main'/>
       <div className='Banner relative'>
-        <img src={banner} draggable="false"/>
+        <img
+          src={banner}
+          alt="Banner Image"
+          draggable="false"
+        />
         <div className="titles">
           <p className='subBanner'>New Collection</p>
           <h1 className='tituloBanner'>Gift 

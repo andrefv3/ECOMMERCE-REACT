@@ -4,9 +4,10 @@ import'./tooltip.css';
 
 interface ExtendedTooltipProps extends TooltipProps {
   position?: 'top' | 'bottom' | 'left' | 'right';
+  type?: 'SoldOut' 
 }
 
-const Tooltip: React.FC<ExtendedTooltipProps> = ({ text, children, position = 'bottom' }) => {
+const Tooltip: React.FC<ExtendedTooltipProps> = ({ text, children, position = 'bottom', type }) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   const getTooltipStyle = (): CSSProperties => {
@@ -24,11 +25,16 @@ const Tooltip: React.FC<ExtendedTooltipProps> = ({ text, children, position = 'b
   };
 
   return (
-    <div className="relative inline-block" onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)}>
+    <div className={`relative inline-block ${type ? 'tooltip__size': ''}`} onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)}>
       {children}
       {showTooltip && (
-        <div className="ToolTip absolute bg-gray-800 text-white rounded-md shadow-md z-10" style={getTooltipStyle()}>
-          {text}
+        <div className={type ? 'TooltipBox' : ''}>
+          {type && (
+            <div className="triangle"></div>
+          )}
+          <div className={`ToolTip ${!type ? 'bg-gray-800 text-white' : 'bg-white text-dark SoldOut'} absolute rounded-md shadow-md z-10`} style={getTooltipStyle()}>
+            {text}
+          </div>
         </div>
       )}
     </div>

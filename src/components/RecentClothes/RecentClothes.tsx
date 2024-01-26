@@ -4,6 +4,8 @@ import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 import { RecentClothesDTO } from './dto/recentClothesDTO';
 import useRecentClothes from './recentClothesLogic';
 import { formatCOP } from '@/utils/formatCurrency';
+import { Sizes } from '@/productsData';
+import Tooltip from '../Tooltip/Tooltip';
 
 export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDTO) => {
     const {
@@ -15,24 +17,49 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
         handleOpenDetails,
     } = useRecentClothes();
 
+    // const SkeletonProducts = () => {
+    //     return (
+    //       <div className="skeleton bg-gray-200 w-full mb-4 animate-pulse"></div>
+    //     );
+    // };
+
     return (
         <section id="RecentProducts">
             <h1 className="title__section text-4xl font-bold mb-8">The Gifts Shops</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {props.products.map((product, index) => (
                     <div key={index} className="c-image">
-                        <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.productCode)}>
-                            <figure className="figure" onMouseEnter={() => handleToggleSizes(product.productCode, true)} onMouseLeave={() => handleToggleSizes(product.productCode, false)}>
+                        <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.id)}>
+                            <figure className="figure" onMouseEnter={() => handleToggleSizes(product.id, true)} onMouseLeave={() => handleToggleSizes(product.id, false)}>
                                 <div className="overlay"></div>
-                                <img draggable="false" alt="Sudadera Scarface negra , NEGRO" className="image-responsive" lazy-load-status="is-loaded" src={product.imageUrl} />
-                                {showSizes[product.productCode] && (
+                                {product.images.map(image => (
+                                    <img
+                                        key={image.seqNum}
+                                        draggable="false"
+                                        className="image-responsive"
+                                        lazy-load-status="is-loaded"
+                                        src={image.url}
+                                        alt={image.name}
+                                        width="571"
+                                        height="857"
+                                    />
+                                ))}
+                                {showSizes[product.id] && (
                                     <div className="sizes" onClick={(e) => e.stopPropagation()} >
                                         <p>Seleccione talla</p>
                                         <div className="sizesContainer">
-                                            {product.sizes.map((size: string) => (
-                                                <button key={size} className="sizeProduct" onClick={() => cartContext.handleCartClick(product.productCode, size, 0)}>
-                                                    {size}
-                                                </button>
+                                            {product.sizes.map((size: Sizes) => (
+                                                 size.stockQuantity === 0 ? (
+                                                    <Tooltip text={size.stockQuantity === 0 ? 'Agotado' : ''} type='SoldOut'>
+                                                        <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, 0)}>
+                                                            {size.name}
+                                                        </button>
+                                                    </Tooltip>
+                                                ) : (
+                                                    <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, 0)}>
+                                                        {size.name}
+                                                    </button>
+                                                )
                                             ))}
                                         </div>
                                     </div>
@@ -46,8 +73,8 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
                             <div className="price">
                                 <span>{formatCOP(product.price)}</span>
                             </div>
-                            <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.productCode)}>
-                                {selectedIdx.includes(product.productCode) ? (
+                            <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.id)}>
+                                {selectedIdx.includes(product.id) ? (
                                     <HeartIconSolid className='colorIcon redIcon' />
                                 ) : (
                                     <HeartIcon className='colorIcon' />

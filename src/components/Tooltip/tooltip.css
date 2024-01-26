@@ -11,3 +11,37 @@
 .BoxTooltip {
     position: relative;
 }
+
+.SoldOut {
+    filter: drop-shadow(1px 0px 2px rgb(225, 225, 225));
+    font-size: 12px!important;
+    padding: 8px 17px !important;
+}
+
+.tooltip__size {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.TooltipBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    margin-top: 40px;
+    color: #878787;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+}
+
+.triangle {
+    width: 0; 
+    height: 0; 
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 11.6px solid #ffffff;
+    margin-bottom: -10px; 
+    filter: drop-shadow(0px -1px 1px rgb(225, 225, 225));
+    z-index: 11;
+}

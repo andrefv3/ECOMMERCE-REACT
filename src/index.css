@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=ABeeZee&family=DM+Sans:wght@400;500&family=Dancing+Script:wght@400;500;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Palanquin:wght@100;200;300;400;500;600;700&family=Poppins:wght@300;500;600;700;800;900&family=Quicksand:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100;0,300;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=ABeeZee&family=DM+Sans:wght@400;500&family=Dancing+Script:wght@400;500;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Palanquin:wght@100;200;300;400;500;600;700&family=Poppins:wght@300;500;600;700;800;900&family=Quicksand:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100;0,300;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import url('../tailwind.css');
 
 @font-face {
@@ -55,4 +55,8 @@ button {
 .icon-40 {
   width: 34px;
   height: 34px;
+}
+
+.btnSizeDisabled {
+  opacity: 0.2;
 }

@@ -12,6 +12,11 @@
     position: relative;
 }
 
+.c-image-responsive img{
+    width: 100%;
+    height: auto;
+}
+
 .figure {
     position: relative;
 }
@@ -40,6 +45,10 @@
     border-width: 1px;
     border-color: #e1e1e1;
     font-family: 'AQUAGrotesk-Medium', sans-serif;
+}
+
+.skeleton {
+    height: 500px;
 }
 
 .sizes p {
@@ -137,4 +146,10 @@
     position: absolute;
     right: 5px;
     bottom: 15px;
+}
+
+@media screen and (max-width: 800px) {
+    .c-image {
+        width: 100%;
+    }
 }

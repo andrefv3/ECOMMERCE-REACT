@@ -187,6 +187,170 @@
     background-color: #000;
 }
 
+/* PRODUCTS */
+
+
+.c-image {
+    position: relative;
+}
+
+.figure {
+    position: relative;
+}
+
+.figure img {
+    background-position: center;
+}
+
+.cproduct-info {
+    padding: 10px 0 20px;
+}
+
+.title__section {
+    font-family: 'AQUAGrotesk-Medium', sans-serif;
+}
+
+.sizes {
+    width: 100%;
+    padding: 13px;
+    position: absolute;
+    bottom: 0;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    border-width: 1px;
+    border-color: #e1e1e1;
+    font-family: 'AQUAGrotesk-Medium', sans-serif;
+}
+
+.sizes p {
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.cproduct-sizes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.sizesContainer {
+    display: flex;
+    margin: 0px 10px;
+    gap: 8px;
+    margin: auto;
+}
+
+.sizeProduct {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    font-size: 14px;
+    color: #000;
+    background: transparent;
+    text-transform: uppercase;
+}
+
+.sizeProduct:hover {
+    border-color: #000;
+}
+
+.noResults {
+    margin: 40px 0;
+}
+
+.emptyProducts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.emptyProducts img {
+    width: 120px;
+    height: 120px 
+}
+
+.empty--title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.emptyProducts .text {
+    max-width: 532.96px;
+    font-weight: 300;
+    font-size: .875rem;
+}
+
+@keyframes fill {
+    to {
+      transform: scale(1.2);
+      color: #e03a3a !important; 
+    }
+}
+
+.name {
+    padding: 0px 5px;
+    text-overflow: ellipsis;
+}
+
+.name span {
+    letter-spacing: .4px;
+    color: #000;
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: baseline;
+    font-size: 0.9rem;
+}
+
+.price {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-size: 0.8rem;
+    justify-content: center;
+}
+
+.price span {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    letter-spacing: .4px;
+    line-height: 12px;
+    text-transform: none;
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.btn__wishlist {
+    padding: 10px;
+    border-radius: 100%;
+    background-color: rgb(255, 255, 255);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:  0 2px 4px rgba(0, 0, 0, 0.06), 0 4px 6px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    bottom: 15px;
+}
+
 input[type="search"] {
     appearance: textfield;
 }
