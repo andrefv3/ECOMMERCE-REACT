@@ -6,7 +6,7 @@ import products, { Product } from '@/productsData';
 
 export interface CartItem {
     productCode: number;
-    size: string;
+    size: number;
     quantity: number;
     color: number;
 }
@@ -22,7 +22,7 @@ interface CartContextProps {
   cantCart: () => number;
   closeAddedProduct: () => void;
   removeFromCart: (productId: number) => void;
-  handleCartClick: (productCode: number, size: string, color: number) => void;
+  handleCartClick: (productCode: number, size: number, color: number) => void;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -55,7 +55,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   // FUNCTION FOR CLICK IN ADD CART
-  const handleCartClick = (productCode: number, size: string, color: number) => {
+  const handleCartClick = (productCode: number, size: number, color: number) => {
     const existingItemIndex = cartItems.findIndex(
       (item) => item.productCode === productCode && item.size === size
     );

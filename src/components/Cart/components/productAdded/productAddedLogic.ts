@@ -6,7 +6,7 @@ import { productAddedDTO } from "./dto/productAddedDTO";
 const useProductAdded = (props: productAddedDTO) => {
     const [isVisible, setIsVisible] = useState(false);
     const isMouseOverRef = useRef(false);
-    const addedProduct: Product | undefined = products.find((product: Product) => product.productCode === props.productCode);
+    const addedProduct: Product | undefined = products.find((product: Product) => product.id === props.productCode);
     const cartContext = useCartContext();
     const closeTimeoutId = useRef<number | null>(null);
 

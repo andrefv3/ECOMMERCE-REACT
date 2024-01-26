@@ -38,14 +38,18 @@ export const Wishlist: React.FC<any> = () => {
                 <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.id)}>
                     <figure className="figure" onMouseEnter={() => handleToggleSizes(product.id, true)} onMouseLeave={() => handleToggleSizes(product.id, false)}>
                         <div className="overlay"></div>
-                        <img draggable="false" alt="Sudadera Scarface negra , NEGRO" className="image-responsive" lazy-load-status="is-loaded" src={product.imageUrl} />
+                        {product.images.map(image => (
+                            image.seqNum === 1 ? (
+                                <img key={image.seqNum} draggable="false" src={image.url} alt={image.name} />
+                            ) : null
+                        ))}
                         {showSizes[product.id] && (
                             <div className="sizes_wishlist" onClick={(e) => e.stopPropagation()} >
                                 <p>Seleccione talla</p>
                                 <div className="sizesContainer">
-                                    {product.sizes.map((size: string) => (
-                                        <button key={size} className={`sizeProduct ${selectedSizes[product.id] === size ? 'selected' : ''}`} onClick={() => setSelectedSizes({ ...selectedSizes, [product.id]: size })}>
-                                            {size}
+                                    {product.sizes.map((size, index) => (
+                                        <button key={index} className={`sizeProduct ${selectedSizes[product.id] === size.id ? 'selected' : ''}`} onClick={() => setSelectedSizes({ ...selectedSizes, [product.id]: size.id })}>
+                                            {size.name}
                                         </button>
                                     ))}
                                 </div>

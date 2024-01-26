@@ -1,8 +1,8 @@
 import { useCartContext } from "@/contexts/CartContext";
 import { useSearchContext } from "@/contexts/SearchContext";
 import { useWishlistContext } from "@/contexts/WishlistContext";
+import { ProductFilter } from "@/graphql/dto/filter-product-dto";
 import { SEARCH_PRODUCTS } from "@/graphql/products/products.graphql";
-import { Product } from "@/productsData";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,15 +14,16 @@ const useSearch = () => {
     const [searched, setSearched] = useState<boolean>(false);
     const [scrollTop, setScrollTop] = useState(0);
     const [boxSearchHeight, setBoxSearchHeight] = useState(0);    
-    const [suggestions, setSuggestions] = useState<Product[]>([]);
+    const [suggestions, setSuggestions] = useState<ProductFilter[]>([]);
 
-    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<ProductFilter[]>([]);
+    const [count, setCount] = useState<number>();
     const [showSizes, setShowSizes] = useState<{ [productCode: number]: boolean }>({});
-    const [page, setPage] = useState<number>(1);
-    const [maxCount, setMaxCount] = useState<number>(10);
+    const [page] = useState<number>(1);
+    const [maxCount] = useState<number>(10);
 
     //GRAPHQL QUERIES & MUTATIONS
-    const [getAllProductsFilter, resultAllProductsFilter] = useLazyQuery(SEARCH_PRODUCTS) //QUERY GRAPHQL INTANCE, GET ALL PRODUCTS BY FILTER
+    const [getAllProductsFilter] = useLazyQuery(SEARCH_PRODUCTS) //QUERY GRAPHQL INTANCE, GET ALL PRODUCTS BY FILTER
   
     const BoxSearchRef = useRef<HTMLDivElement>(null);
     const { isOpenSearch } = useSearchContext();
@@ -57,14 +58,17 @@ const useSearch = () => {
 
         if (data) {
             const filterProducts = data.getProductsByFilter.listObject;
+            const count = data.getProductsByFilter.count;
             setFilteredProducts(filterProducts);
+            setCount(count);
+            console.log(filteredProducts);
         }
 
         if (error) {
             console.log(error);
         }
 
-        setSuggestions(filteredProducts);
+        setSuggestions(data.getProductsByFilter.listObject);
     };
 
     useEffect(() => {
@@ -125,7 +129,7 @@ const useSearch = () => {
         }
     };
     
-    const handleSuggestionClick = (suggestion: Product) => {
+    const handleSuggestionClick = (suggestion: ProductFilter) => {
         setSearch(suggestion.name);
         setSuggestions([]); 
         setSearched(true);
@@ -158,6 +162,7 @@ const useSearch = () => {
         showSizes,
         wishlistContext ,
         cartContext,
+        count,
         handleInputChange,
         handleEnterKeyPress,
         handleSuggestionClick,

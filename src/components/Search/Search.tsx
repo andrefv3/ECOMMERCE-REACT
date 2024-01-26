@@ -4,7 +4,9 @@ import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 import { formatCOP } from "@/utils/formatCurrency";
 import SearchEmpty from '@/assets/img/searchEmpty.png';
 import useSearch from "./searchLogic";
+import { Images } from "@/productsData";
 import './search.css';
+import Tooltip from "../Tooltip/Tooltip";
 
 export const SearchComponent: React.FC<any> = () => {
     const {
@@ -17,7 +19,8 @@ export const SearchComponent: React.FC<any> = () => {
         suggestions,
         showSizes,
         wishlistContext,
-        //cartContext,
+        cartContext,
+        count,
         handleInputChange,
         handleEnterKeyPress,
         handleSuggestionClick,
@@ -52,6 +55,12 @@ export const SearchComponent: React.FC<any> = () => {
                             </button>
                         )}
                     </div>
+
+                    {filteredProducts.length > 0 && (
+                        <div className="results">
+                            <span>{count + " resultados"}</span>
+                        </div>
+                    )}
                 </div>
 
                 {suggestions.length > 0 && (
@@ -99,16 +108,35 @@ export const SearchComponent: React.FC<any> = () => {
                                         <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.id)}>
                                             <figure className="figure" onMouseEnter={() => handleToggleSizes(product.id, true)} onMouseLeave={() => handleToggleSizes(product.id, false)}>
                                                 <div className="overlay"></div>
-                                                <img draggable="false" className="image-responsive" lazy-load-status="is-loaded" src={product.imageUrl} />
+                                                {product.images.map((image: Images) => (
+                                                    image.seqNum === 1 && (
+                                                        <img
+                                                            key={image.seqNum}
+                                                            draggable="false"
+                                                            className="image-responsive"
+                                                            lazy-load-status="is-loaded"
+                                                            src={image.url}
+                                                            alt={image.name}
+                                                        />
+                                                    )
+                                                ))}
                                                 {showSizes[product.id] && (
                                                     <div className="sizes" onClick={(e) => e.stopPropagation()} >
                                                         <p>Seleccione talla</p>
                                                         <div className="sizesContainer">
-                                                            {/* {product.sizes.map((size: string) => (
-                                                                <button key={size} className="sizeProduct" onClick={() => cartContext.handleCartClick(product.productCode, size, 0)}>
-                                                                    {size}
-                                                                </button>
-                                                            ))} */}
+                                                            {product.sizes.map(size => (
+                                                                size.stockQuantity === 0 ? (
+                                                                    <Tooltip text={size.stockQuantity === 0 ? 'Agotado' : ''}>
+                                                                        <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, 0)}>
+                                                                            {size.name}
+                                                                        </button>
+                                                                    </Tooltip>
+                                                                ) : (
+                                                                    <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, 0)}>
+                                                                        {size.name}
+                                                                    </button>
+                                                                )
+                                                            ))}
                                                         </div>
                                                     </div>
                                                 )}

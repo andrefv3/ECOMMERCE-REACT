@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const useWishlist = () => {
-    const [selectedSizes, setSelectedSizes] = useState<{ [productCode: number]: string }>({});
+    const [selectedSizes, setSelectedSizes] = useState<{ [productCode: number]: number }>({});
     const [selectedIdx, setSelectedIdx] = useState<number[]>([]);
     const [showSizes, setShowSizes] = useState<{ [productCode: number]: boolean }>({});
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -16,7 +16,7 @@ const useWishlist = () => {
     const cartContext = useCartContext();
     const navigate = useNavigate();
     
-    const handleSizeSelection = (productCode: number, size: string) => {
+    const handleSizeSelection = (productCode: number, size: number) => {
         setSelectedSizes((prevSelectedSizes) => ({
             ...prevSelectedSizes,
             [productCode]: size,

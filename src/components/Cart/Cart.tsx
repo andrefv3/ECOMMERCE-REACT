@@ -40,7 +40,18 @@ export const CartComponent: React.FC<cartDTO> = () => {
         return (
             <div className="productsAdded" key={product.productCode}>
                 <div className="product-image">
-                    <img draggable="false" src={cartProduct.imageUrl} alt="Product"/>
+                    {cartProduct.images.map(image => (
+                        image.seqNum === 1 && (
+                            <img
+                                key={image.seqNum}
+                                draggable="false"
+                                className="image-responsive"
+                                lazy-load-status="is-loaded"
+                                src={image.url}
+                                alt={image.name}
+                            />
+                        )
+                    ))}
                 </div>
                 <div className="info_buttons">
                     <div className="info-product">
