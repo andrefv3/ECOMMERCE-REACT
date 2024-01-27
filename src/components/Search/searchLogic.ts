@@ -12,9 +12,9 @@ const useSearch = () => {
 
     const [search, setSearch] = useState<string>('');
     const [searched, setSearched] = useState<boolean>(false);
-    const [scrollTop, setScrollTop] = useState(0);
-    const [boxSearchHeight, setBoxSearchHeight] = useState(0);    
+    const [scrollTop, setScrollTop] = useState(0);   
     const [suggestions, setSuggestions] = useState<ProductFilter[]>([]);
+    const [selectedColors, setSelectedColors] = useState<{ [productId: string]: string }>({});
 
     const [filteredProducts, setFilteredProducts] = useState<ProductFilter[]>([]);
     const [count, setCount] = useState<number>();
@@ -26,6 +26,7 @@ const useSearch = () => {
     const [getAllProductsFilter] = useLazyQuery(SEARCH_PRODUCTS) //QUERY GRAPHQL INTANCE, GET ALL PRODUCTS BY FILTER
   
     const BoxSearchRef = useRef<HTMLDivElement>(null);
+    const [boxSearchHeight, setBoxSearchHeight] = useState(0);
     const { isOpenSearch } = useSearchContext();
     const wishlistContext = useWishlistContext();
     const cartContext = useCartContext();
@@ -49,6 +50,23 @@ const useSearch = () => {
         }
     }, [search]);
 
+    useEffect(() => {
+        // Establecer el color por defecto para cada producto si no está definido
+        const updatedSelectedColors = { ...selectedColors };
+        filteredProducts.forEach(product => {
+            const productIdString = product.id.toString();
+            if (!(product.id in updatedSelectedColors) && product.colors && product.colors.length > 0) {
+                updatedSelectedColors[productIdString] = product.colors[0].id.toString();
+            }
+        });
+        setSelectedColors(updatedSelectedColors);
+    }, [filteredProducts]);
+
+    // Manejar el cambio del color seleccionado
+    const handleColorChange = (productId: string, colorId: string) => {
+        setSelectedColors({ ...selectedColors, [productId]: colorId });
+    };
+
     const getAllProductsByWord = async (name: string, page: number, maxCount: number) => {
         const { data, loading, error } = await getAllProductsFilter({
             variables: { object: { name, page, maxCount } },
@@ -68,7 +86,7 @@ const useSearch = () => {
             console.log(error);
         }
 
-        setSuggestions(data.getProductsByFilter.listObject);
+        // setSuggestions(data.getProductsByFilter.listObject);
     };
 
     useEffect(() => {
@@ -133,6 +151,7 @@ const useSearch = () => {
         setSearch(suggestion.name);
         setSuggestions([]); 
         setSearched(true);
+        setBoxSearchHeight(0);
     };
 
     const handleClearSearch = () => {
@@ -142,9 +161,12 @@ const useSearch = () => {
         setFilteredProducts([]);
     };
 
-    const handleOpenDetails = (id: number) => {
-        navigate(`/${id}/p`);
+    const handleOpenDetails = (id: number, colorId: string) => {
+        const color = parseInt(colorId)
+        navigate(`/${id}/p?colorId=${color}`);
         window.scrollTo(0, 0);
+        const SearchContext = useSearchContext();
+        SearchContext.closeSearch();
     }
 
     const handleToggleSizes = (productCode: number, show: boolean) => {
@@ -163,6 +185,8 @@ const useSearch = () => {
         wishlistContext ,
         cartContext,
         count,
+        selectedColors,
+        handleColorChange,
         handleInputChange,
         handleEnterKeyPress,
         handleSuggestionClick,

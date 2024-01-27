@@ -4,7 +4,7 @@ import { ProductSingle } from "@/graphql/dto/product-single-dto";
 import { PRODUCT_SINGLE } from "@/graphql/products/products.graphql";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const useDetailsProduct = () => {
     const [containerFixed, setContainerFixed] = useState(false);
@@ -16,20 +16,24 @@ const useDetailsProduct = () => {
     const wishlistContext = useWishlistContext();
     const cartContext = useCartContext();
 
-    const { id } = useParams<{ id: string }>();
-    const { colorId } = useParams<{ colorId: string }>();
+    const [colorIdFromParams, setColorIdFromParams] = useState<string>('');
     const [product, setProduct] = useState<ProductSingle>();
+    const navigate = useNavigate();
 
     //GRAPHQL QUERIES & MUTATIONS
     const [getProduct] = useLazyQuery(PRODUCT_SINGLE) //QUERY GRAPHQL INTANCE, GET PRODUCT INFO
 
     useEffect(() => {
-        if (isLoading && id && colorId) {
-            const executeInitData = async () => {
-                await getOneProduct(id, colorId);
-            };
+        if (isLoading) {
+            const { id, colorId } = useParams<{ id: string, colorId: string }>();
 
-            executeInitData();
+            if (id && colorId) {
+                setColorIdFromParams(colorId);
+                const executeInitData = async () => {
+                    await getOneProduct(id, colorId);
+                };
+                executeInitData();
+            }
         }
     }, [isLoading]);
 
@@ -47,7 +51,7 @@ const useDetailsProduct = () => {
         }
 
         if (error) {
-            console.log(error);
+            console.log("ERROR GRAPHQL => ", error);
         }
     };
 
@@ -80,11 +84,19 @@ const useDetailsProduct = () => {
         };
     }, []);
 
+    // useEffect(() => {
+    //     if (!product && isLoading) {
+    //         navigate(`/not-found`);
+    //         window.scrollTo(0, 0);
+    //     }
+    // }, [product, navigate, isLoading]);
+
     return {
         infoCProductRef,
         product,
         selectSize,
         containerFixed,
+        colorIdFromParams,
         handleSizeClick,
         handleAddToCart,
         hovered,

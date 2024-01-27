@@ -95,6 +95,12 @@
 
 .colors__cproduct {
     margin: 20px 0px;
+    display: flex;
+    gap: 15px;
+}
+
+.color__product.active img {
+    border: 1px solid #000;
 }
 
 .colors__cproduct img {
