@@ -1,12 +1,11 @@
 import { HeartIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { XCircleIcon } from "@heroicons/react/24/solid";
-import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
+import { HeartIcon as HeartIconSolid, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid'
 import { formatCOP } from "@/utils/formatCurrency";
 import SearchEmpty from '@/assets/img/searchEmpty.png';
 import useSearch from "./searchLogic";
-import { Images } from "@/productsData";
-import './search.css';
 import Tooltip from "../Tooltip/Tooltip";
+import './search.css';
 
 export const SearchComponent: React.FC<any> = () => {
     const {
@@ -21,6 +20,8 @@ export const SearchComponent: React.FC<any> = () => {
         wishlistContext,
         cartContext,
         count,
+        selectedColors,
+        // handleColorChange,
         handleInputChange,
         handleEnterKeyPress,
         handleSuggestionClick,
@@ -28,6 +29,8 @@ export const SearchComponent: React.FC<any> = () => {
         handleOpenDetails,
         handleToggleSizes
     } = useSearch();
+
+    console.log("height => ", boxSearchHeight);
 
     return (
         <section id="Search-wrapper" className={search ? 'no-overflow' : ''}>
@@ -57,8 +60,31 @@ export const SearchComponent: React.FC<any> = () => {
                     </div>
 
                     {filteredProducts.length > 0 && (
-                        <div className="results">
-                            <span>{count + " resultados"}</span>
+                        <div className="relative results search__results__filters">
+                            <span className="count__results">{count + " resultados"}</span>
+                            <div className="search-filters">
+                                <button className="is-naked is-outline search-filters__tag grid-tag active">
+                                    Todos
+                                </button>
+                                <button className="is-naked is-outline search-filters__tag grid-tag">
+                                    Mujer
+                                </button>
+                                <button className="is-naked is-outline search-filters__tag grid-tag">
+                                    Hombre
+                                </button>
+                                <button className="is-naked is-outline search-filters__tag grid-tag">
+                                    SHP Teen
+                                </button>
+                            </div>
+                            <div className="search-results-header__filters-button">
+                                <div className="touch-area-wrapper filter-button">
+                                    <button className="is-naked-filter">
+                                        <span className="icon-container icon-size-24">
+                                            <AdjustmentsHorizontalIcon className="colorIcon" />
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -105,28 +131,32 @@ export const SearchComponent: React.FC<any> = () => {
                             <div className="filtered-products grid-container ">
                                 {filteredProducts.map((product, index) => (
                                     <div className="c-image" key={index}>
-                                        <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.id)}>
+                                        <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.id, selectedColors[product.id.toString()])}>
                                             <figure className="figure" onMouseEnter={() => handleToggleSizes(product.id, true)} onMouseLeave={() => handleToggleSizes(product.id, false)}>
                                                 <div className="overlay"></div>
-                                                {product.images.map((image: Images) => (
-                                                    image.seqNum === 1 && (
-                                                        <img
-                                                            key={image.seqNum}
-                                                            draggable="false"
-                                                            className="image-responsive"
-                                                            lazy-load-status="is-loaded"
-                                                            src={image.url}
-                                                            alt={image.name}
-                                                        />
-                                                    )
+                                                {product.images
+                                                    .filter(image => selectedColors[product.id.toString()] === null || image.colorId.toString() === selectedColors[product.id.toString()])
+                                                    .map(filteredImg => (
+                                                        filteredImg.seqNum === 1 && (
+                                                            <img
+                                                                key={filteredImg.seqNum}
+                                                                draggable="false"
+                                                                className="image-responsive"
+                                                                lazy-load-status="is-loaded"
+                                                                src={filteredImg.url}
+                                                                alt={filteredImg.name}
+                                                                width="571"
+                                                                height="857"
+                                                            />
+                                                        )
                                                 ))}
                                                 {showSizes[product.id] && (
                                                     <div className="sizes" onClick={(e) => e.stopPropagation()} >
                                                         <p>Seleccione talla</p>
                                                         <div className="sizesContainer">
-                                                            {product.sizes.map(size => (
+                                                            {product.sizes.map((size) => (
                                                                 size.stockQuantity === 0 ? (
-                                                                    <Tooltip text={size.stockQuantity === 0 ? 'Agotado' : ''}>
+                                                                    <Tooltip text={size.stockQuantity === 0 ? 'Agotado' : ''} type='SoldOut' key={size.id}>
                                                                         <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, 0)}>
                                                                             {size.name}
                                                                         </button>

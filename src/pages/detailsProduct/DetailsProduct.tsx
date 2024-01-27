@@ -5,7 +5,6 @@ import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 import { formatCOP } from "@/utils/formatCurrency";
 import useDetailsProduct from "./detailsProductLogic";
-import { useNavigate } from "react-router-dom";
 import './detailsProduct.css';
 
 export const DetailsProduct: React.FC<DetailsProductDTO> = () => {    
@@ -14,6 +13,7 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
         product,
         selectSize,
         containerFixed,
+        colorIdFromParams,
         handleSizeClick,
         handleAddToCart,
         hovered, 
@@ -21,11 +21,7 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
         wishlistContext
     } = useDetailsProduct();
 
-    const navigate = useNavigate();
-
     if (!product) {
-        navigate(`/not-found`);
-        window.scrollTo(0, 0);
         return null;
     }
 
@@ -54,7 +50,9 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
                         <div className="colors__cproduct">
                             {product.images.map(image => (
                                 image.seqNum === 1 ? (
-                                    <img key={image.seqNum} draggable="false" src={image.url} alt={image.name} />
+                                    <div className={`color__product ${colorIdFromParams === image.colorId.toString() ? 'active': ''}`}>
+                                        <img key={image.seqNum} draggable="false" src={image.url} alt={image.name} />
+                                    </div>
                                 ) : null
                             ))}
                         </div>
