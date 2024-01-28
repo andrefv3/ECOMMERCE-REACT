@@ -14,8 +14,12 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
         selectSize,
         containerFixed,
         colorIdFromParams,
+        zoomedIndex,
+        toggleZoom,
         handleSizeClick,
         handleAddToCart,
+        scrollOffset,
+        handleMouseDown,
         hovered, 
         setHovered,
         wishlistContext
@@ -32,9 +36,15 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
                 <div className="images__cproduct">
                     <div className="container mx-auto ">
                         <div className="grid grid-cols-2 gap-2">
-                            {product.images.map(image => (
-                                <li className="product_img_detail" key={image.seqNum}>
-                                    <img src={image.url} alt={image.name} />
+                            {product.images.map((image, index) => (
+                                <li className="product_img_detail" key={image.seqNum} id={`image_${index}`} onClick={() => toggleZoom(index)} >
+                                    <img 
+                                        src={image.url} 
+                                        alt={image.name} 
+                                        draggable="false"
+                                        className={zoomedIndex === index ? 'zoomed' : ''}
+                                        onMouseDown={handleMouseDown}
+                                    />
                                 </li>  
                             ))}
                         </div>

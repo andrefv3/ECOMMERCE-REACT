@@ -21,10 +21,20 @@
 
 .product_img_detail {
     list-style: none;
+    position: relative;
+    overflow: hidden;
 }
 
 .product_img_detail img {
     cursor: url('/src/assets/img/cursors/cursor-zoom-in.png') 28 0, auto;
+    transition: transform 0.3s ease;
+    width: 100%;
+    height: auto;
+}
+
+.product_img_detail img.zoomed {
+    transform: scale(1.5);
+    cursor: url('/src/assets/img/cursors/cursor-zoom-out.png') 28 0, auto;
 }
 
 .fixed__details {
