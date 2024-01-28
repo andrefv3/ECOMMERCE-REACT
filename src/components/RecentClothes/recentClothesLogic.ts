@@ -48,10 +48,8 @@ const useRecentClothes = () => {
     }, [wishlistData]);
 
     const handleOpenDetails = (id: number, colorId: string) => {
-        // Redireccionar a la ruta /id/p
-        const color = parseInt(colorId);
-        navigate(`/${id}/p?colorId=${color}`);
-        window.scrollTo(0, 0);
+      navigate(`/${id}/p?color=${colorId}`);
+      window.scrollTo(0, 0);
     }
 
     const handleToggleSizes = (productCode: number, show: boolean) => {

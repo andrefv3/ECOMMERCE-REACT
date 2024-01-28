@@ -16,7 +16,8 @@ const useDetailsProduct = () => {
     const wishlistContext = useWishlistContext();
     const cartContext = useCartContext();
 
-    const [colorIdFromParams, setColorIdFromParams] = useState<string>('');
+    const { id, color = '' } = useParams<{ id: string, color?: string }>();
+    const [colorIdFromParams, setColorIdFromParams] = useState('');
     const [product, setProduct] = useState<ProductSingle>();
     const navigate = useNavigate();
 
@@ -25,20 +26,19 @@ const useDetailsProduct = () => {
 
     useEffect(() => {
         if (isLoading) {
-            const { id, colorId } = useParams<{ id: string, colorId: string }>();
-
-            if (id && colorId) {
-                setColorIdFromParams(colorId);
-                const executeInitData = async () => {
-                    await getOneProduct(id, colorId);
-                };
-                executeInitData();
-            }
+            const executeInitData = async () => {
+                await getOneProduct(id, color);
+            };
+            executeInitData();
         }
-    }, [isLoading]);
+    }, [isLoading, id, colorIdFromParams, color]);
 
-    const getOneProduct = async (productId: string, colorId: string) => {
-        const color = parseInt(colorId);
+    const getOneProduct = async (productId: string | undefined, colorId: string | undefined) => {
+        if(colorId) {
+            setColorIdFromParams(colorId);
+        }
+        const color = parseInt(colorIdFromParams);
+        console.log("COLOR QUE LLEGA => ", color);
         const { data, loading, error } = await getProduct({
             variables: { object: { productId, colorId: color } },
         });
@@ -84,12 +84,12 @@ const useDetailsProduct = () => {
         };
     }, []);
 
-    // useEffect(() => {
-    //     if (!product && isLoading) {
-    //         navigate(`/not-found`);
-    //         window.scrollTo(0, 0);
-    //     }
-    // }, [product, navigate, isLoading]);
+    useEffect(() => {
+        if (product?.images.length === 0) {
+            navigate(`/not-found`);
+            window.scrollTo(0, 0);
+        }
+    }, [product, navigate, isLoading]);
 
     return {
         infoCProductRef,
