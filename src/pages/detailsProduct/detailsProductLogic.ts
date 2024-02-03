@@ -12,11 +12,17 @@ const useDetailsProduct = () => {
     const [hovered, setHovered] = useState(false);
     const infoCProductRef = useRef<HTMLDivElement | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);//THIS STATE SAVE IS LOADING INFORMATION IN BOOLEAN
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragStart, setDragStart] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
+    const [scrollOffset, setScrollOffset] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
 
     const wishlistContext = useWishlistContext();
     const cartContext = useCartContext();
 
-    const { id, color = '' } = useParams<{ id: string, color?: string }>();
+    const { id } = useParams<{ id: string }>();
+    const { color } = useParams<{ color: string }>();
     const [colorIdFromParams, setColorIdFromParams] = useState('');
     const [product, setProduct] = useState<ProductSingle>();
     const navigate = useNavigate();
@@ -25,20 +31,19 @@ const useDetailsProduct = () => {
     const [getProduct] = useLazyQuery(PRODUCT_SINGLE) //QUERY GRAPHQL INTANCE, GET PRODUCT INFO
 
     useEffect(() => {
-        if (isLoading) {
+        if (isLoading && id) {
             const executeInitData = async () => {
                 await getOneProduct(id, color);
             };
             executeInitData();
         }
-    }, [isLoading, id, colorIdFromParams, color]);
+    }, [isLoading, id, color]);
 
     const getOneProduct = async (productId: string | undefined, colorId: string | undefined) => {
         if(colorId) {
             setColorIdFromParams(colorId);
         }
         const color = parseInt(colorIdFromParams);
-        console.log("COLOR QUE LLEGA => ", color);
         const { data, loading, error } = await getProduct({
             variables: { object: { productId, colorId: color } },
         });
@@ -65,6 +70,47 @@ const useDetailsProduct = () => {
         if (selectSize) {
             cartContext.handleCartClick(productCode, selectSize, colorId);
             setSelectSize(null);
+        }
+    };
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (zoomedIndex !== null) {
+                const deltaX = e.clientX - dragStart.x;
+                const deltaY = e.clientY - dragStart.y;
+        
+                setScrollOffset(prevOffset => ({
+                    x: prevOffset.x + deltaX,
+                    y: prevOffset.y + deltaY
+                }));
+        
+                setDragStart({ x: e.clientX, y: e.clientY });
+            }
+        };
+        
+        const handleMouseUp = () => {
+            setIsDragging(false);
+        };
+        
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDragging, dragStart]);
+
+    const handleMouseDown = (e: React.MouseEvent<HTMLImageElement>) => {
+        setIsDragging(true);
+        setDragStart({ x: e.clientX, y: e.clientY });
+    };
+
+    const toggleZoom = (index: number) => {
+        if (zoomedIndex === index) {
+            setZoomedIndex(null);
+        } else {
+            setZoomedIndex(index);
         }
     };
 
@@ -97,8 +143,12 @@ const useDetailsProduct = () => {
         selectSize,
         containerFixed,
         colorIdFromParams,
+        zoomedIndex,
         handleSizeClick,
         handleAddToCart,
+        handleMouseDown,
+        toggleZoom,
+        scrollOffset,
         hovered,
         setHovered,
         wishlistContext

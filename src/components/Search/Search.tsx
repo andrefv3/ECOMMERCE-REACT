@@ -30,8 +30,6 @@ export const SearchComponent: React.FC<any> = () => {
         handleToggleSizes
     } = useSearch();
 
-    console.log("height => ", boxSearchHeight);
-
     return (
         <section id="Search-wrapper" className={search ? 'no-overflow' : ''}>
             {search && !searched && (

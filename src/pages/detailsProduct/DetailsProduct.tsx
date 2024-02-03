@@ -14,8 +14,12 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
         selectSize,
         containerFixed,
         colorIdFromParams,
+        zoomedIndex,
+        toggleZoom,
         handleSizeClick,
         handleAddToCart,
+        // scrollOffset,
+        handleMouseDown,
         hovered, 
         setHovered,
         wishlistContext
@@ -32,9 +36,16 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
                 <div className="images__cproduct">
                     <div className="container mx-auto ">
                         <div className="grid grid-cols-2 gap-2">
-                            {product.images.map(image => (
-                                <li className="product_img_detail" key={image.seqNum}>
-                                    <img src={image.url} alt={image.name} />
+                            {product.images.map((image, index) => (
+                                <li className="product_img_detail" key={index} id={`image_${index}`} onClick={() => toggleZoom(index)} >
+                                    <img 
+                                        src={image.url} 
+                                        alt={image.name} 
+                                        key={image.seqNum}
+                                        draggable="false"
+                                        className={zoomedIndex === index ? 'zoomed' : ''}
+                                        onMouseDown={handleMouseDown}
+                                    />
                                 </li>  
                             ))}
                         </div>
@@ -48,10 +59,10 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
                         <span className="price__cproduct">{formatCOP(product.price)}</span>
 
                         <div className="colors__cproduct">
-                            {product.images.map(image => (
+                            {product.images.map((image, index) => (
                                 image.seqNum === 1 ? (
-                                    <div className={`color__product ${colorIdFromParams === image.colorId.toString() ? 'active': ''}`}>
-                                        <img key={image.seqNum} draggable="false" src={image.url} alt={image.name} />
+                                    <div className={`color__product ${colorIdFromParams === image.colorId.toString() ? 'active': ''}`} key={index}>
+                                        <img key={index} draggable="false" src={image.url} alt={image.name} />
                                     </div>
                                 ) : null
                             ))}
@@ -75,9 +86,9 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
                             </button>
                             <div className="btn__wishlist__cproduct" onClick={() => wishlistContext.handleWishlistClick(product.id)}>
                                 {wishlistContext.selectedIdx.includes(product.id) ? (
-                                    <HeartIconSolid className='colorIcon redIcon' />
+                                    <HeartIconSolid className='colorIcon redIcon'/>
                                 ) : (
-                                    <HeartIcon className='colorIcon' />
+                                    <HeartIcon className='colorIcon'/>
                                 )}
                             </div>
                         </div>
