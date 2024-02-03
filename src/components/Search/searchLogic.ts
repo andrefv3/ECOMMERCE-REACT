@@ -28,6 +28,7 @@ const useSearch = () => {
     const BoxSearchRef = useRef<HTMLDivElement>(null);
     const [boxSearchHeight, setBoxSearchHeight] = useState(0);
     const { isOpenSearch } = useSearchContext();
+    const SearchContext = useSearchContext();
     const wishlistContext = useWishlistContext();
     const cartContext = useCartContext();
     const navigate = useNavigate();
@@ -79,7 +80,6 @@ const useSearch = () => {
             const count = data.getProductsByFilter.count;
             setFilteredProducts(filterProducts);
             setCount(count);
-            console.log(filteredProducts);
         }
 
         if (error) {
@@ -161,11 +161,9 @@ const useSearch = () => {
         setFilteredProducts([]);
     };
 
-    const handleOpenDetails = (id: number, colorId: string) => {
-        const color = parseInt(colorId)
-        navigate(`/${id}/p?colorId=${color}`);
+    const handleOpenDetails = (id: number, color: string) => {
+        navigate(`/${id}/p?color=${color}`);
         window.scrollTo(0, 0);
-        const SearchContext = useSearchContext();
         SearchContext.closeSearch();
     }
 

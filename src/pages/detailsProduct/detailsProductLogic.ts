@@ -21,7 +21,8 @@ const useDetailsProduct = () => {
     const wishlistContext = useWishlistContext();
     const cartContext = useCartContext();
 
-    const { id, color = '' } = useParams<{ id: string, color?: string }>();
+    const { id } = useParams<{ id: string }>();
+    const { color } = useParams<{ color: string }>();
     const [colorIdFromParams, setColorIdFromParams] = useState('');
     const [product, setProduct] = useState<ProductSingle>();
     const navigate = useNavigate();
@@ -30,20 +31,19 @@ const useDetailsProduct = () => {
     const [getProduct] = useLazyQuery(PRODUCT_SINGLE) //QUERY GRAPHQL INTANCE, GET PRODUCT INFO
 
     useEffect(() => {
-        if (isLoading) {
+        if (isLoading && id) {
             const executeInitData = async () => {
                 await getOneProduct(id, color);
             };
             executeInitData();
         }
-    }, [isLoading, id, colorIdFromParams, color]);
+    }, [isLoading, id, color]);
 
     const getOneProduct = async (productId: string | undefined, colorId: string | undefined) => {
         if(colorId) {
             setColorIdFromParams(colorId);
         }
         const color = parseInt(colorIdFromParams);
-        console.log("COLOR QUE LLEGA => ", color);
         const { data, loading, error } = await getProduct({
             variables: { object: { productId, colorId: color } },
         });
