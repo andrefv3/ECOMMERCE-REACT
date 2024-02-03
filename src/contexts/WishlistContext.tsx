@@ -1,62 +1,58 @@
-// En el archivo WishlistContext.tsx
-import { setDataWishlist } from '@/reducers/wishlist/actions';
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { setDataWishlist } from '@/reducers/wishlist/actions';
 
-// Importa tus datos de productos aquí
 import products, { Product } from '@/productsData';
 
 interface WishlistContextProps {
-  products: Product[]; // Asegúrate de tener una interfaz para Product según tus datos reales
-  isOpen: boolean;
+  products: Product[];
   selectedIdx: number[];
-  openWishlist: () => void;
-  closeWishlist: () => void;
-  toggleWishlist: () => void;
+  animationKey: boolean;
   removeFromWishlist: (productId: number) => void;
-  handleWishlistClick: (productCode: number) => void; // Nueva función para manejar clics en wishlist
+  handleWishlistClick: (productCode: number) => void;
 }
 
 const WishlistContext = createContext<WishlistContextProps | undefined>(undefined);
 
 export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedIdx, setSelectedIdx] = useState<number[]>([]);
+  const [selectedIdx, setSelectedIdx] = useState<number[]>([]); // STATE FOR MANAGE ID SELECTED OF WISHLIST
+  const [animationKey, setAnimationKey] = useState<boolean>(false);
 
-  const dispatch = useDispatch(); //REDUX STORAGE CALL
-  const wishlistData = useSelector(({wishlistData}: any) => wishlistData);
+  const dispatch = useDispatch();
+  const wishlistData = useSelector(({ wishlistData }) => wishlistData); //CAPTURE DATA CURRENT OF STORAGE
 
-  const openWishlist = () => setIsOpen(true);
-  const closeWishlist = () => setIsOpen(false);
-  const toggleWishlist = () => setIsOpen((prev) => !prev);
-
+  // FUNCTION FOR DELETE PRODUCTS OF WISHLIST
   const removeFromWishlist = (productCode: number) => {
     const updatedSelectedIdx = wishlistData?.wishlist?.updatedSelectedIdx;
-    
-    if (Array.isArray(updatedSelectedIdx)) {
-      // Filtra los productos que tienen IDs presentes en updatedSelectedIdx
-      const updatedWishlistData = updatedSelectedIdx.filter((id: number) => id !== productCode);
-  
-      // Dispatch a la acción para actualizar el estado
-      dispatch(setDataWishlist({updatedSelectedIdx: updatedWishlistData}));
-    }
+    const updatedWishlistData = Array.isArray(updatedSelectedIdx) ? updatedSelectedIdx.filter((id: number) => id !== productCode) : [];
+    dispatch(setDataWishlist({ updatedSelectedIdx: updatedWishlistData }));
   };
 
-  // Nueva función para manejar clics en wishlist
+  // FUNCTION FOR CLICK IN HEART 
   const handleWishlistClick = (productCode: number) => {
     setSelectedIdx((prevSelectedIdx) => {
-      const updatedSelectedIdx = prevSelectedIdx.includes(productCode)
-        ? prevSelectedIdx.filter((code) => code !== productCode)
-        : [...prevSelectedIdx, productCode];
-
-      // Usar el callback de setSelectedIdx para asegurarse de obtener el valor actualizado
+      const updatedSelectedIdx = prevSelectedIdx.includes(productCode) ? prevSelectedIdx.filter((code) => code !== productCode) : [...prevSelectedIdx, productCode];
       dispatch(setDataWishlist({ updatedSelectedIdx }));
+      setAnimationKey(true);
       return updatedSelectedIdx;
     });
   };
 
+  useEffect(() => {
+    const hasWishlistItems = Array.isArray(wishlistData?.wishlist?.updatedSelectedIdx) && wishlistData.wishlist.updatedSelectedIdx.length > 0;
+    setAnimationKey(hasWishlistItems);
+  }, [wishlistData]);
+
+  // USEEFFECT FOR UPDATE DATA IN LOCALSTORAGE
+  useEffect(() => {
+    const { updatedSelectedIdx } = wishlistData?.wishlist || {};
+    if (Array.isArray(updatedSelectedIdx)) {
+      setSelectedIdx(updatedSelectedIdx);
+    }
+  }, [wishlistData]);
+
   return (
-    <WishlistContext.Provider value={{ products, isOpen, selectedIdx, openWishlist, closeWishlist, toggleWishlist, removeFromWishlist, handleWishlistClick }}>
+    <WishlistContext.Provider value={{ products, selectedIdx, animationKey, removeFromWishlist, handleWishlistClick }}>
       {children}
     </WishlistContext.Provider>
   );

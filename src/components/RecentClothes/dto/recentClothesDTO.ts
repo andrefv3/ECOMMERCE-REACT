@@ -1,4 +1,4 @@
-import { Product } from "../../Wishlist/dto/wishlistDTO";
+import { Product } from "@/productsData";
 
 export interface RecentClothesDTO {
     products: Product[];

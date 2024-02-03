@@ -1,33 +1,59 @@
 import React from 'react';
-import { Provider } from 'react-redux'
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { routes } from './router/router'
 import { store, persistor } from './store.ts'
 import { PersistGate } from 'redux-persist/integration/react'
 import { WishlistProvider } from './contexts/WishlistContext.tsx';
+import { CartProvider } from './contexts/CartContext.tsx';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { SearchProvider } from './contexts/SearchContext.tsx';
 import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <Provider store={store}>
-     <PersistGate persistor={persistor}>
-      <React.StrictMode>
-        <BrowserRouter>
-          <WishlistProvider>
-            <Routes>
-              {routes.map((value) => {
-                return (
-                  <Route 
-                    key={value.key} 
-                    path={value.path}
-                    element={value.component}>
-                  </Route>
-                )
-              })}
-            </Routes>
-          </WishlistProvider>
-        </BrowserRouter>
-      </React.StrictMode>
-     </PersistGate>
-  </Provider>
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+)
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  uri: import.meta.env.VITE_API_REST_SHOPI,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+    },
+  }
+})
+
+root.render(
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <React.StrictMode>
+          <BrowserRouter>
+            <SearchProvider>
+              <CartProvider>
+                <WishlistProvider>
+                  <Routes>
+                    {routes.map((value) => {
+                      return (
+                        <Route 
+                          key={value.key} 
+                          path={value.path}
+                          element={value.component}>
+                        </Route>
+                      )
+                    })}
+                  </Routes>
+                </WishlistProvider>
+              </CartProvider>
+            </SearchProvider>
+          </BrowserRouter>
+        </React.StrictMode>
+      </PersistGate>
+    </Provider>
+  </ApolloProvider>
 )

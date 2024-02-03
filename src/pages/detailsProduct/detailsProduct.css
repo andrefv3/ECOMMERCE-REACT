@@ -1,12 +1,13 @@
 .info__cproduct {
     margin-top: 50px;
-    width: 100%;
+    width: 90%;
+    margin: 50px auto;
     position: relative;
     display: flex;
 }
 
 .images__cproduct {
-    width: 60%;
+    width: 68%;
 }
 
 .images__cproduct img {
@@ -14,15 +15,35 @@
 }
 
 #containerProduct {
-    width: 40%;
+    width: 32%;
     padding: 40px;
-    right: 0;
+}
+
+.product_img_detail {
+    list-style: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.product_img_detail img {
+    cursor: url('/src/assets/img/cursors/cursor-zoom-in.png') 28 0, auto;
+    transition: transform 0.3s ease;
+    width: 100%;
+    height: auto;
+}
+
+.product_img_detail img.zoomed {
+    transform: scale(1.5);
+    cursor: url('/src/assets/img/cursors/cursor-zoom-out.png') 28 0, auto;
 }
 
 .fixed__details {
     position: fixed;
     height: 100%;
+    width: 33.8% !important;
     top: 0px;
+    right: 0;
+    padding: 40px 70px 40px 40px !important;
 }
 
 .buttonSize__cproducts {
@@ -39,16 +60,24 @@
     border-radius: 1.25rem;
     font-size: .875rem;
     line-height: .875rem;
-    font-weight: 400;
+    font-weight: inherit;
     text-align: center;
     display: flex;
     align-items: center;
     vertical-align: middle;
     justify-content: center;
+    text-transform: uppercase;
+    font-family: 'AQUAGrotesk-Medium', sans-serif;
 }
 
 .size__cproduct:hover {
     border: 1.4px solid #000;
+}
+
+.size__cproduct.selected {
+    background: #000;
+    border-color: #000;
+    color: #fff;
 }
 
 .title__cproduct {
@@ -74,13 +103,14 @@
     text-transform: uppercase;
 }
 
-.size__cproduct {
-    text-transform: uppercase;
-    font-family: 'AQUAGrotesk-Medium', sans-serif;
-}
-
 .colors__cproduct {
     margin: 20px 0px;
+    display: flex;
+    gap: 15px;
+}
+
+.color__product.active img {
+    border: 1px solid #000;
 }
 
 .colors__cproduct img {
@@ -114,6 +144,17 @@
     background: #00ca8d;
     border-radius: 0;
     text-transform: uppercase;
+    border-radius: 4px;
+}
+
+.btnAddProduct:hover {
+    background: #06a978;
+}
+
+.btnAddProduct.hovered {
+    cursor: pointer;
+    opacity: 0.8!important;
+    background: #00ca8d !important;
 }
 
 .detail__cproduct {
