@@ -15,7 +15,6 @@ const useDetailsProduct = () => {
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
     const [scrollOffset, setScrollOffset] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
-    const containerRef = useRef<HTMLDivElement>(null);
     const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
 
     const wishlistContext = useWishlistContext();
