@@ -115,6 +115,7 @@
 
 .colors__cproduct img {
     max-width: 71px;
+    cursor: pointer;
 }
 
 .AddWishlistCart {

@@ -74,7 +74,7 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
                                 <span>{formatCOP(product.price)}</span>
                             </div>
                             <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.id)}>
-                                {selectedIdx.includes(product.id) ? (
+                                {selectedIdx && selectedIdx.includes(product.id) ? (
                                     <HeartIconSolid className='colorIcon redIcon' />
                                 ) : (
                                     <HeartIcon className='colorIcon' />

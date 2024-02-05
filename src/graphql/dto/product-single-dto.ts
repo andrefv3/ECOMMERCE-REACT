@@ -19,6 +19,7 @@ export interface Colors {
     id: number,
     name: string,
     codeHex: string,
+    image?: string
 }
 
 export interface Category {

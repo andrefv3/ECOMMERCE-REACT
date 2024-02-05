@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const useWishlist = () => {
     const [selectedSizes, setSelectedSizes] = useState<{ [productCode: number]: number }>({});
+    const [selectedColors, setSelectedColors] = useState<{ [productId: string]: string }>({});
     const [selectedIdx, setSelectedIdx] = useState<number[]>([]);
     const [showSizes, setShowSizes] = useState<{ [productCode: number]: boolean }>({});
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -35,9 +36,8 @@ const useWishlist = () => {
         }
     };
 
-    const handleOpenDetails = (id: number) => {
-        // Redireccionar a la ruta /id/p
-        navigate(`/${id}/p`);
+    const handleOpenDetails = (id: number, colorId: string) => {
+        navigate(`/${id}/p?color=${colorId}`);
         window.scrollTo(0, 0);
     }
 
@@ -48,7 +48,8 @@ const useWishlist = () => {
           
           // Verifica si updatedSelectedIdx es un array antes de actualizar selectedIdx
           if (Array.isArray(updatedSelectedIdx)) {
-            setSelectedIdx(updatedSelectedIdx);
+            const parsedIdx = updatedSelectedIdx.map(item => parseInt(item, 10));
+            setSelectedIdx(parsedIdx);
           }
         };
     
@@ -67,6 +68,18 @@ const useWishlist = () => {
         }
     }, [wishlistData, wishlistContext]);
 
+    useEffect(() => {
+        // Establecer el color por defecto para cada producto si no está definido
+        const updatedSelectedColors = { ...selectedColors };
+        filteredProducts.forEach(product => {
+            const productIdString = product.id.toString();
+            if (!(product.id in updatedSelectedColors) && product.colors && product.colors.length > 0) {
+                updatedSelectedColors[productIdString] = product.colors[0].id.toString();
+            }
+        });
+        setSelectedColors(updatedSelectedColors);
+    }, [filteredProducts]);
+
     return {
         handleOpenDetails,
         handleToggleSizes,
@@ -74,6 +87,7 @@ const useWishlist = () => {
         handleSizeSelection,
         handleMoveToCart,
         selectedSizes,
+        selectedColors,
         filteredProducts,
         showSizes,
         cartContext,
