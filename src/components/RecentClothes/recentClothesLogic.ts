@@ -36,7 +36,6 @@ const useRecentClothes = () => {
         // Función para actualizar selectedIdx a partir de wishlistData
         const updateSelectedIdxFromWishlistData = () => {
           const { updatedSelectedIdx } = wishlistData?.wishlist || {};
-          
           // Verifica si updatedSelectedIdx es un array antes de actualizar selectedIdx
           if (Array.isArray(updatedSelectedIdx)) {
             setSelectedIdx(updatedSelectedIdx);

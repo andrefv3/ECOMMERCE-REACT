@@ -18,6 +18,7 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
         toggleZoom,
         handleSizeClick,
         handleAddToCart,
+        handleColorClick,
         // scrollOffset,
         handleMouseDown,
         hovered, 
@@ -59,12 +60,16 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
                         <span className="price__cproduct">{formatCOP(product.price)}</span>
 
                         <div className="colors__cproduct">
-                            {product.images.map((image, index) => (
-                                image.seqNum === 1 ? (
-                                    <div className={`color__product ${colorIdFromParams === image.colorId.toString() ? 'active': ''}`} key={index}>
-                                        <img key={index} draggable="false" src={image.url} alt={image.name} />
-                                    </div>
-                                ) : null
+                            {product.colors.map((color, index) => (
+                                <div className={`color__product ${colorIdFromParams === color.id.toString() ? 'active': ''}`} key={index}>
+                                    <img 
+                                        key={index} 
+                                        draggable="false" 
+                                        src={color.image} 
+                                        alt={color.name} 
+                                        onClick={() => handleColorClick(color.id)}
+                                    />
+                                </div>
                             ))}
                         </div>
                         

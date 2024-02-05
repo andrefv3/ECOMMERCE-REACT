@@ -15,6 +15,7 @@ export const Wishlist: React.FC<any> = () => {
         handleSizeSelection,
         handleMoveToCart,
         selectedSizes,
+        selectedColors,
         filteredProducts,
         showSizes,
         wishlistContext,
@@ -35,7 +36,7 @@ export const Wishlist: React.FC<any> = () => {
     const renderWishlistItem = (product: Product) => (
         <>
             <div className="c-image">
-                <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.id)}>
+                <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.id, selectedColors[product.id.toString()])}>
                     <figure className="figure" onMouseEnter={() => handleToggleSizes(product.id, true)} onMouseLeave={() => handleToggleSizes(product.id, false)}>
                         <div className="overlay"></div>
                         {product.images.map(image => (

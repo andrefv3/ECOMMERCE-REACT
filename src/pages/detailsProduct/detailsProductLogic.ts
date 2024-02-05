@@ -4,7 +4,7 @@ import { ProductSingle } from "@/graphql/dto/product-single-dto";
 import { PRODUCT_SINGLE } from "@/graphql/products/products.graphql";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const useDetailsProduct = () => {
     const [containerFixed, setContainerFixed] = useState(false);
@@ -21,7 +21,9 @@ const useDetailsProduct = () => {
     const cartContext = useCartContext();
 
     const { id } = useParams<{ id: string }>();
-    const { color } = useParams<{ color: string }>();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const color = searchParams.get("color");
     const [colorIdFromParams, setColorIdFromParams] = useState('');
     const [product, setProduct] = useState<ProductSingle>();
     const navigate = useNavigate();
@@ -30,30 +32,32 @@ const useDetailsProduct = () => {
     const [getProduct] = useLazyQuery(PRODUCT_SINGLE) //QUERY GRAPHQL INTANCE, GET PRODUCT INFO
 
     useEffect(() => {
-        if (isLoading && id) {
+        if (id && color) {
             const executeInitData = async () => {
                 await getOneProduct(id, color);
             };
             executeInitData();
         }
-    }, [isLoading, id, color]);
+    }, [id, color]);
 
     const getOneProduct = async (productId: string | undefined, colorId: string | undefined) => {
-        if(colorId) {
+        const colorIdToUse = colorId ? colorId : colorIdFromParams;
+    
+        if (colorId) {
             setColorIdFromParams(colorId);
         }
-        const color = parseInt(colorIdFromParams);
+       
         const { data, loading, error } = await getProduct({
-            variables: { object: { productId, colorId: color } },
+            variables: { object: { productId, colorId: parseInt(colorIdToUse) } },
         });
-
+    
         setIsLoading(loading);
-
+    
         if (data) {
             const productSingle = data.getProductById;
             setProduct(productSingle);
         }
-
+    
         if (error) {
             console.log("ERROR GRAPHQL => ", error);
         }
@@ -61,6 +65,21 @@ const useDetailsProduct = () => {
 
     const handleSizeClick = (size: number) => {
         setSelectSize(size);
+    };
+
+    const handleColorClick = (color: number) => {
+        const newColorId = color.toString();
+        setColorIdFromParams(newColorId);
+    
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.set('color', newColorId);
+    
+        const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+        window.history.replaceState(null, '', newUrl);
+    
+        if(newUrl){
+            getOneProduct(id, newColorId);
+        }
     };
 
     const handleAddToCart = (productCode: number) => {
@@ -130,7 +149,7 @@ const useDetailsProduct = () => {
     }, []);
 
     useEffect(() => {
-        if (product?.images.length === 0) {
+        if (product && product.images.length === 0) {
             navigate(`/not-found`);
             window.scrollTo(0, 0);
         }
@@ -146,6 +165,7 @@ const useDetailsProduct = () => {
         handleSizeClick,
         handleAddToCart,
         handleMouseDown,
+        handleColorClick,
         toggleZoom,
         scrollOffset,
         hovered,

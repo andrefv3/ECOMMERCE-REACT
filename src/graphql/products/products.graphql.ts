@@ -57,6 +57,7 @@ export const PRODUCT_SINGLE = gql`
                 id
                 name
                 codeHex
+                image
             }
             category {
                 id

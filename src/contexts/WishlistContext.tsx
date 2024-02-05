@@ -45,10 +45,17 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   // USEEFFECT FOR UPDATE DATA IN LOCALSTORAGE
   useEffect(() => {
-    const { updatedSelectedIdx } = wishlistData?.wishlist || {};
-    if (Array.isArray(updatedSelectedIdx)) {
-      setSelectedIdx(updatedSelectedIdx);
-    }
+    // Función para actualizar selectedIdx a partir de wishlistData
+    const updateSelectedIdxFromWishlistData = () => {
+      const { updatedSelectedIdx } = wishlistData?.wishlist || {};
+      // Verifica si updatedSelectedIdx es un array antes de actualizar selectedIdx
+      if (Array.isArray(updatedSelectedIdx)) {
+        setSelectedIdx(updatedSelectedIdx);
+      }
+    };
+
+    // Llama a la función al cargar el componente para inicializar selectedIdx
+    updateSelectedIdxFromWishlistData();
   }, [wishlistData]);
 
   return (
