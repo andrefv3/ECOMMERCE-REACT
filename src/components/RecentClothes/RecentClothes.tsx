@@ -51,12 +51,12 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
                                             {product.sizes.map((size: Sizes) => (
                                                  size.stockQuantity === 0 ? (
                                                     <Tooltip key={size.id} text={size.stockQuantity === 0 ? 'Agotado' : ''} type='SoldOut'>
-                                                        <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, 0)}>
+                                                        <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, parseInt(selectedColors[product.id.toString()]))}>
                                                             {size.name}
                                                         </button>
                                                     </Tooltip>
                                                 ) : (
-                                                    <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, 0)}>
+                                                    <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, parseInt(selectedColors[product.id.toString()]))}>
                                                         {size.name}
                                                     </button>
                                                 )

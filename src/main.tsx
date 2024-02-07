@@ -1,19 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { routes } from './router/router'
-import { store, persistor } from './store.ts'
-import { PersistGate } from 'redux-persist/integration/react'
+import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { routes } from './router/router';
+import { store, persistor } from './store.ts';
+import { PersistGate } from 'redux-persist/integration/react';
 import { WishlistProvider } from './contexts/WishlistContext.tsx';
 import { CartProvider } from './contexts/CartContext.tsx';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { ApolloClient, ApolloProvider, InMemoryCache, useMutation } from '@apollo/client';
 import { SearchProvider } from './contexts/SearchContext.tsx';
+import { GENERATE_USER_VISITOR } from './graphql/user/user.graphql.ts';
+import { GENERATE_WISHLIST } from './graphql/wishlist/wishlist.graphql.ts';
+import Cookies from 'js-cookie';
 import './index.css';
-
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-)
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -26,9 +25,57 @@ const client = new ApolloClient({
       fetchPolicy: 'no-cache',
     },
   }
-})
+});
 
-root.render(
+const App: React.FC = () => {
+  const [mutationUserVisitor] = useMutation(GENERATE_USER_VISITOR);
+  const [mutationWishlistNew] = useMutation(GENERATE_WISHLIST);
+
+  useEffect(() => {
+    const createClientVisitor = async () => {
+      try {
+        const response = await mutationUserVisitor();
+        const user = response.data.createAnonymousUser;
+        Cookies.set('user', user.id);
+      } catch (error) {
+        console.error('Error al crear usuario: ', error);
+      }
+    };
+
+    const createWishlist = async (user: string | undefined) => {
+      try {
+        if(user){
+          const response = await mutationWishlistNew({ variables: { object: { userId: user } } });
+          const wishlist = response.data.createAWishlist;
+          Cookies.set('dt_wsl', wishlist.id);
+        }
+      } catch (error) {
+        console.error('Error al crear wishlist: ', error);
+      }
+    };
+
+    const userInCookies = Cookies.get('user');
+    const wishlistInCookies = Cookies.get('dt_wsl');
+
+    if (!userInCookies) {
+      createClientVisitor();
+    } else if(!wishlistInCookies) {
+      createWishlist(userInCookies);
+    }
+  }, [mutationUserVisitor, mutationWishlistNew]);
+
+  return (
+    <div>
+      <Routes>
+        {routes.map((value) => (
+          <Route key={value.key} path={value.path} element={value.component} />
+        ))}
+      </Routes>
+    </div>
+  );
+};
+
+ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
@@ -37,17 +84,7 @@ root.render(
             <SearchProvider>
               <CartProvider>
                 <WishlistProvider>
-                  <Routes>
-                    {routes.map((value) => {
-                      return (
-                        <Route 
-                          key={value.key} 
-                          path={value.path}
-                          element={value.component}>
-                        </Route>
-                      )
-                    })}
-                  </Routes>
+                  <App />
                 </WishlistProvider>
               </CartProvider>
             </SearchProvider>
@@ -55,5 +92,6 @@ root.render(
         </React.StrictMode>
       </PersistGate>
     </Provider>
-  </ApolloProvider>
-)
+  </ApolloProvider>,
+  document.getElementById('root')
+);
