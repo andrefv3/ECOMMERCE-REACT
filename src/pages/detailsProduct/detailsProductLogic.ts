@@ -83,10 +83,8 @@ const useDetailsProduct = () => {
     };
 
     const handleAddToCart = (productCode: number) => {
-        const colorId = parseInt(new URLSearchParams(window.location.search).get('colorId') || '0');
-
         if (selectSize) {
-            cartContext.handleCartClick(productCode, selectSize, colorId);
+            cartContext.handleCartClick(productCode, selectSize, parseInt(colorIdFromParams));
             setSelectSize(null);
         }
     };

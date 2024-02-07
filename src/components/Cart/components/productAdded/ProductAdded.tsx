@@ -43,7 +43,7 @@ export const ProductAdded: React.FC<productAddedDTO> = (props: productAddedDTO) 
                 <div className="flex-info">
                     <div className="product-image">
                         {addedProduct.images.map(image => (
-                            image.seqNum === 1 && (
+                           (image.seqNum === 1) && (image.colorId === props.size) &&(
                                 <img
                                     key={image.seqNum}
                                     draggable="false"

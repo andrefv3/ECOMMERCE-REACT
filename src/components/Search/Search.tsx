@@ -155,12 +155,12 @@ export const SearchComponent: React.FC<any> = () => {
                                                             {product.sizes.map((size) => (
                                                                 size.stockQuantity === 0 ? (
                                                                     <Tooltip text={size.stockQuantity === 0 ? 'Agotado' : ''} type='SoldOut' key={size.id}>
-                                                                        <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, 0)}>
+                                                                        <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, parseInt(selectedColors[product.id.toString()]))}>
                                                                             {size.name}
                                                                         </button>
                                                                     </Tooltip>
                                                                 ) : (
-                                                                    <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, 0)}>
+                                                                    <button key={size.id} className={`sizeProduct ${size.stockQuantity === 0 ? 'btnSizeDisabled' : ''}`} disabled={size.stockQuantity === 0} onClick={() => cartContext.handleCartClick(product.id, size.id, parseInt(selectedColors[product.id.toString()]))}>
                                                                         {size.name}
                                                                     </button>
                                                                 )

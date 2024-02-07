@@ -56,11 +56,17 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // FUNCTION FOR CLICK IN ADD CART
   const handleCartClick = (productCode: number, size: number, color: number) => {
+    const code = typeof productCode === 'string' ? parseInt(productCode, 10) : productCode;
+
     const existingItemIndex = cartItems.findIndex(
-      (item) => item.productCode === productCode && item.size === size
+      (item) => item.productCode === code && item.size === size
+    );
+
+    const existingColotIndex = cartItems.findIndex(
+      (item) => item.color === code && item.color === color
     );
   
-    if (existingItemIndex !== -1) {
+    if (existingItemIndex !== -1 && existingColotIndex !== -1) {
       setCartItems((prevCartItems) => {
         const updatedCartItems = [...prevCartItems];
         updatedCartItems[existingItemIndex] = {
@@ -72,7 +78,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return updatedCartItems;
       });
     } else {
-      const newCartItem = { productCode, size, quantity: 1, color };
+      const newCartItem = { productCode: code, size, quantity: 1, color };
       setCartItems((prevCartItems) => {
         const updatedCartItems = [...prevCartItems, newCartItem];
         dispatch(setDataCart({ items: updatedCartItems }));
