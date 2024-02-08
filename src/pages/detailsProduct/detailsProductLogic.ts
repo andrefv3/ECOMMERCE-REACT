@@ -11,7 +11,6 @@ const useDetailsProduct = () => {
     const [selectSize, setSelectSize] = useState<number | null>(null);
     const [hovered, setHovered] = useState(false);
     const infoCProductRef = useRef<HTMLDivElement | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true);//THIS STATE SAVE IS LOADING INFORMATION IN BOOLEAN
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
     const [scrollOffset, setScrollOffset] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
@@ -47,11 +46,9 @@ const useDetailsProduct = () => {
             setColorIdFromParams(colorId);
         }
        
-        const { data, loading, error } = await getProduct({
+        const { data, error } = await getProduct({
             variables: { object: { productId, colorId: parseInt(colorIdToUse) } },
         });
-    
-        setIsLoading(loading);
     
         if (data) {
             const productSingle = data.getProductById;
@@ -59,7 +56,8 @@ const useDetailsProduct = () => {
         }
     
         if (error) {
-            console.log("ERROR GRAPHQL => ", error);
+            navigate(`/not-found`);
+            window.scrollTo(0, 0);
         }
     };
 
@@ -145,13 +143,6 @@ const useDetailsProduct = () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
-
-    useEffect(() => {
-        if (product && product.images.length === 0) {
-            navigate(`/not-found`);
-            window.scrollTo(0, 0);
-        }
-    }, [product, navigate, isLoading]);
 
     return {
         infoCProductRef,
