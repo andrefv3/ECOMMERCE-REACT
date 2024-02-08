@@ -59,7 +59,8 @@ const App: React.FC = () => {
 
     if (!userInCookies) {
       createClientVisitor();
-    } else if(!wishlistInCookies) {
+    } 
+    if(userInCookies && !wishlistInCookies) {
       createWishlist(userInCookies);
     }
   }, [mutationUserVisitor, mutationWishlistNew]);

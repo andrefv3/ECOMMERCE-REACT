@@ -67,6 +67,7 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
                                         draggable="false" 
                                         src={color.image} 
                                         alt={color.name} 
+                                        title={color.name}
                                         onClick={() => handleColorClick(color.id)}
                                     />
                                 </div>
