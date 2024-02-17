@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { routes } from './router/router';
@@ -11,8 +10,13 @@ import { ApolloClient, ApolloProvider, InMemoryCache, useMutation } from '@apoll
 import { SearchProvider } from './contexts/SearchContext.tsx';
 import { GENERATE_USER_VISITOR } from './graphql/user/user.graphql.ts';
 import { GENERATE_WISHLIST } from './graphql/wishlist/wishlist.graphql.ts';
+import { createRoot } from 'react-dom/client';
 import Cookies from 'js-cookie';
 import './index.css';
+
+const root = createRoot(
+  document.getElementById('root') as HTMLElement
+)
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -76,7 +80,7 @@ const App: React.FC = () => {
   );
 };
 
-ReactDOM.render(
+root.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
@@ -94,5 +98,4 @@ ReactDOM.render(
       </PersistGate>
     </Provider>
   </ApolloProvider>,
-  document.getElementById('root')
 );

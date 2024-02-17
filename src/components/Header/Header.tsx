@@ -7,10 +7,9 @@ import { headerDTO } from './dto/headerDTO';
 import {UserIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import useHeader from './headerLogic';
 import CartComponent from '../Cart/Cart';
-import products from '@/productsData';
-import './header.css';
 import { ProductAdded } from '../Cart/components/productAdded/ProductAdded';
 import { SearchComponent } from '../Search/Search';
+import './header.css';
 
 export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
 
@@ -20,12 +19,9 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
         animationKey,
         //CART
         isOpenCart, 
-        cartItems,
         addedProduct,
         productAdded,
-        openCart, 
-        closeCart,
-        removeFromCart,
+        openCart,
         //SEARCH
         isOpenSearch, 
         openSearch, 
@@ -95,12 +91,7 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
             </header>
 
             {isOpenCart && (
-                <CartComponent
-                    products={products}
-                    cartItems={cartItems}
-                    onClose={() => closeCart()}
-                    onSelectedIdxChange={removeFromCart}
-                />
+                <CartComponent />
             )}
 
             {isOpenSearch && (
@@ -108,7 +99,7 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
             )}
 
             {addedProduct && productAdded && (
-                <ProductAdded productCode={productAdded.productCode} size={productAdded.size} />
+                <ProductAdded productCode={productAdded.productCode} size={productAdded.size} color={productAdded.color} />
             )}
         </>
     );

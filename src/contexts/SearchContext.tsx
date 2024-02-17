@@ -1,10 +1,5 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-
-interface SearchContextProps {
-    isOpenSearch: boolean;
-    openSearch: () => void;
-    closeSearch: () => void;
-}
+import { SearchContextProps } from "./dto/context.dto";
 
 const SearchContext = createContext<SearchContextProps | undefined>(undefined);
 

@@ -1,4 +1,5 @@
 export interface productAddedDTO {
     productCode: number;
-    size: number;
+    size: string;
+    color: number;
 }

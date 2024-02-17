@@ -66,3 +66,65 @@ export const PRODUCT_SINGLE = gql`
         }
     }
 `
+
+export const ALL_PRODUCTS = gql`
+    query {
+        getAllProducts {
+            id
+            name
+            reference
+            price
+            sizes {
+                id
+                name
+                stockQuantity
+            }
+            images {
+                name
+                url
+                seqNum
+                colorId
+            }
+            colors {
+                id
+                name
+                codeHex
+            }
+            category {
+                id
+                name
+            }
+        }
+    }
+`
+
+export const RECENT_PRODUCTS = gql`
+    query {
+        getRecentProducts {
+            id
+            name
+            reference
+            price
+            sizes {
+                id
+                name
+                stockQuantity
+            }
+            images {
+                name
+                url
+                seqNum
+                colorId
+            }
+            colors {
+                id
+                name
+                codeHex
+            }
+            category {
+                id
+                name
+            }
+        }
+    }
+`

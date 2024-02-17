@@ -15,7 +15,8 @@ export const ProductAdded: React.FC<productAddedDTO> = (props: productAddedDTO) 
         handleMouseLeave
     } = useProductAdded({
         productCode: props.productCode,
-        size: props.size
+        size: props.size,
+        color: props.color
     });
 
     if (!addedProduct || !isVisible) {
@@ -43,7 +44,7 @@ export const ProductAdded: React.FC<productAddedDTO> = (props: productAddedDTO) 
                 <div className="flex-info">
                     <div className="product-image">
                         {addedProduct.images.map(image => (
-                           (image.seqNum === 1) && (image.colorId === props.size) &&(
+                           (image.seqNum === 1) && (image.colorId === props.color) &&(
                                 <img
                                     key={image.seqNum}
                                     draggable="false"

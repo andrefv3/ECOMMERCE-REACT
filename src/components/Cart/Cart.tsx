@@ -1,19 +1,18 @@
 import { TrashIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { cartDTO } from './dto/cartDTO';
 import { formatCOP } from '@/utils/formatCurrency';
-import { CartItem } from '@/contexts/CartContext';
 import { HeartIcon } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 import cartEmpty from '@/assets/img/cartEmpty.png';
 import useCart from './cartLogic';
-import products, { Product } from '@/productsData';
+import { CartItem } from '@/contexts/dto/context.dto';
 import './cart.css';
 
-export const CartComponent: React.FC<cartDTO> = () => {
+export const CartComponent: React.FC = () => {
     const {
         orderTotal,
         totalQuantity,
         filteredProducts,
+        products,
         cartBoxRef,
         cartContext,
         wishlistContext
@@ -31,8 +30,8 @@ export const CartComponent: React.FC<cartDTO> = () => {
     );
 
     const renderCartItem = (product: CartItem) => {
-        const cartProduct = products.find((item: Product) => item.id === product.productCode);
-    
+        const cartProduct = products.find(item => Number(item.id) === product.productCode);
+
         if (!cartProduct) {
             return null;
         }
@@ -147,7 +146,7 @@ export const CartComponent: React.FC<cartDTO> = () => {
                             </button>
                         </a>
                     </div>
-                    {totalQuantity === 0 ? renderEmptyCart() : filteredProducts.map((product: CartItem) => (
+                    {cartContext.cartItems.length === 0 ? renderEmptyCart() : filteredProducts.map((product) => (
                         <div key={product.productCode}>
                             {renderCartItem(product)}
                         </div>

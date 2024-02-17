@@ -1,13 +1,13 @@
 import { useCartContext } from "@/contexts/CartContext";
-import products, { Product } from "@/productsData";
 import { useEffect, useRef, useState } from "react";
 import { productAddedDTO } from "./dto/productAddedDTO";
+import { ProductSingle } from "@/graphql/dto/product-single-dto";
 
 const useProductAdded = (props: productAddedDTO) => {
     const [isVisible, setIsVisible] = useState(false);
     const isMouseOverRef = useRef(false);
-    const addedProduct: Product | undefined = products.find((product: Product) => product.id === props.productCode);
     const cartContext = useCartContext();
+    const addedProduct: ProductSingle | undefined = cartContext.products.find((product: ProductSingle) => Number(product.id) === props.productCode);
     const closeTimeoutId = useRef<number | null>(null);
 
     const viewCart = () => {
