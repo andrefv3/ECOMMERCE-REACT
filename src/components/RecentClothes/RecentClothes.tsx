@@ -1,19 +1,18 @@
-import './recentClothes.css';
 import { HeartIcon } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
-import { RecentClothesDTO } from './dto/recentClothesDTO';
-import useRecentClothes from './recentClothesLogic';
 import { formatCOP } from '@/utils/formatCurrency';
-import { Sizes } from '@/productsData';
+import { Sizes } from '@/graphql/dto/product-single-dto';
+import useRecentClothes from './recentClothesLogic';
 import Tooltip from '../Tooltip/Tooltip';
+import './recentClothes.css';
 
-export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDTO) => {
+export const RecentClothes: React.FC = () => {
     const {
-        selectedIdx,
         wishlistContext,
         showSizes, 
         cartContext,
         selectedColors,
+        products,
         // handleColorChange,
         handleToggleSizes,
         handleOpenDetails,
@@ -23,7 +22,7 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
         <section id="RecentProducts">
             <h2 className="title__section text-4xl font-bold mb-8">Te puede interesar</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {props.products.map((product, index) => (
+                {products.map((product, index) => (
                     <div key={index} className="c-image">
                         <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.id, selectedColors[product.id.toString()])}>
                             <figure className="figure" onMouseEnter={() => handleToggleSizes(product.id, true)} onMouseLeave={() => handleToggleSizes(product.id, false)}>
@@ -74,7 +73,7 @@ export const RecentClothes: React.FC<RecentClothesDTO> = (props: RecentClothesDT
                                 <span>{formatCOP(product.price)}</span>
                             </div>
                             <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.id)}>
-                                {selectedIdx && selectedIdx.includes(product.id) ? (
+                                {wishlistContext.selectedIdx.includes(Number(product.id)) ? (
                                     <HeartIconSolid className='colorIcon redIcon' />
                                 ) : (
                                     <HeartIcon className='colorIcon' />

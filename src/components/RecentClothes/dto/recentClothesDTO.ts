@@ -1,5 +1,5 @@
-import { Product } from "@/productsData";
+import { ProductSingle } from "@/graphql/dto/product-single-dto";
 
 export interface RecentClothesDTO {
-    products: Product[];
+    products: ProductSingle[];
 }

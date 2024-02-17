@@ -3,9 +3,9 @@ import { formatCOP } from "@/utils/formatCurrency";
 import { HeartIcon } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 import wishEmpty from '@/assets/img/wishlistEmpty.png';
-import { Product } from "@/productsData";
 import useWishlist from "./wishlistLogic";
 import './wishlist.css';
+import { ProductSingle } from "@/graphql/dto/product-single-dto";
 
 export const Wishlist: React.FC<any> = () => {  
     const {
@@ -19,7 +19,6 @@ export const Wishlist: React.FC<any> = () => {
         filteredProducts,
         showSizes,
         wishlistContext,
-        selectedIdx, 
     } = useWishlist();
 
     const renderEmptyWishlist = () => (
@@ -33,7 +32,7 @@ export const Wishlist: React.FC<any> = () => {
         </div>
     );
 
-    const renderWishlistItem = (product: Product) => (
+    const renderWishlistItem = (product: ProductSingle) => (
         <>
             <div className="c-image">
                 <div className="c-image-responsive cursor-pointer" onClick={() => handleOpenDetails(product.id, selectedColors[product.id.toString()])}>
@@ -81,7 +80,7 @@ export const Wishlist: React.FC<any> = () => {
                         <span>{formatCOP(product.price)}</span>
                     </div>
                     <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.id)}>
-                        {selectedIdx.includes(product.id) ? (
+                        {wishlistContext.selectedIdx.includes(Number(product.id)) ? (
                             <HeartIconSolid className='colorIcon redIcon' />
                         ) : (
                             <HeartIcon className='colorIcon' />
@@ -100,7 +99,7 @@ export const Wishlist: React.FC<any> = () => {
             </div>
             <div className="productWishlist">
                 <div className="grid grid-cols-4 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                    {filteredProducts.length === 0 ? renderEmptyWishlist() : filteredProducts.map((product: Product) => (
+                    {filteredProducts.length === 0 ? renderEmptyWishlist() : filteredProducts.map((product: ProductSingle) => (
                         <div key={product.id}>
                             {renderWishlistItem(product)}
                         </div>

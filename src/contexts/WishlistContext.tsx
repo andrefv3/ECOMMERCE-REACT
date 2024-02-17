@@ -2,13 +2,9 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 import { useDispatch, useSelector } from 'react-redux';
 import { setDataWishlist } from '@/reducers/wishlist/actions';
 
-import products, { Product } from '@/productsData';
-
 interface WishlistContextProps {
-  products: Product[];
   selectedIdx: number[];
   animationKey: boolean;
-  removeFromWishlist: (productId: number) => void;
   handleWishlistClick: (productCode: number) => void;
 }
 
@@ -21,19 +17,25 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
   const dispatch = useDispatch();
   const wishlistData = useSelector(({ wishlistData }) => wishlistData); //CAPTURE DATA CURRENT OF STORAGE
 
-  // FUNCTION FOR DELETE PRODUCTS OF WISHLIST
-  const removeFromWishlist = (productCode: number) => {
-    const updatedSelectedIdx = wishlistData?.wishlist?.updatedSelectedIdx;
-    const updatedWishlistData = Array.isArray(updatedSelectedIdx) ? updatedSelectedIdx.filter((id: number) => id !== productCode) : [];
-    dispatch(setDataWishlist({ updatedSelectedIdx: updatedWishlistData }));
-  };
-
   // FUNCTION FOR CLICK IN HEART 
   const handleWishlistClick = (productCode: number) => {
     setSelectedIdx((prevSelectedIdx) => {
-      const updatedSelectedIdx = prevSelectedIdx.includes(productCode) ? prevSelectedIdx.filter((code) => code !== productCode) : [...prevSelectedIdx, productCode];
+      // CHECK IF THE PRODUCTCODE IS ALREADY IN PREVSELECTEDIDX
+      const isProductSelected = prevSelectedIdx.includes(parseInt(productCode.toString()));
+      let updatedSelectedIdx: number[];
+  
+      if (isProductSelected) {
+        // IF THE PRODUCTCODE IS ALREADY IN PREVSELECTEDIDX, REMOVE IT FROM THE LIST
+        updatedSelectedIdx = prevSelectedIdx.filter((code) => code !==  parseInt(productCode.toString()));
+      } else {
+        // IF THE PRODUCTCODE IS NOT IN PREVSELECTEDIDX, ADD IT TO THE LIST
+        updatedSelectedIdx = [...prevSelectedIdx, parseInt(productCode.toString())];
+      }
+  
+      // UPDATE STATUS WITH NEW LIST OF SELECTED INDEXES
       dispatch(setDataWishlist({ updatedSelectedIdx }));
       setAnimationKey(true);
+      
       return updatedSelectedIdx;
     });
   };
@@ -45,21 +47,18 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   // USEEFFECT FOR UPDATE DATA IN LOCALSTORAGE
   useEffect(() => {
-    // Función para actualizar selectedIdx a partir de wishlistData
     const updateSelectedIdxFromWishlistData = () => {
       const { updatedSelectedIdx } = wishlistData?.wishlist || {};
-      // Verifica si updatedSelectedIdx es un array antes de actualizar selectedIdx
       if (Array.isArray(updatedSelectedIdx)) {
         setSelectedIdx(updatedSelectedIdx);
       }
     };
 
-    // Llama a la función al cargar el componente para inicializar selectedIdx
     updateSelectedIdxFromWishlistData();
   }, [wishlistData]);
 
   return (
-    <WishlistContext.Provider value={{ products, selectedIdx, animationKey, removeFromWishlist, handleWishlistClick }}>
+    <WishlistContext.Provider value={{selectedIdx, animationKey, handleWishlistClick }}>
       {children}
     </WishlistContext.Provider>
   );

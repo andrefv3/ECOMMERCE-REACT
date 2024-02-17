@@ -178,7 +178,7 @@ export const SearchComponent: React.FC<any> = () => {
                                                 <span>{formatCOP(product.price)}</span>
                                             </div>
                                             <div className="btn__wishlist" onClick={() => wishlistContext.handleWishlistClick(product.id)}>
-                                                {wishlistContext.selectedIdx.includes(product.id) ? (
+                                                {wishlistContext.selectedIdx.includes(Number(product.id)) ? (
                                                     <HeartIconSolid className='colorIcon redIcon' />
                                                 ) : (
                                                     <HeartIcon className='colorIcon' />

@@ -91,7 +91,7 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
                                 {(!selectSize && hovered) ? 'Selecciona talla' : 'Añadir a la cesta'}
                             </button>
                             <div className="btn__wishlist__cproduct" onClick={() => wishlistContext.handleWishlistClick(product.id)}>
-                                {wishlistContext.selectedIdx.includes(product.id) ? (
+                                {wishlistContext.selectedIdx.includes(Number(product.id)) ? (
                                     <HeartIconSolid className='colorIcon redIcon'/>
                                 ) : (
                                     <HeartIcon className='colorIcon'/>

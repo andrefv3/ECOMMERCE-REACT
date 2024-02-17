@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { CartItem, useCartContext } from "@/contexts/CartContext";
-import products from "@/productsData";
+import { useCartContext } from "@/contexts/CartContext";
 import { useWishlistContext } from "@/contexts/WishlistContext";
+import { CartItem } from "@/contexts/dto/context.dto";
 
 const useCart = () => {
     const cartData = useSelector(({ cartData }) => cartData);
@@ -12,10 +12,11 @@ const useCart = () => {
     const cartBoxRef = useRef<HTMLDivElement | null>(null);
     const [filteredProducts, setFilteredProducts] = useState<CartItem[]>([]);
     const totalQuantity = cartItems.reduce((total: any, cartItem: { quantity: any; }) => total + cartItem.quantity, 0);
+    const products = cartContext.products;
 
     const orderTotal = filteredProducts.reduce(
         (total, product) =>
-          total + (products.find((item: any) => item.productCode === product.productCode)?.price || 0) * product.quantity,
+          total + (cartContext.products.find((item: any) => Number(item.id) === product.productCode)?.price || 0) * product.quantity,
         0
     );
 
@@ -58,6 +59,7 @@ const useCart = () => {
         cartItems,
         totalQuantity,
         filteredProducts,
+        products,
         cartBoxRef,
         cartContext,
         wishlistContext,

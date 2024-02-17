@@ -1,6 +1,6 @@
 import { useCartContext } from "@/contexts/CartContext";
 import { useWishlistContext } from "@/contexts/WishlistContext";
-import { Product } from "@/productsData";
+import { ProductSingle } from "@/graphql/dto/product-single-dto";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,9 +8,8 @@ import { useNavigate } from "react-router-dom";
 const useWishlist = () => {
     const [selectedSizes, setSelectedSizes] = useState<{ [productCode: number]: number }>({});
     const [selectedColors, setSelectedColors] = useState<{ [productId: string]: string }>({});
-    const [selectedIdx, setSelectedIdx] = useState<number[]>([]);
     const [showSizes, setShowSizes] = useState<{ [productCode: number]: boolean }>({});
-    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<ProductSingle[]>([]);
     
     const wishlistData = useSelector(({ wishlistData }: any) => wishlistData);
     const wishlistContext = useWishlistContext();
@@ -28,10 +27,10 @@ const useWishlist = () => {
         setShowSizes(prevState => ({ ...prevState, [productCode]: show }));
     };
 
-    const handleMoveToCart = (product: Product) => {
+    const handleMoveToCart = (product: ProductSingle) => {
         const currentSelectedSize = selectedSizes[product.id];
         if (currentSelectedSize) {
-            wishlistContext.removeFromWishlist(product.id);
+            wishlistContext.handleWishlistClick(product.id);
             cartContext.handleCartClick(product.id, currentSelectedSize, 0);
         }
     };
@@ -42,34 +41,15 @@ const useWishlist = () => {
     }
 
     useEffect(() => {
-        // Función para actualizar selectedIdx a partir de wishlistData
-        const updateSelectedIdxFromWishlistData = () => {
-          const { updatedSelectedIdx } = wishlistData?.wishlist || {};
-          
-          // Verifica si updatedSelectedIdx es un array antes de actualizar selectedIdx
-          if (Array.isArray(updatedSelectedIdx)) {
-            const parsedIdx = updatedSelectedIdx.map(item => parseInt(item, 10));
-            setSelectedIdx(parsedIdx);
-          }
-        };
-    
-        // Llama a la función al cargar el componente para inicializar selectedIdx
-        updateSelectedIdxFromWishlistData();
-    }, [wishlistData]);
-
-    useEffect(() => {
-        const { updatedSelectedIdx } = wishlistData?.wishlist || {};
-            if (Array.isArray(updatedSelectedIdx)) {
-            const filtered = wishlistContext.products.filter((product) =>
-                updatedSelectedIdx.includes(product.id)
-            );
-
+        if (wishlistData && wishlistData.wishlist && wishlistData.wishlist.updatedSelectedIdx && cartContext.products) {
+            const { updatedSelectedIdx } = wishlistData.wishlist;
+            const filtered = cartContext.products.filter((product) => updatedSelectedIdx.includes(Number(product.id)));
             setFilteredProducts(filtered);
         }
-    }, [wishlistData, wishlistContext]);
+    }, [wishlistData, cartContext.products]);
 
     useEffect(() => {
-        // Establecer el color por defecto para cada producto si no está definido
+        // SET THE DEFAULT COLOR FOR EACH PRODUCT IF IT IS NOT DEFINED
         const updatedSelectedColors = { ...selectedColors };
         filteredProducts.forEach(product => {
             const productIdString = product.id.toString();
@@ -92,7 +72,6 @@ const useWishlist = () => {
         showSizes,
         cartContext,
         wishlistContext,
-        selectedIdx, 
     }
 }
 
