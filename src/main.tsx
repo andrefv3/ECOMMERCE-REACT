@@ -41,15 +41,18 @@ const App: React.FC = () => {
         const response = await mutationUserVisitor();
         const user = response.data.createAnonymousUser;
         Cookies.set('user', user.id);
+        
+        // Una vez que se ha creado el usuario, intenta crear la wishlist
+        createWishlist(user.id);
       } catch (error) {
         console.error('Error al crear usuario: ', error);
       }
     };
-
-    const createWishlist = async (user: string | undefined) => {
+  
+    const createWishlist = async (userId: string | undefined) => {
       try {
-        if(user){
-          const response = await mutationWishlistNew({ variables: { object: { userId: user } } });
+        if(userId){
+          const response = await mutationWishlistNew({ variables: { object: { userId } } });
           const wishlist = response.data.createAWishlist;
           Cookies.set('dt_wsl', wishlist.id);
         }
@@ -57,17 +60,14 @@ const App: React.FC = () => {
         console.error('Error al crear wishlist: ', error);
       }
     };
-
+  
     const userInCookies = Cookies.get('user');
-    const wishlistInCookies = Cookies.get('dt_wsl');
-
+    Cookies.get('dt_wsl');
+  
     if (!userInCookies) {
       createClientVisitor();
     } 
-    if(userInCookies && !wishlistInCookies) {
-      createWishlist(userInCookies);
-    }
-  }, [mutationUserVisitor, mutationWishlistNew]);
+  }, [mutationUserVisitor, mutationWishlistNew]);  
 
   return (
     <div>
