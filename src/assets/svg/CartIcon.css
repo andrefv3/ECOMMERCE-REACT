@@ -1,0 +1,38 @@
+@keyframes slideOut {
+    0% {
+        transform: translateY(0px);
+    }
+    20% {
+        transform: translateY(-36px);
+    }
+    30% {
+        transform: translateY(-36px);
+    }
+    40% {
+        transform: translateY(-36px);
+    }
+    50% {
+        transform: translateY(-36px);
+    }
+    60% {
+        transform: translateY(-36px);
+    }
+    70% {
+        transform: translateY(-36px);
+    }
+    80% {
+        transform: translateY(-36px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+}
+
+#cartHeart {
+    height: 36px;
+    overflow: hidden;
+}
+
+.carruselCart.SlideOut {
+    animation: slideOut 2.5s ease-in-out forwards; /* Ajusta la duración de la animación slideOut */
+}

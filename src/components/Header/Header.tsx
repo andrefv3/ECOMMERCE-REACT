@@ -1,7 +1,4 @@
-import Logo from '@/assets/svg/Logo.svg';
-import LogoWhite from '@/assets/svg/Logo-white.svg';
-import Cart from '@/assets/svg/cart.svg';
-import CartHeart from '@/assets/svg/cart-heart.svg';
+import LogoSHOPI from '@/assets/svg/Logo';
 import Tooltip from '../Tooltip/Tooltip';
 import { headerDTO } from './dto/headerDTO';
 import {UserIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -10,6 +7,7 @@ import CartComponent from '../Cart/Cart';
 import { ProductAdded } from '../Cart/components/productAdded/ProductAdded';
 import { SearchComponent } from '../Search/Search';
 import './header.css';
+import CartHeart from '@/assets/svg/CartIcon';
 
 export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
 
@@ -49,7 +47,7 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
                             </ul>
                         </div>
                         <a href="/" className={`h-8 Logo`}>
-                            <img src={!isOpenSearch && (!scrolled && props.type === 'main') ? LogoWhite : Logo} className={`h-8 ${!scrolled ? 'logo__white' : ''}`} draggable="false" alt="Shopi Logo" />
+                            <LogoSHOPI color={!isOpenSearch && (!scrolled && props.type === 'main') ? "#fff" : "#000"} width={99} height={32} />
                         </a>
                         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                             <div className="flex cartOptions">
@@ -74,7 +72,7 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
                                 </Tooltip>
                                 <Tooltip text="Cesta">
                                     <a className='pointer-c' onClick={() => openCart()}>
-                                        <img src={animationKey ? CartHeart : Cart} className={`colorIconHeader icon-40 ${!isOpenSearch && (!scrolled && props.type === 'main') ? 'c-white' : ''}`} draggable="false" />
+                                        <CartHeart color={!isOpenSearch && (!scrolled && props.type === 'main') ? '#fff' : '#000'} width={34} height={34} type={animationKey ? true : false} />
                                     </a>
                                 </Tooltip>
                             </div>

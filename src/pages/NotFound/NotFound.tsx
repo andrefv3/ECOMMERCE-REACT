@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Logo from '@/assets/svg/Logo.svg';
+import LogoSHOPI from '@/assets/svg/Logo';
 import './notFound.css';
 
 function NotFound() {
@@ -7,7 +7,7 @@ function NotFound() {
         <>
             <div className="boxLogoNF">
                 <Link to="/" className='LogoNotFound'>
-                    <img src={Logo} draggable="false" alt="Shopi Logo" />
+                    <LogoSHOPI color={"#000"} width={104} />
                 </Link>
             </div>
             <div id="PageNotFound">
