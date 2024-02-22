@@ -10,20 +10,18 @@ const CartHeart: React.FC<svgProps> = ({ color, width, height, type }) => {
     const { updatedSelectedIdx } = wishlistData.wishlist;
 
     useEffect(() => {
-        if(updatedSelectedIdx.length < 1){
+        if(updatedSelectedIdx.length === 0){
             setAnimationSlideOut(false);
             if (type) {
                 setTimeout(() => {
                     setAnimationSlideOut(true);
-                    setTimeout(() => {
-                        setFillHeart(true);
-                    }, 400)
+                    
                 }, 1000); // Ajusta el tiempo según la duración de la animación SlideOut
             }
         }else if(updatedSelectedIdx.length > 0){
             setFillHeart(true);
         }
-    }, [type, wishlistData]);
+    }, [type]);
 
     return (
         <div id="cartHeart">
