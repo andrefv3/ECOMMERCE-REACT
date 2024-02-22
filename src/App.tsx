@@ -3,17 +3,19 @@ import { routes } from "./router/router";
 import { useMutation } from "@apollo/client";
 import { GENERATE_USER_VISITOR } from "./graphql/user/user.graphql";
 import { GENERATE_WISHLIST } from "./graphql/wishlist/wishlist.graphql";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { UserDTO } from "./graphql/dto/user-single-dto";
 import Cookies from 'js-cookie';
 
 const App: React.FC = () => {
     const [mutationUserVisitor] = useMutation(GENERATE_USER_VISITOR);
     const [mutationWishlistNew] = useMutation(GENERATE_WISHLIST);
+    const mutationUserVisitorRef = useRef(mutationUserVisitor);
   
-    const createWishlist = async (userId: string | undefined) => {
+    const createWishlist = async (user: UserDTO) => {
       try {
-        if(userId){
-          const response = await mutationWishlistNew({ variables: { object: { userId } } });
+        if(user){
+          const response = await mutationWishlistNew({ variables: { object: { userId: user.id} } });
           const wishlist = response.data.createAWishlist;
           Cookies.set('dt_wsl', wishlist.id, {secure: true, sameSite: 'strict'});
         }
@@ -22,33 +24,25 @@ const App: React.FC = () => {
       }
     };
   
-    const createClientVisitor = async () => {
-      try {
-        const response = await mutationUserVisitor();
-        const user = response.data.createAnonymousUser;
-        Cookies.set('user', user.id, {secure: true, sameSite: 'strict'});
-        
-        // Una vez que se ha creado el usuario, intenta crear la wishlist
-        createWishlist(user.id);
-      } catch (error) {
-        console.error('Error al crear usuario: ', error);
-      }
-    };
-  
     useEffect(() => {
       const initializeUser = async () => {
         const userInCookies = Cookies.get('user');
         if (!userInCookies) {
           try {
-            await createClientVisitor();
+            const response = await mutationUserVisitorRef.current();
+            const user = response.data.createAnonymousUser;
+            Cookies.set('user', user.id, {secure: true, sameSite: 'strict'});
+            
+            // Una vez que se ha creado el usuario, intenta crear la wishlist
+            createWishlist(user);
           } catch (error) {
-            console.error('Error initializing user:', error);
+            console.error('Error al crear usuario: ', error);
           }
         }
       };
-  
+    
       initializeUser();
-    }, [mutationUserVisitor]); 
+    }, [mutationUserVisitorRef]);
   
     return (
       <div>
