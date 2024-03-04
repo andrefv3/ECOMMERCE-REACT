@@ -1,18 +1,20 @@
-import LogoSHOPI from '@/assets/svg/Logo';
-import Tooltip from '../Tooltip/Tooltip';
 import { headerDTO } from './dto/headerDTO';
 import {UserIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import useHeader from './headerLogic';
-import CartComponent from '../Cart/Cart';
 import { ProductAdded } from '../Cart/components/productAdded/ProductAdded';
 import { SearchComponent } from '../Search/Search';
-import './header.css';
+import LogoSHOPI from '@/assets/svg/Logo';
+import Tooltip from '../Tooltip/Tooltip';
+import useHeader from './headerLogic';
+import CartComponent from '../Cart/Cart';
 import CartHeart from '@/assets/svg/CartIcon';
+import './header.css';
 
 export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
 
     const {
         scrolled,
+        getClassColor,
+        getColorHeader,
         //WISHLIST
         animationKey,
         //CART
@@ -38,24 +40,24 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
                         <div className="items-center justify-between hidden w-full md:flex md:w-auto " id="navbar-sticky">
                             <ul className="flex flex-col font-medium items-center md:flex-row md:mt-0 md:border-0">
                                 <li className='gender'>
-                                    <a href="#" className={`block py-2 text-gray-900 md:bg-transparent md:p-0 aria-current="page ${!isOpenSearch && (!scrolled && props.type === 'main') ? 'c-white' : ''}`}>Mujer</a>
+                                    <a href="#" className={`block py-2 text-gray-900 md:bg-transparent md:p-0 aria-current="page ${getClassColor()}`}>Mujer</a>
                                 </li>
                                 <div className="divider rounded "></div>
                                 <li className={`gender c-main-nav ${!isOpenSearch && (!scrolled && props.type === 'main') ? 'c-main-nav-white' : ''}`}>
-                                    <a href="#" className={`block py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 ${!isOpenSearch && (!scrolled && props.type === 'main') ? 'c-white' : ''}`}>Hombre</a>
+                                    <a href="#" className={`block py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 ${getClassColor()}`}>Hombre</a>
                                 </li>                      
                             </ul>
                         </div>
                         <a href="/" className={`h-8 Logo`}>
-                            <LogoSHOPI color={!isOpenSearch && (!scrolled && props.type === 'main') ? "#fff" : "#000"} width={99} height={32} />
+                            <LogoSHOPI color={getColorHeader()} width={99} height={32} />
                         </a>
                         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                             <div className="flex cartOptions">
                                     {!isOpenSearch ? (
                                         <a className='pointer-c' onClick={() => openSearch()}>
                                             <div className="search">
-                                                <MagnifyingGlassIcon className={`colorIconHeader ${!isOpenSearch && (!scrolled && props.type === 'main') ? 'c-white' : ''}`}/>
-                                                <span className={`${!isOpenSearch && (!scrolled && props.type === 'main') ? 'c-white' : ''}`}>Buscar</span>
+                                                <MagnifyingGlassIcon className={`colorIconHeader ${getClassColor()}`}/>
+                                                <span className={getClassColor()}>Buscar</span>
                                             </div>
                                         </a>
                                     ) : (
@@ -67,12 +69,12 @@ export const HeaderComponent: React.FC<headerDTO> = (props: headerDTO) => {
                                     )}
                                 <Tooltip text="Iniciar sesión">
                                     <a className="pointer-c">
-                                        <UserIcon className={`colorIconHeader ${!isOpenSearch && (!scrolled && props.type === 'main') ? 'c-white' : ''}`} />
+                                        <UserIcon className={`colorIconHeader ${getClassColor()}`} />
                                     </a>
                                 </Tooltip>
                                 <Tooltip text="Cesta">
                                     <a className='pointer-c' onClick={() => openCart()}>
-                                        <CartHeart color={!isOpenSearch && (!scrolled && props.type === 'main') ? '#fff' : '#000'} width={34} height={34} type={animationKey ? true : false} />
+                                        <CartHeart color={getColorHeader()} width={34} height={34} type={animationKey ? true : false} />
                                     </a>
                                 </Tooltip>
                             </div>

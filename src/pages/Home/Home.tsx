@@ -7,7 +7,7 @@ import './home.css'
 function Home() {
   return (
     <>
-      <HeaderComponent type='main'/>
+      <HeaderComponent type='main' isWhite='false'/>
       <Carousel />
       <RecentClothes />
       <FooterComponent />

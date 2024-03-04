@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import './carousel.css';
 
 const imagesData = [
-    { name: 'Image 1', url: 'https://images.unsplash.com/photo-1479968129048-7372423067cf?q=80&w=2969&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', colorTitles: 'black'},
-    { name: 'Image 2', url: 'https://images.unsplash.com/photo-1503424886307-b090341d25d1?q=80&w=2976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', colorTitles: 'black' },
-    { name: 'Image 3', url: 'https://images.unsplash.com/photo-1508255139162-e1f7b7288ab7?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', colorTitles: 'black' },
+    { name: 'Image 1', url: '/static/collections/new-collection-banner.png', colorTitles: 'black'},
+    { name: 'Image 2', url: '/static/collections/accesorios-collection-banner.png', colorTitles: 'white' },
+    { name: 'Image 3', url: '/static/collections/sudaderas-collection-banner.png', colorTitles: 'black' },
 ];
 
 export const Carousel: React.FC<any> = () => {  

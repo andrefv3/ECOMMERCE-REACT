@@ -59,7 +59,7 @@ export const SearchComponent: React.FC<any> = () => {
 
                     {filteredProducts.length > 0 && (
                         <div className="relative results search__results__filters">
-                            <span className="count__results">{count + " resultados"}</span>
+                            <span className="count__results">{count + `${count != 1 ? ' resultados' : ' resultado'}`}</span>
                             <div className="search-filters">
                                 <button className="is-naked is-outline search-filters__tag grid-tag active">
                                     Todos
@@ -107,7 +107,7 @@ export const SearchComponent: React.FC<any> = () => {
                 )}
             </div>
 
-            <div className="content--wrapper" style={{ marginTop: `${boxSearchHeight + 80}px` }}>
+            <div className="content--wrapper" style={{ marginTop: `${boxSearchHeight}px` }}>
                 <section className="grid__area">
                     <div className="recommended">
                         {!searched && (

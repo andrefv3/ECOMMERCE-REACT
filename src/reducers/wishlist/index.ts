@@ -1,7 +1,9 @@
 import { SET_DATA_WISHLIST } from "./actions"
 
 const initialState = {
-  wishlist: {},
+  wishlist: {
+    updatedSelectedIdx: []
+  },
 }
 
 export const wishlistData = (state = initialState, action: any) => {
