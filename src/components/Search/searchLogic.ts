@@ -34,6 +34,10 @@ const useSearch = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        filteredProducts.length > 0 ? setBoxSearchHeight(232) : setBoxSearchHeight(170);
+    }, [filteredProducts]);
+
+    useEffect(() => {
         if (isLoading && searched && search) {
             const executeInitData = async () => {
                 await getAllProductsByWord(search, page, maxCount);
@@ -121,13 +125,6 @@ const useSearch = () => {
           window.removeEventListener('scroll', handleScroll);
         };
     }, []);
-
-    useEffect(() => {
-        if (BoxSearchRef.current) {
-          const height = BoxSearchRef.current.getBoundingClientRect().height;
-          setBoxSearchHeight(height);
-        }
-    }, [BoxSearchRef]);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = event.target.value.toLowerCase();
