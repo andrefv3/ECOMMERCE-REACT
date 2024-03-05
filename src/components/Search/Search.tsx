@@ -116,9 +116,9 @@ export const SearchComponent: React.FC<any> = () => {
                                 <div className="scroll_products">
                                     <div className="grid-container">
                                         {Array.from({ length: 15 }, (_, index) => (
-                                        <div className="grid-product" key={index}>
-                                            <div className="example"></div>
-                                        </div>
+                                            <div className="grid-product" key={index}>
+                                                <div className="example"></div>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>

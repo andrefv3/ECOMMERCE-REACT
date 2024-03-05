@@ -5,6 +5,9 @@ import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 import { formatCOP } from "@/utils/formatCurrency";
 import useDetailsProduct from "./detailsProductLogic";
+import Breadcrumb from "@/pages/detailsProduct/components/breadCrumb/breadCrumb";
+import { Sizes } from "@/graphql/dto/product-single-dto";
+import Tooltip from "@/components/Tooltip/Tooltip";
 import './detailsProduct.css';
 
 export const DetailsProduct: React.FC<DetailsProductDTO> = () => {    
@@ -33,6 +36,9 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
     return (
         <>
             <HeaderComponent />
+            <div className="breadCrumb">
+                <Breadcrumb currentPage={product.name} category={product.category[0].name}/>
+            </div>
             <section className="info__cproduct relative" ref={infoCProductRef}>
                 <div className="images__cproduct">
                     <div className="container mx-auto ">
@@ -75,8 +81,27 @@ export const DetailsProduct: React.FC<DetailsProductDTO> = () => {
                         </div>
                         
                         <div className="buttonSize__cproducts">
-                            {product.sizes.map((size, index) => (
-                                <button key={index} className={`size__cproduct ${selectSize === size.id ? 'selected' : ''}`} onClick={() => handleSizeClick(size.id)}>{size.name}</button>
+                            {product.sizes.map((size: Sizes, index) => (
+                                size.stockQuantity === 0 ? (
+                                    <Tooltip key={size.id} text={size.stockQuantity === 0 ? 'Agotado' : ''} type='SoldOut'>
+                                        <button 
+                                            key={index} 
+                                            className={`size__cproduct is-disabled ${selectSize === size.id ? 'selected' : ''}`} 
+                                            onClick={() => handleSizeClick(size.id)}
+                                            disabled={size.stockQuantity === 0}
+                                        >
+                                            {size.name}
+                                        </button>
+                                    </Tooltip>
+                                ) : (
+                                    <button 
+                                        key={index} 
+                                        className={`size__cproduct ${selectSize === size.id ? 'selected' : ''}`} 
+                                        onClick={() => handleSizeClick(size.id)}
+                                    >
+                                        {size.name}
+                                    </button>
+                                )
                             ))}
                         </div>
 

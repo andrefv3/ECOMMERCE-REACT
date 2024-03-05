@@ -6,6 +6,14 @@
     display: flex;
 }
 
+.breadCrumb {
+    width: 100%;
+    padding: 15px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .images__cproduct {
     width: 68%;
 }
@@ -72,6 +80,12 @@
 
 .size__cproduct:hover {
     border: 1.4px solid #000;
+}
+
+.size__cproduct.is-disabled {
+    border: none;
+    background: rgb(245, 245, 245);
+    color: #b4b4b4;
 }
 
 .size__cproduct.selected {
