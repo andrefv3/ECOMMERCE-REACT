@@ -22,6 +22,7 @@ export interface CartContextProps {
 }
 
 export interface WishlistContextProps {
+    products: ProductSingle[];
     selectedIdx: number[];
     animationKey: boolean;
     handleWishlistClick: (productCode: number) => void;

@@ -2,7 +2,6 @@ import { useCartContext } from "@/contexts/CartContext";
 import { useWishlistContext } from "@/contexts/WishlistContext";
 import { ProductSingle } from "@/graphql/dto/product-single-dto";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const useWishlist = () => {
@@ -11,7 +10,6 @@ const useWishlist = () => {
     const [showSizes, setShowSizes] = useState<{ [productCode: number]: boolean }>({});
     const [filteredProducts, setFilteredProducts] = useState<ProductSingle[]>([]);
     
-    const wishlistData = useSelector(({ wishlistData }: any) => wishlistData);
     const wishlistContext = useWishlistContext();
     const cartContext = useCartContext();
     const navigate = useNavigate();
@@ -41,12 +39,10 @@ const useWishlist = () => {
     }
 
     useEffect(() => {
-        if (wishlistData && wishlistData.wishlist && wishlistData.wishlist.updatedSelectedIdx && cartContext.products) {
-            const { updatedSelectedIdx } = wishlistData.wishlist;
-            const filtered = cartContext.products.filter((product) => updatedSelectedIdx.includes(Number(product.id)));
-            setFilteredProducts(filtered);
+        if(wishlistContext.products){
+            setFilteredProducts(wishlistContext.products);
         }
-    }, [wishlistData, cartContext.products]);
+    }, [wishlistContext])
 
     useEffect(() => {
         // SET THE DEFAULT COLOR FOR EACH PRODUCT IF IT IS NOT DEFINED
