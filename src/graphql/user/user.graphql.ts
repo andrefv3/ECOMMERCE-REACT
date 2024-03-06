@@ -8,3 +8,15 @@ export const GENERATE_USER_VISITOR = gql`
         }
     }
 `
+
+export const CONSULTING_USER_EXIST = gql `
+    query getUserById($user_code: String!){
+        getUserById(user_code: $user_code){
+            id
+            email
+            password
+            name
+            lastName
+        }
+    }
+`
